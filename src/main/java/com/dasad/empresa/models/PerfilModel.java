@@ -4,7 +4,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 @Entity
 public class PerfilModel {
     @Id
@@ -13,22 +17,6 @@ public class PerfilModel {
     )
     private Integer id;
     private String nome;
-
-    public Integer getId() {
-        return this.id;
-    }
-
-    public String getNome() {
-        return this.nome;
-    }
-
-    public void setId(final Integer id) {
-        this.id = id;
-    }
-
-    public void setNome(final String nome) {
-        this.nome = nome;
-    }
 
     public PerfilModel() {
     }
