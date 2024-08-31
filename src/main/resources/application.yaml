@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: empresa
+  datasource:
+    url: jdbc:postgresql://localhost:5432/empresa
+    username: postgres
+    password: admin
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  security:
+    user:
+      password: admin
+  main:
+    allow-bean-definition-overriding: true
+  mvc:
+    cors:
+      mappings:
+        "/**":
+          allowed-origins: "http://localhost:4200, http://localhost:8080"
+          allowed-methods: "*"
+          allowed-headers: "*"
+          allow-credentials: true
+
+api:
+  security:
+    token:
+      secret: my-secret-key-loja
+
+springdoc:
+  api-docs:
+    path: /api-docs
+    version: OPENAPI_3_0
+  swagger-ui:
+    path: /documentation.html
+    operationsSorter: alpha
+
+security:
+  excludedUrls: /auth/login,/auth/register,/api-docs,/swagger-ui,/api-docs
+
+logging:
+  level:
+    org.jooq: DEBUG
