@@ -1,6 +1,7 @@
 package com.dasad.empresa.dto;
 
 import com.dasad.empresa.models.EnderecoModel;
+
 import java.util.Set;
 
 public record UsuarioDto(String nome, String dataNascimento, Set<EnderecoModel> enderecos) {

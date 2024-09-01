@@ -6,11 +6,6 @@ import com.dasad.empresa.jooq.tables.Usuario;
 import com.dasad.empresa.models.EnderecoModel;
 import com.dasad.empresa.models.UnidadeFederativaModel;
 import com.dasad.empresa.models.UsuarioModel;
-import java.time.LocalDate;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jooq.DSLContext;
@@ -18,6 +13,12 @@ import org.jooq.Record;
 import org.jooq.SelectFieldOrAsterisk;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public class UsuarioRepositoryImpl implements UsuarioRepository {

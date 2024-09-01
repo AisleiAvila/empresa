@@ -6,7 +6,6 @@ import com.dasad.empresa.dto.RegisterRequestDTO;
 import com.dasad.empresa.infra.security.AuthorizationService;
 import com.dasad.empresa.models.UsuarioModel;
 import com.dasad.empresa.repository.UsuarioRepository;
-import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping({"/auth"})

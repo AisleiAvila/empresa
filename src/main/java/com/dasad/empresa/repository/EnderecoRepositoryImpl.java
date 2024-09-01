@@ -2,11 +2,12 @@ package com.dasad.empresa.repository;
 
 import com.dasad.empresa.jooq.tables.Endereco;
 import com.dasad.empresa.models.EnderecoModel;
-import java.util.List;
-import java.util.Optional;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class EnderecoRepositoryImpl implements EnderecoRepository {

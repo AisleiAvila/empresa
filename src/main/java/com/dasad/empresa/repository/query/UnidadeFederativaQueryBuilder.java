@@ -3,14 +3,15 @@ package com.dasad.empresa.repository.query;
 import com.dasad.empresa.jooq.tables.UnidadeFederativa;
 import com.dasad.empresa.models.UnidadeFederativaModel;
 import jakarta.annotation.Nonnull;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.SelectFieldOrAsterisk;
 import org.jooq.SelectJoinStep;
 import org.jooq.impl.DSL;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 public class UnidadeFederativaQueryBuilder {
     private final SelectJoinStep<Record> query;

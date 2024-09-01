@@ -2,7 +2,6 @@ package com.dasad.empresa.controller;
 
 import com.dasad.empresa.models.UsuarioModel;
 import com.dasad.empresa.service.UsuarioService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,6 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping({"/usuario"})
@@ -40,8 +41,8 @@ public class UsuarioController {
     }
 
     @GetMapping({"/{id}"})
-    public ResponseEntity<UsuarioModel> getUsuarioById(@PathVariable Integer id) {
-        return (ResponseEntity)this.usuarioService.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    public ResponseEntity getUsuarioById(@PathVariable Integer id) {
+        return this.usuarioService.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -51,7 +52,7 @@ public class UsuarioController {
 
     @PutMapping({"/{id}"})
     public ResponseEntity<UsuarioModel> updateUsuario(@PathVariable Integer id, @RequestBody UsuarioModel usuarioDetails) {
-        return (ResponseEntity)this.usuarioService.findById(id).map((usuario) -> {
+        return this.usuarioService.findById(id).map((usuario) -> {
             usuario.setNome(usuarioDetails.getNome());
             usuario.setDataNascimento(usuarioDetails.getDataNascimento());
             UsuarioModel updatedUsuario = this.usuarioService.save(usuario);

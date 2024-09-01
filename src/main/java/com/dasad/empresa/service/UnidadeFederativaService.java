@@ -3,10 +3,11 @@ package com.dasad.empresa.service;
 import com.dasad.empresa.models.UnidadeFederativaModel;
 import com.dasad.empresa.models.request.UnidadeFederativaRequest;
 import com.dasad.empresa.repository.UnidadeFederativaRepository;
-import java.util.Collections;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class UnidadeFederativaService {

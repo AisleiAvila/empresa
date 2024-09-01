@@ -4,11 +4,12 @@ import com.dasad.empresa.jooq.tables.UnidadeFederativa;
 import com.dasad.empresa.models.UnidadeFederativaModel;
 import com.dasad.empresa.models.request.UnidadeFederativaRequest;
 import com.dasad.empresa.repository.query.UnidadeFederativaQueryBuilder;
-import java.util.List;
-import java.util.Optional;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class UnidadeFederativaRepositoryImpl implements UnidadeFederativaRepository {

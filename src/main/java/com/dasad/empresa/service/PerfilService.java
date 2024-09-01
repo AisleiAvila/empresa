@@ -2,9 +2,10 @@ package com.dasad.empresa.service;
 
 import com.dasad.empresa.models.PerfilModel;
 import com.dasad.empresa.repository.PerfilRepository;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PerfilService {

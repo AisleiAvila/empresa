@@ -2,13 +2,14 @@ package com.dasad.empresa.infra.security;
 
 import com.dasad.empresa.models.UsuarioModel;
 import com.dasad.empresa.repository.UsuarioRepository;
-import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
 
 @Component
 public class CustomUserDetailService implements UserDetailsService {

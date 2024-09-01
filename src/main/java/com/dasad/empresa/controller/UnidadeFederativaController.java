@@ -4,9 +4,6 @@ import com.dasad.empresa.infra.security.AuthorizationService;
 import com.dasad.empresa.models.UnidadeFederativaModel;
 import com.dasad.empresa.models.request.UnidadeFederativaRequest;
 import com.dasad.empresa.service.UnidadeFederativaService;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +15,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping({"/unidadesFederativas"})
