@@ -72,7 +72,7 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
         } else {
             UnidadeFederativaModel unidadeFederativa = new UnidadeFederativaModel((Integer)record.get(Endereco.ENDERECO.UNIDADE_FEDERATIVA_ID), (String)record.get(UnidadeFederativa.UNIDADE_FEDERATIVA.NOME), (String)record.get(UnidadeFederativa.UNIDADE_FEDERATIVA.SIGLA));
             EnderecoModel endereco = new EnderecoModel((Integer)record.get(Endereco.ENDERECO.ID), (String)record.get(Endereco.ENDERECO.LOGRADOURO), (String)record.get(Endereco.ENDERECO.BAIRRO), (String)record.get(Endereco.ENDERECO.CIDADE), (String)record.get(Endereco.ENDERECO.ESTADO), (String)record.get(Endereco.ENDERECO.CEP), (UsuarioModel)null, unidadeFederativa);
-            UsuarioModel usuario = new UsuarioModel((String)record.get(Usuario.USUARIO.NOME), (String)record.get(Usuario.USUARIO.EMAIL), (String)record.get(Usuario.USUARIO.SENHA), (LocalDate)record.get(Usuario.USUARIO.DATA_NASCIMENTO), (Set)null);
+            UsuarioModel usuario = new UsuarioModel((String)record.get(Usuario.USUARIO.NOME), (String)record.get(Usuario.USUARIO.EMAIL), (String)record.get(Usuario.USUARIO.SENHA), (LocalDate)record.get(Usuario.USUARIO.DATA_NASCIMENTO), (Set)null, (Set)null);
             usuario.setEnderecos(Collections.singleton(endereco));
             return Optional.of(usuario);
         }

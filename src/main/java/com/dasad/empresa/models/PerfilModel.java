@@ -1,23 +1,21 @@
 package com.dasad.empresa.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
 @Getter
-@Entity
+@Setter
 public class PerfilModel {
-    @Id
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
     private Integer id;
     private String nome;
 
+    // Construtor sem argumentos
     public PerfilModel() {
+    }
+
+    // Construtor com argumentos
+    public PerfilModel(Integer id, String nome) {
+        this.id = id;
+        this.nome = nome;
     }
 }

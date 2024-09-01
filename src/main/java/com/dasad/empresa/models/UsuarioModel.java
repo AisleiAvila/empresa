@@ -1,13 +1,22 @@
 package com.dasad.empresa.models;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
+@Getter
+@Setter
 public class UsuarioModel implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(
@@ -20,13 +29,17 @@ public class UsuarioModel implements Serializable {
     private LocalDate dataNascimento;
     private Set<EnderecoModel> enderecos;
 
-    public UsuarioModel(Integer id, String nome, String email, String senha, LocalDate dataNascimento, Set<EnderecoModel> enderecos) {
+    @JsonDeserialize(as = HashSet.class)
+    private Set<PerfilModel> perfis = new HashSet<>();
+
+    public UsuarioModel(Integer id, String nome, String email, String senha, LocalDate dataNascimento, Set<EnderecoModel> enderecos, Set<PerfilModel> perfis) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.dataNascimento = dataNascimento;
         this.enderecos = enderecos;
+        this.perfis = perfis;
     }
 
     public UsuarioModel(Integer id, String nome, String email, String senha, LocalDate dataNascimento) {
@@ -37,60 +50,13 @@ public class UsuarioModel implements Serializable {
         this.dataNascimento = dataNascimento;
     }
 
-    public UsuarioModel(String nome, String email, String senha, LocalDate dataNascimento, Set<EnderecoModel> enderecos) {
+    public UsuarioModel(String nome, String email, String senha, LocalDate dataNascimento, Set<EnderecoModel> enderecos, Set<PerfilModel> perfis) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.dataNascimento = dataNascimento;
         this.enderecos = enderecos;
-    }
-
-    public Integer getId() {
-        return this.id;
-    }
-
-    public String getNome() {
-        return this.nome;
-    }
-
-    public String getEmail() {
-        return this.email;
-    }
-
-    public String getSenha() {
-        return this.senha;
-    }
-
-    public LocalDate getDataNascimento() {
-        return this.dataNascimento;
-    }
-
-    public Set<EnderecoModel> getEnderecos() {
-        return this.enderecos;
-    }
-
-    public void setId(final Integer id) {
-        this.id = id;
-    }
-
-    public void setNome(final String nome) {
-        this.nome = nome;
-    }
-
-    public void setEmail(final String email) {
-        this.email = email;
-    }
-
-    public void setSenha(final String senha) {
-        this.senha = senha;
-    }
-
-    public void setDataNascimento(final LocalDate dataNascimento) {
-        this.dataNascimento = dataNascimento;
-    }
-
-    public void setEnderecos(final Set<EnderecoModel> enderecos) {
-        this.enderecos = enderecos;
+        this.perfis = perfis;
     }
 
     public UsuarioModel() {

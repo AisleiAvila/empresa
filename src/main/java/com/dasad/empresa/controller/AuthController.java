@@ -55,7 +55,7 @@ public class AuthController {
     public ResponseEntity register(@RequestBody RegisterRequestDTO body) {
         Optional<UsuarioModel> usuarioCadastrado = this.usuarioRepository.findByEmail(body.email());
         if (usuarioCadastrado.isEmpty()) {
-            UsuarioModel usuario = new UsuarioModel(body.name(), body.email(), this.passwordEncoder.encode(body.senha()), body.dataNascimento(), body.enderecos());
+            UsuarioModel usuario = new UsuarioModel(body.name(), body.email(), this.passwordEncoder.encode(body.senha()), body.dataNascimento(), body.enderecos(), body.perfis());
             this.usuarioRepository.save(usuario);
             String authorization = this.authorizationService.generateToken(usuario);
             return ResponseEntity.ok(new LoginResponseDTO(usuario.getNome(), authorization));
