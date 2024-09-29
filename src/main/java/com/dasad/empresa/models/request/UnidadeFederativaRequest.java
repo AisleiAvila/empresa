@@ -1,9 +1,12 @@
 package com.dasad.empresa.models.request;
 
+import lombok.Getter;
+
 import java.util.Optional;
 
 public class UnidadeFederativaRequest {
     private Integer id;
+    @Getter
     private String nome;
     private String sigla;
 
@@ -14,10 +17,6 @@ public class UnidadeFederativaRequest {
         this.id = id;
         this.nome = nome;
         this.sigla = sigla;
-    }
-
-    public Optional<String> getNome() {
-        return Optional.ofNullable(this.nome);
     }
 
     public Optional<String> getSigla() {

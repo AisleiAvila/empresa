@@ -20,10 +20,10 @@ public class UnidadeFederativaQueryBuilder {
         this.query = db.select(new SelectFieldOrAsterisk[0]).from(UnidadeFederativa.UNIDADE_FEDERATIVA);
     }
 
-    public UnidadeFederativaQueryBuilder withNome(@Nonnull Optional<String> optionalNome) {
-        optionalNome.ifPresent((nome) -> {
+    public UnidadeFederativaQueryBuilder withNome(@Nonnull String nome) {
+        if (nome != null && !nome.isEmpty()) {
             this.query.where(DSL.lower(UnidadeFederativa.UNIDADE_FEDERATIVA.NOME).like("%" + nome.toLowerCase() + "%"));
-        });
+        }
         return this;
     }
 

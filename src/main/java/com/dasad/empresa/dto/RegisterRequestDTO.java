@@ -2,13 +2,15 @@ package com.dasad.empresa.dto;
 
 import com.dasad.empresa.models.EnderecoModel;
 import com.dasad.empresa.models.PerfilModel;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
-public record RegisterRequestDTO(String name, String email, String senha, LocalDate dataNascimento, Set<EnderecoModel> enderecos, Set<PerfilModel> perfis) {
-    public RegisterRequestDTO(String name, String email, String senha, LocalDate dataNascimento, Set<EnderecoModel> enderecos, Set<PerfilModel> perfis) {
-        this.name = name;
+public record RegisterRequestDTO(String nome, String email, String senha, LocalDate dataNascimento, Set<EnderecoModel> enderecos, @JsonDeserialize(as = HashSet.class) Set<PerfilModel> perfis) {
+    public RegisterRequestDTO(String nome, String email, String senha, LocalDate dataNascimento, Set<EnderecoModel> enderecos, Set<PerfilModel> perfis) {
+        this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.dataNascimento = dataNascimento;
@@ -16,8 +18,8 @@ public record RegisterRequestDTO(String name, String email, String senha, LocalD
         this.perfis = perfis;
     }
 
-    public String name() {
-        return this.name;
+    public String nome() {
+        return this.nome;
     }
 
     public String email() {

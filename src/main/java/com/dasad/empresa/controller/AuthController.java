@@ -6,6 +6,8 @@ import com.dasad.empresa.dto.RegisterRequestDTO;
 import com.dasad.empresa.infra.security.AuthorizationService;
 import com.dasad.empresa.models.UsuarioModel;
 import com.dasad.empresa.repository.UsuarioRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
+@Tag(name = "Auth Controller", description = "Endpoints for authentication")
 @RestController
 @RequestMapping({"/auth"})
 @CrossOrigin(
@@ -28,7 +31,7 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final AuthorizationService authorizationService;
 
-    @PostMapping({"/login"})
+    @Operation(summary = "Login endpoint")    @PostMapping({"/login"})
     public ResponseEntity login(@RequestBody LoginRequestDTO body) {
         Optional<UsuarioModel> optionalUsuario = this.usuarioRepository.findByEmail(body.email());
         if (optionalUsuario.isPresent()) {
@@ -42,6 +45,7 @@ public class AuthController {
         return ResponseEntity.badRequest().build();
     }
 
+    @Operation(summary = "Verify authorization endpoint")
     @GetMapping({"/verify-authorization"})
     public ResponseEntity<Boolean> verifyAuthorization(@RequestHeader("Authorization") String authorization) {
         if (authorization == null) {
@@ -52,12 +56,13 @@ public class AuthController {
         }
     }
 
+    @Operation(summary = "Register endpoint")
     @PostMapping({"/register"})
     public ResponseEntity register(@RequestBody RegisterRequestDTO body) {
         Optional<UsuarioModel> usuarioCadastrado = this.usuarioRepository.findByEmail(body.email());
         if (usuarioCadastrado.isEmpty()) {
-            UsuarioModel usuario = new UsuarioModel(body.name(), body.email(), this.passwordEncoder.encode(body.senha()), body.dataNascimento(), body.enderecos(), body.perfis());
-            this.usuarioRepository.save(usuario);
+            UsuarioModel usuario = new UsuarioModel(body.nome(), body.email(), this.passwordEncoder.encode(body.senha()), body.dataNascimento(), body.enderecos(), body.perfis());
+            this.usuarioRepository.create(usuario);
             String authorization = this.authorizationService.generateToken(usuario);
             return ResponseEntity.ok(new LoginResponseDTO(usuario.getNome(), authorization));
         } else {

@@ -1,4 +1,6 @@
 com\dasad\empresa\controller\EnderecoController.class
+com\dasad\empresa\exception\EmailAlreadyExistsException.class
+com\dasad\empresa\exception\RestExceptionHandler.class
 com\dasad\empresa\jooq\tables\Databasechangeloglock.class
 com\dasad\empresa\repository\UnidadeFederativaRepositoryImpl.class
 com\dasad\empresa\jooq\Public.class
@@ -10,6 +12,8 @@ com\dasad\empresa\jooq\tables\records\PedidosRecord.class
 com\dasad\empresa\dto\LoginResponseDTO.class
 com\dasad\empresa\jooq\tables\Databasechangelog.class
 com\dasad\empresa\jooq\tables\Endereco.class
+com\dasad\empresa\repository\query\UsuarioQueryBuilder.class
+com\dasad\empresa\jooq\tables\PasswordResetToken$PasswordResetTokenPath.class
 com\dasad\empresa\repository\UnidadeFederativaRepository.class
 com\dasad\empresa\models\UsuarioModel.class
 com\dasad\empresa\jooq\tables\records\UsuariosPerfisRecord.class
@@ -24,6 +28,7 @@ com\dasad\empresa\jooq\tables\records\UsuarioRecord.class
 com\dasad\empresa\jooq\tables\Pedidos.class
 com\dasad\empresa\jooq\tables\records\PerfisRecord.class
 com\dasad\empresa\jooq\tables\UnidadeFederativa.class
+com\dasad\empresa\controller\PasswordResetController.class
 com\dasad\empresa\jooq\tables\UsuariosPerfis$UsuariosPerfisPath.class
 com\dasad\empresa\controller\UnidadeFederativaController.class
 com\dasad\empresa\infra\security\CustomUserDetailService.class
@@ -31,6 +36,7 @@ com\dasad\empresa\dto\UnidadeFederativaDto.class
 com\dasad\empresa\EmpresaApplication.class
 com\dasad\empresa\jooq\Keys.class
 com\dasad\empresa\service\UsuarioService.class
+com\dasad\empresa\jooq\tables\records\PasswordResetTokenRecord.class
 com\dasad\empresa\jooq\tables\PerfilModel.class
 com\dasad\empresa\dto\RegisterRequestDTO.class
 com\dasad\empresa\service\PerfilService.class
@@ -45,11 +51,16 @@ com\dasad\empresa\dto\LoginRequestDTO.class
 com\dasad\empresa\jooq\tables\Endereco$EnderecoPath.class
 com\dasad\empresa\repository\UsuarioRepositoryImpl.class
 com\dasad\empresa\jooq\tables\Usuario.class
+com\dasad\empresa\models\request\UsuarioRequest.class
+com\dasad\empresa\jooq\tables\PasswordResetToken.class
 com\dasad\empresa\models\PerfilModel.class
 com\dasad\empresa\repository\EnderecoRepository.class
 com\dasad\empresa\jooq\Tables.class
+com\dasad\empresa\repository\PasswordResetTokenRepository.class
+com\dasad\empresa\models\request\UsuarioRequest$Builder.class
 com\dasad\empresa\infra\security\AuthorizationService.class
 com\dasad\empresa\jooq\tables\Usuario$UsuarioPath.class
+com\dasad\empresa\service\EmailService.class
 com\dasad\empresa\controller\UsuarioController.class
 com\dasad\empresa\infra\security\JwtAuthenticationFilter.class
 com\dasad\empresa\controller\PerfilController.class

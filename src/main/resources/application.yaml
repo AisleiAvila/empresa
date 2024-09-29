@@ -6,11 +6,9 @@ spring:
     username: postgres
     password: admin
   jpa:
+    open-in-view: false
     hibernate:
       ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
   security:
     user:
       password: admin
@@ -25,6 +23,18 @@ spring:
           allowed-headers: "*"
           allow-credentials: true
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: aisleiavilademedeiros@gmail.com
+    password: Ingres@05
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 api:
   security:
     token:
@@ -32,14 +42,15 @@ api:
 
 springdoc:
   api-docs:
+    enabled: true
     path: /api-docs
-    version: OPENAPI_3_0
   swagger-ui:
+    enabled: true
     path: /documentation.html
     operationsSorter: alpha
 
 security:
-  excludedUrls: /auth/login,/auth/register,/api-docs,/swagger-ui,/api-docs
+  excludedUrls: /auth/login,/auth/register,/documentation.html,/swagger-ui/**,/v3/api-docs/**
 
 logging:
   level:

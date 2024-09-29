@@ -8,6 +8,7 @@ import com.dasad.empresa.jooq.tables.Databasechangelog;
 import com.dasad.empresa.jooq.tables.Databasechangeloglock;
 import com.dasad.empresa.jooq.tables.Endereco;
 import com.dasad.empresa.jooq.tables.ItensPedidos;
+import com.dasad.empresa.jooq.tables.PasswordResetToken;
 import com.dasad.empresa.jooq.tables.Pedidos;
 import com.dasad.empresa.jooq.tables.PerfilModel;
 import com.dasad.empresa.jooq.tables.Perfis;
@@ -41,6 +42,11 @@ public class Tables {
      * The table <code>public.itens_pedidos</code>.
      */
     public static final ItensPedidos ITENS_PEDIDOS = ItensPedidos.ITENS_PEDIDOS;
+
+    /**
+     * The table <code>public.password_reset_token</code>.
+     */
+    public static final PasswordResetToken PASSWORD_RESET_TOKEN = PasswordResetToken.PASSWORD_RESET_TOKEN;
 
     /**
      * The table <code>public.pedidos</code>.

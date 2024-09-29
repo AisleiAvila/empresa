@@ -3,13 +3,13 @@ package com.dasad.empresa.infra.security;
 import com.dasad.empresa.models.UsuarioModel;
 import com.dasad.empresa.repository.UsuarioRepository;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,6 +27,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Autowired
     AuthorizationService authorizationService;
     @Autowired
+    @Lazy
     UsuarioRepository usuarioRepository;
     @Value("${security.excludedUrls}")
     private String excludedUrls;
@@ -34,7 +35,8 @@ public class SecurityFilter extends OncePerRequestFilter {
     public SecurityFilter() {
     }
 
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException {
         try {
             log.info("Requisição recebida: " + request.getRequestURI());
             String requestUrl = request.getRequestURI();
@@ -50,13 +52,13 @@ public class SecurityFilter extends OncePerRequestFilter {
             String token = this.recoverToken(request);
             String login = this.authorizationService.validateToken(token);
             if (login != null) {
-                UsuarioModel user = (UsuarioModel)this.usuarioRepository.findByEmail(login).orElseThrow(() -> {
-                    return new RuntimeException("Usuário não encontrado");
-                });
+                UsuarioModel user = this.usuarioRepository.findByEmail(login).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
                 List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, (Object)null, authorities);
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+                log.info("Antes de filterChain.doFilter");
                 filterChain.doFilter(request, response);
+                log.info("Depois de filterChain.doFilter");
             } else {
                 response.setStatus(401);
                 response.setContentType("application/json");
@@ -69,7 +71,6 @@ public class SecurityFilter extends OncePerRequestFilter {
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write("{\"error\": \"Erro interno do servidor\"}");
         }
-
     }
 
     private String recoverToken(HttpServletRequest request) {

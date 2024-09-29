@@ -26,42 +26,56 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public JwtAuthenticationFilter() {
     }
 
+    @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorizationHeader = request.getHeader("Authorization");
         String endpoint = request.getRequestURI();
-        if (!endpoint.equals("/auth/login") && !endpoint.equals("/auth/register")) {
-            if (authorizationHeader != null) {
-                String token = authorizationHeader.replace("Bearer ", "");
-                String userEmail = this.validateToken(token);
-                if (userEmail != null) {
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userEmail, (Object)null, new ArrayList());
-                    authentication.setDetails((new WebAuthenticationDetailsSource()).buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                } else {
-                    this.logger.error("Token inválido ou expirado");
-                }
-            } else {
-                this.logger.error("Cabeçalho de autorização ausente ou malformado");
-            }
 
+        log.info("Requisição recebida no JwtAuthenticationFilter: " + endpoint);
+
+        // Excluir URLs do Swagger e endpoints de autenticação da autenticação
+        if (endpoint.startsWith("/swagger-ui/") ||
+                endpoint.startsWith("/v3/api-docs/") ||
+                endpoint.equals("/api-docs/swagger-config") ||
+                endpoint.equals("/auth/login") ||
+                endpoint.equals("/auth/register") ||
+                endpoint.equals("/lembrar-senha")) {
+            log.info("URL excluída: " + endpoint);
             filterChain.doFilter(request, response);
-        } else {
-            filterChain.doFilter(request, response);
+            return;
         }
+
+        if (authorizationHeader != null) {
+            String token = authorizationHeader.replace("Bearer ", "");
+            String userEmail = this.validateToken(token);
+            if (userEmail != null) {
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userEmail, null, new ArrayList<>());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                log.info("Autenticação bem-sucedida para o usuário: " + userEmail);
+            } else {
+                log.error("Token inválido ou expirado");
+            }
+        } else {
+            log.error("Cabeçalho de autorização ausente ou malformado");
+        }
+
+        log.info("Antes de filterChain.doFilter no JwtAuthenticationFilter");
+        filterChain.doFilter(request, response);
+        log.info("Depois de filterChain.doFilter no JwtAuthenticationFilter");
     }
 
     private String validateToken(String token) {
         try {
             DecodedJWT decodedJWT = JWT.decode(token);
             if (decodedJWT.getExpiresAt().before(new Date())) {
-                this.logger.error("Token expirado");
+                log.error("Token expirado");
                 return null;
             } else {
                 return decodedJWT.getSubject();
             }
-        } catch (JWTDecodeException var3) {
-            JWTDecodeException e = var3;
-            this.logger.error("Erro ao decodificar o token: " + e.getMessage());
+        } catch (JWTDecodeException e) {
+            log.error("Erro ao decodificar o token: " + e.getMessage());
             return null;
         }
     }

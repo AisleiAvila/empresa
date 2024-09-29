@@ -4,12 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,33 +21,33 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    @Lazy
     @Autowired
     private CustomUserDetailService customUserDetailService;
+
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    @Autowired
+    private SecurityFilter securityFilter;
+
     @Value("${security.excludedUrls}")
     private String[] excludedUrls;
 
-    public SecurityConfig() {
-    }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable).sessionManagement((session) -> {
-            session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        }).authorizeRequests((authorize) -> {
-            String[] var2 = this.excludedUrls;
-            int var3 = var2.length;
-
-            for(int var4 = 0; var4 < var3; ++var4) {
-                String url = var2[var4];
-                ((ExpressionUrlAuthorizationConfigurer.AuthorizedUrl)authorize.requestMatchers(new String[]{url})).permitAll();
-            }
-
-            ((ExpressionUrlAuthorizationConfigurer.AuthorizedUrl)authorize.requestMatchers(new String[]{"/unidadesFederativas"})).permitAll();
-            ((ExpressionUrlAuthorizationConfigurer.AuthorizedUrl)authorize.anyRequest()).authenticated();
-        }).addFilterBefore(this.jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-        return (SecurityFilterChain)http.build();
+        http.csrf(csrf -> csrf.disable())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeRequests(authorize -> {
+                    for (String url : excludedUrls) {
+                        authorize.requestMatchers(url).permitAll();
+                    }
+                    authorize.requestMatchers("/auth/login", "/auth/register", "/unidadesFederativas", "/documentation.html", "/swagger-ui/**", "/v3/api-docs/**", "/api-docs/swagger-config", "/v3/api-docs.yaml").permitAll();
+                    authorize.anyRequest().authenticated();
+                })
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        return http.build();
     }
 
     @Bean
@@ -58,9 +57,9 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-        AuthenticationManagerBuilder auth = (AuthenticationManagerBuilder)http.getSharedObject(AuthenticationManagerBuilder.class);
-        auth.userDetailsService(this.customUserDetailService).passwordEncoder(this.passwordEncoder());
-        return (AuthenticationManager)auth.build();
+        AuthenticationManagerBuilder auth = http.getSharedObject(AuthenticationManagerBuilder.class);
+        auth.userDetailsService(customUserDetailService).passwordEncoder(passwordEncoder());
+        return auth.build();
     }
 
     @Bean

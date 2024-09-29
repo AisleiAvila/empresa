@@ -1,13 +1,16 @@
 package com.dasad.empresa.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 @Setter
 @Getter
 public class EnderecoModel implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
     private Integer id;
     private String logradouro;
@@ -15,10 +18,13 @@ public class EnderecoModel implements Serializable {
     private String cidade;
     private String estado;
     private String cep;
-    private UsuarioModel usuario;
-    private UnidadeFederativaModel unidadeFederativaModel;
 
-    public EnderecoModel(Integer id, String logradouro, String bairro, String cidade, String estado, String cep, UsuarioModel usuario, UnidadeFederativaModel unidadeFederativaModel) {
+    @JsonBackReference // Fictícia, não persistida
+    private UsuarioModel usuario;
+
+    private UnidadeFederativaModel unidadeFederativa;
+
+    public EnderecoModel(Integer id, String logradouro, String bairro, String cidade, String estado, String cep, UsuarioModel usuario, UnidadeFederativaModel unidadeFederativa) {
         this.id = id;
         this.logradouro = logradouro;
         this.bairro = bairro;
@@ -26,7 +32,7 @@ public class EnderecoModel implements Serializable {
         this.estado = estado;
         this.cep = cep;
         this.usuario = usuario;
-        this.unidadeFederativaModel = unidadeFederativaModel;
+        this.unidadeFederativa = unidadeFederativa;
     }
 
 }

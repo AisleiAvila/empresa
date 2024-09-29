@@ -3,6 +3,7 @@ package com.dasad.empresa.infra.security;
 import com.dasad.empresa.models.UsuarioModel;
 import com.dasad.empresa.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 @Component
 public class CustomUserDetailService implements UserDetailsService {
     @Autowired
+    @Lazy
     private UsuarioRepository usuarioRepository;
 
     public CustomUserDetailService() {

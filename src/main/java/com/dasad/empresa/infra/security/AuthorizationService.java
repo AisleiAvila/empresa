@@ -42,7 +42,7 @@ public class AuthorizationService {
             DecodedJWT jwt = JWT.require(algorithm).withIssuer("login-auth-api").build().verify(token);
             Instant expirationTime = jwt.getExpiresAt().toInstant();
             long minutesUntilExpiration = Duration.between(Instant.now(), expirationTime).toMinutes();
-            log.error("Tempo restante até a expiração do token: {} minutos", minutesUntilExpiration);
+            log.info("Tempo restante até a expiração do token: {} minutos", minutesUntilExpiration);
             return jwt.getSubject();
         } catch (JWTVerificationException var7) {
             return null;

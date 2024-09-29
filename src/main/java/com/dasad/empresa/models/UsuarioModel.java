@@ -1,6 +1,6 @@
 package com.dasad.empresa.models;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -10,7 +10,6 @@ import lombok.Setter;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -27,10 +26,12 @@ public class UsuarioModel implements Serializable {
     private String email;
     private String senha;
     private LocalDate dataNascimento;
+
+    @JsonManagedReference
     private Set<EnderecoModel> enderecos;
 
-    @JsonDeserialize(as = HashSet.class)
-    private Set<PerfilModel> perfis = new HashSet<>();
+    @JsonManagedReference
+    private Set<PerfilModel> perfis;
 
     public UsuarioModel(Integer id, String nome, String email, String senha, LocalDate dataNascimento, Set<EnderecoModel> enderecos, Set<PerfilModel> perfis) {
         this.id = id;
