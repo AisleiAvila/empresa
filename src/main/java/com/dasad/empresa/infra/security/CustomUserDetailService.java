@@ -1,6 +1,5 @@
 package com.dasad.empresa.infra.security;
 
-import com.dasad.empresa.models.UsuarioModel;
 import com.dasad.empresa.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -22,7 +21,7 @@ public class CustomUserDetailService implements UserDetailsService {
     }
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UsuarioModel usuario = (UsuarioModel)this.usuarioRepository.findByEmail(username).orElseThrow(() -> {
+        com.dasad.empresa.model.UsuarioModel usuario = (com.dasad.empresa.model.UsuarioModel)this.usuarioRepository.findByEmail(username).orElseThrow(() -> {
             return new UsernameNotFoundException("Usuário não encontrado");
         });
         return new User(usuario.getEmail(), usuario.getSenha(), new ArrayList());

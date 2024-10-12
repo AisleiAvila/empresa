@@ -1,7 +1,7 @@
 package com.dasad.empresa.controller;
 
 import com.dasad.empresa.infra.security.AuthorizationService;
-import com.dasad.empresa.models.PerfilModel;
+import com.dasad.empresa.model.PerfilModel;
 import com.dasad.empresa.service.PerfilService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;

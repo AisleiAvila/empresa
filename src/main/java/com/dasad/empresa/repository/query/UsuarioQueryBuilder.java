@@ -3,8 +3,8 @@ package com.dasad.empresa.repository.query;
 import com.dasad.empresa.jooq.tables.Perfis;
 import com.dasad.empresa.jooq.tables.Usuario;
 import com.dasad.empresa.jooq.tables.UsuariosPerfis;
-import com.dasad.empresa.models.PerfilModel;
-import com.dasad.empresa.models.UsuarioModel;
+import com.dasad.empresa.model.PerfilModel;
+import com.dasad.empresa.model.UsuarioModel;
 import jakarta.annotation.Nonnull;
 import org.jooq.DSLContext;
 import org.jooq.Record7;
@@ -92,8 +92,13 @@ public class UsuarioQueryBuilder {
                 usuario.setDataNascimento(record.get(Usuario.USUARIO.DATA_NASCIMENTO));
                 usuario.setPerfis(records.stream()
                         .filter(r -> r.get("perfil_id") != null)
-                        .map(r -> new PerfilModel(r.get("perfil_id", Integer.class), r.get("perfil_nome", String.class)))
-                        .collect(Collectors.toSet()));
+                        .map(r -> {
+                            PerfilModel perfil = new PerfilModel();
+                            perfil.setId(r.get("perfil_id", Integer.class));
+                            perfil.setNome(r.get("perfil_nome", String.class));
+                            return perfil;
+                        })
+                        .collect(Collectors.toList()));
                 return usuario;
             }).collect(Collectors.toList());
         });

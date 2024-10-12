@@ -1,0 +1,193 @@
+openapi: "3.0.3"
+info:
+  title: Biblioteca API
+  description: API para gerenciar uma lista de livros
+  version: 1.0.0
+
+tags:
+  - name: Usuario
+    description: Operações relacionadas a usuários
+  - name: Endereço
+    description: Operações relacionadas a endereços
+  - name: UF
+    description: Operações relacionadas a Unidades Federativas
+
+paths:
+  /usuario/find:
+    post:
+      summary: Busca usuários
+      security:
+        - bearerAuth: []
+      tags:
+        - Usuario
+      operationId: findUsuario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioRequest'
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsuarioResponseDTO'
+  /usuario/create:
+    put:
+      summary: Cria um usuário
+      security:
+        - bearerAuth: []
+      tags:
+        - Usuario
+      operationId: createUsuario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequestDTO'
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsuarioModel'
+  /usuario/update:
+    patch:
+      summary: Atualiza um usuário
+      security:
+          - bearerAuth: []
+      tags:
+        - Usuario
+      operationId: updateUsuario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioModel'
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsuarioModel'
+  /usuario/delete/{id}:
+    delete:
+      summary: Deleta um usuário
+      security:
+          - bearerAuth: []
+      tags:
+        - Usuario
+      operationId: deleteUsuario
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: No Content
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT  # Especifica o formato do token, pode ser omitido
+  schemas:
+    UsuarioRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        email:
+          type: string
+        dataNascimento:
+          type: string
+          format: date
+        limit:
+            type: integer
+        offset:
+          type: integer
+    UsuarioResponseDTO:
+      type: object
+      properties:
+        usuarios:
+          type: array
+          items:
+            $ref: '#/components/schemas/UsuarioModel'
+        totalRecords:
+          type: integer
+    RegisterRequestDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        email:
+          type: string
+        senha:
+          type: string
+        dataNascimento:
+          type: string
+          format: date
+        enderecos:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnderecoModel'
+        perfis:
+          type: array
+          items:
+            $ref: '#/components/schemas/PerfilModel'
+    UsuarioModel:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        senha:
+          type: string
+        email:
+          type: string
+        dataNascimento:
+          type: string
+          format: date
+        enderecos:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnderecoModel'
+        perfis:
+            type: array
+            items:
+                $ref: '#/components/schemas/PerfilModel'
+    EnderecoModel:
+      type: object
+      properties:
+        id:
+          type: integer
+        rua:
+          type: string
+        numero:
+          type: integer
+        bairro:
+          type: string
+        cidade:
+          type: string
+        estado:
+          type: string
+        cep:
+          type: string
+    PerfilModel:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string

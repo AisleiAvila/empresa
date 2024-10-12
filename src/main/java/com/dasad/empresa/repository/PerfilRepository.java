@@ -1,6 +1,6 @@
 package com.dasad.empresa.repository;
 
-import com.dasad.empresa.models.PerfilModel;
+import com.dasad.empresa.model.PerfilModel;
 
 import java.util.List;
 

@@ -2,9 +2,9 @@ package com.dasad.empresa.repository;
 
 import com.dasad.empresa.exception.EmailAlreadyExistsException;
 import com.dasad.empresa.jooq.tables.Usuario;
-import com.dasad.empresa.models.PerfilModel;
-import com.dasad.empresa.models.UsuarioModel;
-import com.dasad.empresa.models.request.UsuarioRequest;
+import com.dasad.empresa.model.PerfilModel;
+import com.dasad.empresa.model.UsuarioModel;
+import com.dasad.empresa.model.UsuarioRequest;
 import com.dasad.empresa.repository.query.UsuarioQueryBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -75,15 +76,17 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
                     usuario.setSenha(record.get(Usuario.USUARIO.SENHA));
                     usuario.setDataNascimento(record.get(Usuario.USUARIO.DATA_NASCIMENTO));
                     if (record.get(USUARIOS_PERFIS.PERFIL_ID) != null) {
-                        usuario.setPerfis(Collections.singleton(new PerfilModel(record.get(USUARIOS_PERFIS.PERFIL_ID), record.get(PERFIS.NOME))));
+                        PerfilModel perfil = new PerfilModel();
+                        perfil.setId(record.get(USUARIOS_PERFIS.PERFIL_ID));
+                        perfil.setNome(record.get(PERFIS.NOME));
+                        usuario.setPerfis(new ArrayList<>(Collections.singleton(perfil)));
                     } else {
-                        usuario.setPerfis(Collections.emptySet());
-                    }
+                        usuario.setPerfis(new ArrayList<>(Collections.emptySet()));                    }
                     return usuario;
                 });
     }
 
-    public Optional<UsuarioModel> findByEmail(String email) {
+    public Optional<com.dasad.empresa.model.UsuarioModel> findByEmail(String email) {
         return dsl.select(Usuario.USUARIO.fields())
                 .select(USUARIOS_PERFIS.PERFIL_ID)
                 .select(PERFIS.NOME)
@@ -93,22 +96,27 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
                 .where(Usuario.USUARIO.EMAIL.eq(email))
                 .fetchOptional()
                 .map(record -> {
-                    UsuarioModel usuario = new UsuarioModel();
+                    com.dasad.empresa.model.UsuarioModel usuario = new com.dasad.empresa.model.UsuarioModel();
                     usuario.setId(record.get(Usuario.USUARIO.ID));
                     usuario.setNome(record.get(Usuario.USUARIO.NOME));
                     usuario.setEmail(record.get(Usuario.USUARIO.EMAIL));
                     usuario.setSenha(record.get(Usuario.USUARIO.SENHA));
                     usuario.setDataNascimento(record.get(Usuario.USUARIO.DATA_NASCIMENTO));
                     if (record.get(USUARIOS_PERFIS.PERFIL_ID) != null) {
-                        usuario.setPerfis(Collections.singleton(new PerfilModel(record.get(USUARIOS_PERFIS.PERFIL_ID), record.get(PERFIS.NOME))));
+                        com.dasad.empresa.model.PerfilModel perfil = new com.dasad.empresa.model.PerfilModel();
+                        perfil.setId(record.get(USUARIOS_PERFIS.PERFIL_ID));
+                        perfil.setNome(record.get(PERFIS.NOME));
+                        List<com.dasad.empresa.model.PerfilModel> perfis = new ArrayList<>();
+                        perfis.add(perfil);
+                        usuario.setPerfis(perfis);
                     } else {
-                        usuario.setPerfis(Collections.emptySet());
+                        usuario.setPerfis(Collections.emptyList());
                     }
                     return usuario;
                 });
     }
 
-    public UsuarioModel create(UsuarioModel usuario) {
+    public com.dasad.empresa.model.UsuarioModel create(com.dasad.empresa.model.UsuarioModel usuario) {
         // Verificar se o email já existe
         boolean emailExists = dsl.fetchExists(
                 dsl.selectFrom(Usuario.USUARIO)
@@ -142,7 +150,7 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
             usuario.setId(userId);
 
             // Gravar a lista de perfis do usuário
-            for (PerfilModel perfil : usuario.getPerfis()) {
+            for (com.dasad.empresa.model.PerfilModel perfil : usuario.getPerfis()) {
                 ctx.insertInto(USUARIOS_PERFIS)
                         .set(USUARIOS_PERFIS.USUARIO_ID, userId)
                         .set(USUARIOS_PERFIS.PERFIL_ID, perfil.getId())
@@ -198,9 +206,12 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
                         updatedUsuario.setSenha(record.get(Usuario.USUARIO.SENHA));
                         updatedUsuario.setDataNascimento(record.get(Usuario.USUARIO.DATA_NASCIMENTO));
                         if (record.get(USUARIOS_PERFIS.PERFIL_ID) != null) {
-                            updatedUsuario.setPerfis(Collections.singleton(new PerfilModel(record.get(USUARIOS_PERFIS.PERFIL_ID), record.get(PERFIS.NOME))));
+                            PerfilModel perfil = new PerfilModel();
+                            perfil.setId(record.get(USUARIOS_PERFIS.PERFIL_ID));
+                            perfil.setNome(record.get(PERFIS.NOME));
+                            updatedUsuario.setPerfis(Collections.singletonList(perfil));
                         } else {
-                            updatedUsuario.setPerfis(Collections.emptySet());
+                            updatedUsuario.setPerfis(Collections.emptyList());
                         }
                         return updatedUsuario;
                     });

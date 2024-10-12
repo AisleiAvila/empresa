@@ -1,6 +1,5 @@
 package com.dasad.empresa.infra.security;
 
-import com.dasad.empresa.models.UsuarioModel;
 import com.dasad.empresa.repository.UsuarioRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,7 +43,9 @@ public class SecurityFilter extends OncePerRequestFilter {
                 requestUrl = requestUrl.substring(0, requestUrl.length() - 1);
             }
 
-            if (this.excludedUrls != null && Arrays.asList(this.excludedUrls.split(",")).contains(requestUrl)) {
+            if (this.excludedUrls != null && (Arrays.asList(this.excludedUrls.split(",")).contains(requestUrl) ||
+                    requestUrl.startsWith("/swagger-ui") ||
+                    requestUrl.startsWith("/v3/api-docs"))) {
                 filterChain.doFilter(request, response);
                 return;
             }
@@ -52,7 +53,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             String token = this.recoverToken(request);
             String login = this.authorizationService.validateToken(token);
             if (login != null) {
-                UsuarioModel user = this.usuarioRepository.findByEmail(login).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                com.dasad.empresa.model.UsuarioModel user = this.usuarioRepository.findByEmail(login).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
                 List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
                 SecurityContextHolder.getContext().setAuthentication(authentication);

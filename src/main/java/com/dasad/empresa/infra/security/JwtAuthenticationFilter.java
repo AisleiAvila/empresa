@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -47,16 +49,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (authorizationHeader != null) {
             String token = authorizationHeader.replace("Bearer ", "");
-            String userEmail = this.validateToken(token);
-            if (userEmail != null) {
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userEmail, null, new ArrayList<>());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-                log.info("Autenticação bem-sucedida para o usuário: " + userEmail);
-            } else {
-                log.error("Token inválido ou expirado");
+            DecodedJWT decodedJWT = this.validateToken(token);
+            if (decodedJWT != null) {
+                String userEmail = decodedJWT.getSubject();
+                String role = decodedJWT.getClaim("role").asString();
+                if (userEmail != null && role != null) {
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userEmail, null, List.of(new SimpleGrantedAuthority("ROLE_" + role)));
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                    log.info("Autenticação bem-sucedida para o usuário: " + userEmail);
+                } else {
+                    log.error("Token inválido ou expirado");
+                }
             }
-        } else {
+       } else {
             log.error("Cabeçalho de autorização ausente ou malformado");
         }
 
@@ -65,14 +71,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         log.info("Depois de filterChain.doFilter no JwtAuthenticationFilter");
     }
 
-    private String validateToken(String token) {
+    private DecodedJWT validateToken(String token) {
         try {
             DecodedJWT decodedJWT = JWT.decode(token);
             if (decodedJWT.getExpiresAt().before(new Date())) {
                 log.error("Token expirado");
                 return null;
             } else {
-                return decodedJWT.getSubject();
+                return decodedJWT;
             }
         } catch (JWTDecodeException e) {
             log.error("Erro ao decodificar o token: " + e.getMessage());

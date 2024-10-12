@@ -2,9 +2,7 @@ package com.dasad.empresa.controller;
 
 import com.dasad.empresa.dto.LoginRequestDTO;
 import com.dasad.empresa.dto.LoginResponseDTO;
-import com.dasad.empresa.dto.RegisterRequestDTO;
 import com.dasad.empresa.infra.security.AuthorizationService;
-import com.dasad.empresa.models.UsuarioModel;
 import com.dasad.empresa.repository.UsuarioRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -33,9 +31,9 @@ public class AuthController {
 
     @Operation(summary = "Login endpoint")    @PostMapping({"/login"})
     public ResponseEntity login(@RequestBody LoginRequestDTO body) {
-        Optional<UsuarioModel> optionalUsuario = this.usuarioRepository.findByEmail(body.email());
+        Optional<com.dasad.empresa.model.UsuarioModel> optionalUsuario = this.usuarioRepository.findByEmail(body.email());
         if (optionalUsuario.isPresent()) {
-            UsuarioModel usuario = (UsuarioModel)optionalUsuario.get();
+            com.dasad.empresa.model.UsuarioModel usuario = (com.dasad.empresa.model.UsuarioModel)optionalUsuario.get();
             if (this.passwordEncoder.matches(body.senha(), usuario.getSenha())) {
                 String authorization = this.authorizationService.generateToken(usuario);
                 return ResponseEntity.ok(new LoginResponseDTO(usuario.getNome(), authorization));
@@ -58,10 +56,17 @@ public class AuthController {
 
     @Operation(summary = "Register endpoint")
     @PostMapping({"/register"})
-    public ResponseEntity register(@RequestBody RegisterRequestDTO body) {
-        Optional<UsuarioModel> usuarioCadastrado = this.usuarioRepository.findByEmail(body.email());
+    public ResponseEntity register(@RequestBody com.dasad.empresa.model.RegisterRequestDTO body) {
+        Optional<com.dasad.empresa.model.UsuarioModel> usuarioCadastrado = this.usuarioRepository.findByEmail(body.getEmail());
         if (usuarioCadastrado.isEmpty()) {
-            UsuarioModel usuario = new UsuarioModel(body.nome(), body.email(), this.passwordEncoder.encode(body.senha()), body.dataNascimento(), body.enderecos(), body.perfis());
+            com.dasad.empresa.model.UsuarioModel usuario = new com.dasad.empresa.model.UsuarioModel();
+            usuario.setNome(body.getNome());
+            usuario.setEmail(body.getEmail());
+            usuario.setSenha(this.passwordEncoder.encode(body.getSenha()));
+            usuario.setDataNascimento(body.getDataNascimento());
+            usuario.setEnderecos(body.getEnderecos());
+            usuario.setPerfis(body.getPerfis());
+
             this.usuarioRepository.create(usuario);
             String authorization = this.authorizationService.generateToken(usuario);
             return ResponseEntity.ok(new LoginResponseDTO(usuario.getNome(), authorization));

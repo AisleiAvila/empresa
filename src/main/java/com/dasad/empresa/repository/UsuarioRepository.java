@@ -1,7 +1,7 @@
 package com.dasad.empresa.repository;
 
-import com.dasad.empresa.models.UsuarioModel;
-import com.dasad.empresa.models.request.UsuarioRequest;
+import com.dasad.empresa.model.UsuarioModel;
+import com.dasad.empresa.model.UsuarioRequest;
 
 import java.util.List;
 import java.util.Optional;

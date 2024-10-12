@@ -2,8 +2,7 @@ package com.dasad.empresa.service;
 
 import com.dasad.empresa.jooq.tables.records.PasswordResetTokenRecord;
 import com.dasad.empresa.jooq.tables.records.UsuarioRecord;
-import com.dasad.empresa.models.UsuarioModel;
-import com.dasad.empresa.models.request.UsuarioRequest;
+import com.dasad.empresa.model.UsuarioModel;
 import com.dasad.empresa.repository.PasswordResetTokenRepository;
 import com.dasad.empresa.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +23,11 @@ public class UsuarioService {
     public UsuarioService() {
     }
 
-    public Optional<List<UsuarioModel>> find(UsuarioRequest usuarioRequest) {
+    public Optional<List<UsuarioModel>> find(com.dasad.empresa.model.UsuarioRequest usuarioRequest) {
         return this.usuarioRepository.find(usuarioRequest);
     }
 
-    public Optional<Integer> countTotalRecords(UsuarioRequest usuarioRequest) {
+    public Optional<Integer> countTotalRecords(com.dasad.empresa.model.UsuarioRequest usuarioRequest) {
         return this.usuarioRepository.countTotalRecords(usuarioRequest);
     }
 
@@ -36,11 +35,11 @@ public class UsuarioService {
         return this.usuarioRepository.findById(id);
     }
 
-    public Optional<UsuarioModel> findByEmail(String email) {
+    public Optional<com.dasad.empresa.model.UsuarioModel> findByEmail(String email) {
         return this.usuarioRepository.findByEmail(email);
     }
 
-    public UsuarioModel create(UsuarioModel usuario) {
+    public com.dasad.empresa.model.UsuarioModel create(com.dasad.empresa.model.UsuarioModel usuario) {
         return this.usuarioRepository.create(usuario);
     }
 
