@@ -1,6 +1,6 @@
 package com.dasad.empresa.service;
 
-import com.dasad.empresa.models.EnderecoModel;
+import com.dasad.empresa.model.EnderecoModel;
 import com.dasad.empresa.repository.EnderecoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

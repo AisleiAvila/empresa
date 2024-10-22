@@ -1,6 +1,7 @@
 package com.dasad.empresa.controller;
 
 import com.dasad.empresa.api.UsuarioApi;
+import com.dasad.empresa.model.RegisterRequestDTO;
 import com.dasad.empresa.model.UsuarioModel;
 import com.dasad.empresa.model.UsuarioRequest;
 import com.dasad.empresa.model.UsuarioResponseDTO;
@@ -10,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,7 +34,7 @@ public class UsuarioController implements UsuarioApi{
     @Override
     @PutMapping
     @PreAuthorize("hasRole('Administrador')")
-    public ResponseEntity<UsuarioModel> createUsuario(com.dasad.empresa.model.RegisterRequestDTO registerRequestDTO) {
+    public ResponseEntity<UsuarioModel> createUsuario(RegisterRequestDTO registerRequestDTO) {
 
         UsuarioModel usuario = new UsuarioModel();
         usuario.setId(registerRequestDTO.getId());
@@ -43,6 +46,18 @@ public class UsuarioController implements UsuarioApi{
         usuario.setPerfis(registerRequestDTO.getPerfis());
 
         return ResponseEntity.ok(this.usuarioService.create(usuario));
+    }
+
+    @Override
+    @GetMapping("/detail/{id}")
+    @PreAuthorize("hasAnyRole('Administrador', 'Moderador', 'Usuário')")
+    public ResponseEntity<UsuarioResponseDTO> detailUsuario(@PathVariable Integer id) {
+        Optional<UsuarioModel> usuario = this.usuarioService.findById(id);
+        return usuario.map(u -> {
+            UsuarioResponseDTO responseDTO = new UsuarioResponseDTO();
+            responseDTO.setUsuarios(Collections.singletonList(usuario.orElse(null)));;
+            return ResponseEntity.ok(responseDTO);
+        }).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @Override
@@ -61,7 +76,6 @@ public class UsuarioController implements UsuarioApi{
     @PostMapping("/find")
     @PreAuthorize("hasAnyRole('Administrador', 'Moderador', 'Usuário')")
     public ResponseEntity<UsuarioResponseDTO> findUsuario(@RequestBody UsuarioRequest usuarioRequest) {
-        // Implemente a lógica aqui
         try {
             Optional<List<UsuarioModel>> usuarios = this.usuarioService.find(usuarioRequest);
             var totalRecords = 0;

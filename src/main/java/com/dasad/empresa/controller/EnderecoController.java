@@ -1,6 +1,6 @@
 package com.dasad.empresa.controller;
 
-import com.dasad.empresa.models.EnderecoModel;
+import com.dasad.empresa.model.EnderecoModel;
 import com.dasad.empresa.service.EnderecoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +44,7 @@ public class EnderecoController {
         return (ResponseEntity)this.enderecoService.findById(id).map((endereco) -> {
             endereco.setLogradouro(enderecoDetails.getLogradouro());
             endereco.setCidade(enderecoDetails.getCidade());
-            endereco.setEstado(enderecoDetails.getEstado());
+//            endereco.setEstado(enderecoDetails.getEstado());
             endereco.setCep(enderecoDetails.getCep());
             EnderecoModel updatedEndereco = this.enderecoService.save(endereco);
             return ResponseEntity.ok(updatedEndereco);

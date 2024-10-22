@@ -9,7 +9,7 @@ tags:
     description: Operações relacionadas a usuários
   - name: Endereço
     description: Operações relacionadas a endereços
-  - name: UF
+  - name: Unidade Federativa
     description: Operações relacionadas a Unidades Federativas
 
 paths:
@@ -26,6 +26,27 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UsuarioRequest'
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsuarioResponseDTO'
+  /usuario/detail/{id}:
+    get:
+      summary: Detalha  um usuário
+      security:
+        - bearerAuth: []
+      tags:
+        - Usuario
+      operationId: detailUsuario
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
       responses:
         '200':
           description: Sucesso
@@ -90,6 +111,27 @@ paths:
       responses:
         '204':
           description: No Content
+  /unidade-federativa/find:
+    post:
+      summary: Busca unidades federativas
+      security:
+        - bearerAuth: []
+      tags:
+        - Unidade Federativa
+      operationId: findUF
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UnidadeFederativaRequest'
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnidadeFederativaResponseDTO'
+
 
 components:
   securitySchemes:
@@ -114,6 +156,20 @@ components:
             type: integer
         offset:
           type: integer
+    UnidadeFederativaRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        sigla:
+          type: string
+        limit:
+          type: integer
+        offset:
+          type: integer
+
     UsuarioResponseDTO:
       type: object
       properties:
@@ -121,6 +177,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/UsuarioModel'
+        totalRecords:
+          type: integer
+    UnidadeFederativaResponseDTO:
+      type: object
+      properties:
+        ufs:
+          type: array
+          items:
+            $ref: '#/components/schemas/UnidadeFederativaModel'
         totalRecords:
           type: integer
     RegisterRequestDTO:
@@ -172,16 +237,18 @@ components:
       properties:
         id:
           type: integer
-        rua:
+        logradouro:
           type: string
         numero:
           type: integer
+        complemento:
+            type: string
         bairro:
           type: string
         cidade:
           type: string
-        estado:
-          type: string
+        uf:
+          $ref: '#/components/schemas/UnidadeFederativaModel'
         cep:
           type: string
     PerfilModel:
@@ -191,3 +258,13 @@ components:
           type: integer
         nome:
           type: string
+    UnidadeFederativaModel:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        sigla:
+            type: string
+
