@@ -23,6 +23,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.util.StringUtils;
+
 @Service
 public class AuthorizationService {
     private static final long JWT_EXPIRATION = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
@@ -35,6 +37,11 @@ public class AuthorizationService {
     }
 
     public String generateToken(UsuarioModel usuario) {
+        if (!StringUtils.hasText(this.secret)) {
+            log.error("Token secret is not configured properly.");
+            throw new IllegalStateException("Token secret is not configured properly.");
+        }
+
         List<String> roles = usuario.getPerfis().stream()
                 .map(PerfilModel::getNome)
                 .collect(Collectors.toList());
@@ -60,7 +67,7 @@ public class AuthorizationService {
 
             String userEmail = jwt.getSubject();
             String rolesString = jwt.getClaim("role").asString();
-            if (userEmail != null && rolesString != null) {
+            if (StringUtils.hasText(userEmail) && StringUtils.hasText(rolesString)) {
                 List<SimpleGrantedAuthority> authorities = Arrays.stream(rolesString.split(","))
                         .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                         .collect(Collectors.toList());
@@ -68,12 +75,13 @@ public class AuthorizationService {
                         userEmail, null, authorities);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 log.info("Autenticação bem-sucedida para o usuário: " + userEmail + " com roles: " + rolesString);
+                return userEmail;
             } else {
                 log.error("Token inválido ou expirado");
+                return null;
             }
-
-            return userEmail;
-        } catch (JWTVerificationException var7) {
+        } catch (JWTVerificationException e) {
+            log.error("Token verification failed", e);
             return null;
         }
     }
