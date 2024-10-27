@@ -66,22 +66,17 @@ public class Endereco extends TableImpl<EnderecoRecord> {
     /**
      * The column <code>public.endereco.bairro</code>.
      */
-    public final TableField<EnderecoRecord, String> BAIRRO = createField(DSL.name("bairro"), SQLDataType.VARCHAR(100).nullable(false), this, "");
+    public final TableField<EnderecoRecord, String> BAIRRO = createField(DSL.name("bairro"), SQLDataType.VARCHAR(100), this, "");
 
     /**
      * The column <code>public.endereco.cep</code>.
      */
-    public final TableField<EnderecoRecord, String> CEP = createField(DSL.name("cep"), SQLDataType.VARCHAR(100).nullable(false), this, "");
+    public final TableField<EnderecoRecord, String> CEP = createField(DSL.name("cep"), SQLDataType.VARCHAR(100), this, "");
 
     /**
      * The column <code>public.endereco.cidade</code>.
      */
-    public final TableField<EnderecoRecord, String> CIDADE = createField(DSL.name("cidade"), SQLDataType.VARCHAR(100).nullable(false), this, "");
-
-    /**
-     * The column <code>public.endereco.estado</code>.
-     */
-    public final TableField<EnderecoRecord, String> ESTADO = createField(DSL.name("estado"), SQLDataType.VARCHAR(100).nullable(false), this, "");
+    public final TableField<EnderecoRecord, String> CIDADE = createField(DSL.name("cidade"), SQLDataType.VARCHAR(100), this, "");
 
     /**
      * The column <code>public.endereco.logradouro</code>.
@@ -96,7 +91,17 @@ public class Endereco extends TableImpl<EnderecoRecord> {
     /**
      * The column <code>public.endereco.unidade_federativa_id</code>.
      */
-    public final TableField<EnderecoRecord, Integer> UNIDADE_FEDERATIVA_ID = createField(DSL.name("unidade_federativa_id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+    public final TableField<EnderecoRecord, Integer> UNIDADE_FEDERATIVA_ID = createField(DSL.name("unidade_federativa_id"), SQLDataType.INTEGER.identity(true), this, "");
+
+    /**
+     * The column <code>public.endereco.numero</code>.
+     */
+    public final TableField<EnderecoRecord, Integer> NUMERO = createField(DSL.name("numero"), SQLDataType.INTEGER, this, "");
+
+    /**
+     * The column <code>public.endereco.complemento</code>.
+     */
+    public final TableField<EnderecoRecord, String> COMPLEMENTO = createField(DSL.name("complemento"), SQLDataType.VARCHAR(100), this, "");
 
     private Endereco(Name alias, Table<EnderecoRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);

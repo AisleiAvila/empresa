@@ -43,10 +43,10 @@ api:
 springdoc:
   api-docs:
     enabled: true
-    path: /api-docs
+    path: /v3/api-docs
   swagger-ui:
     enabled: true
-    path: /documentation.html
+    path: /swagger-ui.html
     operationsSorter: alpha
 
 security:
@@ -55,3 +55,4 @@ security:
 logging:
   level:
     org.jooq: DEBUG
+    org.springframework: DEBUG

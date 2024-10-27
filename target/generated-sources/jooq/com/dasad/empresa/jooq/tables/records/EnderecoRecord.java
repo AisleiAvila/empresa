@@ -75,59 +75,73 @@ public class EnderecoRecord extends UpdatableRecordImpl<EnderecoRecord> {
     }
 
     /**
-     * Setter for <code>public.endereco.estado</code>.
-     */
-    public void setEstado(String value) {
-        set(4, value);
-    }
-
-    /**
-     * Getter for <code>public.endereco.estado</code>.
-     */
-    public String getEstado() {
-        return (String) get(4);
-    }
-
-    /**
      * Setter for <code>public.endereco.logradouro</code>.
      */
     public void setLogradouro(String value) {
-        set(5, value);
+        set(4, value);
     }
 
     /**
      * Getter for <code>public.endereco.logradouro</code>.
      */
     public String getLogradouro() {
-        return (String) get(5);
+        return (String) get(4);
     }
 
     /**
      * Setter for <code>public.endereco.usuario_id</code>.
      */
     public void setUsuarioId(Integer value) {
-        set(6, value);
+        set(5, value);
     }
 
     /**
      * Getter for <code>public.endereco.usuario_id</code>.
      */
     public Integer getUsuarioId() {
-        return (Integer) get(6);
+        return (Integer) get(5);
     }
 
     /**
      * Setter for <code>public.endereco.unidade_federativa_id</code>.
      */
     public void setUnidadeFederativaId(Integer value) {
-        set(7, value);
+        set(6, value);
     }
 
     /**
      * Getter for <code>public.endereco.unidade_federativa_id</code>.
      */
     public Integer getUnidadeFederativaId() {
+        return (Integer) get(6);
+    }
+
+    /**
+     * Setter for <code>public.endereco.numero</code>.
+     */
+    public void setNumero(Integer value) {
+        set(7, value);
+    }
+
+    /**
+     * Getter for <code>public.endereco.numero</code>.
+     */
+    public Integer getNumero() {
         return (Integer) get(7);
+    }
+
+    /**
+     * Setter for <code>public.endereco.complemento</code>.
+     */
+    public void setComplemento(String value) {
+        set(8, value);
+    }
+
+    /**
+     * Getter for <code>public.endereco.complemento</code>.
+     */
+    public String getComplemento() {
+        return (String) get(8);
     }
 
     // -------------------------------------------------------------------------
@@ -153,17 +167,18 @@ public class EnderecoRecord extends UpdatableRecordImpl<EnderecoRecord> {
     /**
      * Create a detached, initialised EnderecoRecord
      */
-    public EnderecoRecord(Integer id, String bairro, String cep, String cidade, String estado, String logradouro, Integer usuarioId, Integer unidadeFederativaId) {
+    public EnderecoRecord(Integer id, String bairro, String cep, String cidade, String logradouro, Integer usuarioId, Integer unidadeFederativaId, Integer numero, String complemento) {
         super(Endereco.ENDERECO);
 
         setId(id);
         setBairro(bairro);
         setCep(cep);
         setCidade(cidade);
-        setEstado(estado);
         setLogradouro(logradouro);
         setUsuarioId(usuarioId);
         setUnidadeFederativaId(unidadeFederativaId);
+        setNumero(numero);
+        setComplemento(complemento);
         resetChangedOnNotNull();
     }
 }

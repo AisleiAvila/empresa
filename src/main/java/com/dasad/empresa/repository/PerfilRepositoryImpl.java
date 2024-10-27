@@ -1,7 +1,7 @@
 package com.dasad.empresa.repository;
 
 import com.dasad.empresa.jooq.tables.Perfis;
-import com.dasad.empresa.models.PerfilModel;
+import com.dasad.empresa.model.PerfilModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jooq.DSLContext;

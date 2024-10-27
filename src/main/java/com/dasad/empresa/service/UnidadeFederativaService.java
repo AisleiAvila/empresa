@@ -1,13 +1,13 @@
 package com.dasad.empresa.service;
 
-import com.dasad.empresa.models.UnidadeFederativaModel;
-import com.dasad.empresa.models.request.UnidadeFederativaRequest;
+import com.dasad.empresa.model.UnidadeFederativaModel;
+import com.dasad.empresa.model.UnidadeFederativaRequest;
 import com.dasad.empresa.repository.UnidadeFederativaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UnidadeFederativaService {
@@ -17,15 +17,8 @@ public class UnidadeFederativaService {
     public UnidadeFederativaService() {
     }
 
-    public List<UnidadeFederativaModel> findByNome(UnidadeFederativaRequest unidadeFederativaRequest) {
-        return (List)this.unidadeFederativaRepository.findByNome(unidadeFederativaRequest).orElse(Collections.emptyList());
+    public Optional<List<UnidadeFederativaModel>> find(UnidadeFederativaRequest unidadeFederativaRequest) {
+        return this.unidadeFederativaRepository.find(unidadeFederativaRequest);
     }
 
-    public UnidadeFederativaModel save(UnidadeFederativaModel unidadeFederativa) {
-        return this.unidadeFederativaRepository.save(unidadeFederativa);
-    }
-
-    public void deleteById(Integer id) {
-        this.unidadeFederativaRepository.deleteById(id);
-    }
 }

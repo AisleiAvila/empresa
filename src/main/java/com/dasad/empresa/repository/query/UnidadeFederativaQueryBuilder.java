@@ -1,7 +1,7 @@
 package com.dasad.empresa.repository.query;
 
 import com.dasad.empresa.jooq.tables.UnidadeFederativa;
-import com.dasad.empresa.models.UnidadeFederativaModel;
+import com.dasad.empresa.model.UnidadeFederativaModel;
 import jakarta.annotation.Nonnull;
 import org.jooq.DSLContext;
 import org.jooq.Record;

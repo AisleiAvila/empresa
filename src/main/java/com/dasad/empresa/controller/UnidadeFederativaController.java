@@ -1,31 +1,31 @@
 package com.dasad.empresa.controller;
 
+import com.dasad.empresa.api.UnidadeFederativaApi;
 import com.dasad.empresa.infra.security.AuthorizationService;
-import com.dasad.empresa.models.UnidadeFederativaModel;
-import com.dasad.empresa.models.request.UnidadeFederativaRequest;
+import com.dasad.empresa.model.UnidadeFederativaModel;
+import com.dasad.empresa.model.UnidadeFederativaRequest;
+import com.dasad.empresa.model.UnidadeFederativaResponseDTO;
 import com.dasad.empresa.service.UnidadeFederativaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
+import java.util.Optional;
 
 @RestController
-@RequestMapping({"/unidadesFederativas"})
+@RequestMapping({"/unidade-federativa"})
 @CrossOrigin(
         origins = {"http://localhost:4200", "http://localhost:8080"}
 )
-public class UnidadeFederativaController {
+public class UnidadeFederativaController implements UnidadeFederativaApi {
     @Autowired
     private UnidadeFederativaService unidadeFederativaService;
     @Autowired
@@ -34,30 +34,19 @@ public class UnidadeFederativaController {
     public UnidadeFederativaController() {
     }
 
-    @GetMapping
-    @CrossOrigin(
-            origins = {"http://localhost:4200", "http://localhost:8080"}
-    )
-    public CompletableFuture<ResponseEntity<List<UnidadeFederativaModel>>> getUnidadeFederativa(@RequestHeader("Authorization") String authorization, @RequestParam(value = "id",required = false) Integer id, @RequestParam(value = "nome",required = false) String nome, @RequestParam(value = "sigla",required = false) String sigla) {
-        if (authorization != null && authorization.startsWith("Bearer ")) {
-            String token = authorization.replace("Bearer ", "");
-            String userEmail = this.authorizationService.validateToken(token);
-            if (userEmail == null) {
-                return CompletableFuture.completedFuture(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
-            } else {
-                UnidadeFederativaRequest unidadeFederativaRequest = UnidadeFederativaRequest.Builder.aUnidadeFederativaRequest().withNome(nome).withSigla(sigla).build();
-                return CompletableFuture.supplyAsync(() -> {
-                    List<UnidadeFederativaModel> result = this.unidadeFederativaService.findByNome(unidadeFederativaRequest);
-                    return ResponseEntity.ok(result.isEmpty() ? Collections.emptyList() : result);
-                });
-            }
-        } else {
-            return CompletableFuture.completedFuture(ResponseEntity.status(HttpStatus.FORBIDDEN).build());
-        }
-    }
+    @Override
+    @PostMapping("/find")
+    @PreAuthorize("hasAnyRole('Administrador', 'Moderador', 'Usuário')")
+    public ResponseEntity<UnidadeFederativaResponseDTO> findUF(@RequestBody UnidadeFederativaRequest unidadeFederativaRequest) {
+        try {
+            Optional<List<UnidadeFederativaModel>> result = this.unidadeFederativaService.find(unidadeFederativaRequest);
+            UnidadeFederativaResponseDTO responseDTO = new UnidadeFederativaResponseDTO();
+            responseDTO.setUfs(result.orElse(Collections.emptyList()));
+            return ResponseEntity.ok(responseDTO);
 
-    @PostMapping
-    public UnidadeFederativaModel createUnidadeFederativa(@RequestBody UnidadeFederativaModel unidadeFederativa) {
-        return this.unidadeFederativaService.save(unidadeFederativa);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
     }
 }

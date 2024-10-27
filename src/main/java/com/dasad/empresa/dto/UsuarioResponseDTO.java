@@ -1,6 +1,6 @@
 package com.dasad.empresa.dto;
 
-import com.dasad.empresa.models.UsuarioModel;
+import com.dasad.empresa.model.UsuarioModel;
 
 import java.util.List;
 

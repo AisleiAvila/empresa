@@ -1,7 +1,7 @@
 package com.dasad.empresa.dto;
 
+import com.dasad.empresa.model.PerfilModel;
 import com.dasad.empresa.models.EnderecoModel;
-import com.dasad.empresa.models.PerfilModel;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.time.LocalDate;

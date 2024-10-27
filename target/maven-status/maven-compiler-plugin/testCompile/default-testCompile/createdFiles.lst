@@ -1,2 +1,1 @@
-controller\UsuarioControllerTest$find.class
-controller\UsuarioControllerTest.class
+infra\security\AuthorizationServiceTest.class

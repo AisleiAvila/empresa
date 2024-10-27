@@ -1,5 +1,6 @@
 package com.dasad.empresa.models;
 
+import com.dasad.empresa.model.UsuarioModel;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
