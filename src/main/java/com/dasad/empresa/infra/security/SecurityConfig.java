@@ -47,7 +47,7 @@ public class SecurityConfig {
                     for (String url : excludedUrls) {
                         authorize.requestMatchers(url).permitAll();
                     }
-                    authorize.requestMatchers("/auth/login", "/auth/register", "/unidadesFederativas", "/documentation.html", "/swagger-ui/**", "/v3/api-docs/**", "/api-docs/swagger-config", "/v3/api-docs.yaml").permitAll();
+                    authorize.requestMatchers("/auth/login", "/auth/register", "/senha/recuperar", "/unidadesFederativas", "/documentation.html", "/swagger-ui/**", "/v3/api-docs/**", "/api-docs/swagger-config", "/v3/api-docs.yaml").permitAll();
                     authorize.anyRequest().authenticated();
                 })
                 .exceptionHandling(exceptionHandling -> exceptionHandling

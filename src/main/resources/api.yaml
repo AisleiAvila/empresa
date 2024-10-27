@@ -11,6 +11,8 @@ tags:
     description: Operações relacionadas a endereços
   - name: Unidade Federativa
     description: Operações relacionadas a Unidades Federativas
+  - name: Senha
+    description: Operações relacionadas a senha de acesso do usuário
 
 paths:
   /usuario/find:
@@ -111,6 +113,45 @@ paths:
       responses:
         '204':
           description: No Content
+  /senha/recuperar:
+    post:
+      summary: Gera link de recuperação de senha
+      description: Recebe o e-mail do usuário e envia um link de recuperação com token válido por 10 minutos.
+      tags:
+        - Senha
+      operationId: recuperarSenha
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: "usuario@exemplo.com"
+      responses:
+        '200':
+          description: Link de recuperação enviado ao e-mail.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Link de recuperação enviado ao e-mail."
+        '404':
+          description: Usuário não encontrado.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Usuário não encontrado."
   /unidade-federativa/find:
     post:
       summary: Busca unidades federativas

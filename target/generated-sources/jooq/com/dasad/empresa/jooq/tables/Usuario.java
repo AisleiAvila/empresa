@@ -9,6 +9,7 @@ import com.dasad.empresa.jooq.Public;
 import com.dasad.empresa.jooq.tables.Endereco.EnderecoPath;
 import com.dasad.empresa.jooq.tables.PasswordResetToken.PasswordResetTokenPath;
 import com.dasad.empresa.jooq.tables.Perfis.PerfisPath;
+import com.dasad.empresa.jooq.tables.UsuarioRecuperarSenha.UsuarioRecuperarSenhaPath;
 import com.dasad.empresa.jooq.tables.UsuariosPerfis.UsuariosPerfisPath;
 import com.dasad.empresa.jooq.tables.records.UsuarioRecord;
 
@@ -185,6 +186,19 @@ public class Usuario extends TableImpl<UsuarioRecord> {
             _passwordResetToken = new PasswordResetTokenPath(this, null, Keys.PASSWORD_RESET_TOKEN__PASSWORD_RESET_TOKEN_USUARIO_ID_FKEY.getInverseKey());
 
         return _passwordResetToken;
+    }
+
+    private transient UsuarioRecuperarSenhaPath _usuarioRecuperarSenha;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>public.usuario_recuperar_senha</code> table
+     */
+    public UsuarioRecuperarSenhaPath usuarioRecuperarSenha() {
+        if (_usuarioRecuperarSenha == null)
+            _usuarioRecuperarSenha = new UsuarioRecuperarSenhaPath(this, null, Keys.USUARIO_RECUPERAR_SENHA__USUARIO_ID_FKEY.getInverseKey());
+
+        return _usuarioRecuperarSenha;
     }
 
     private transient UsuariosPerfisPath _usuariosPerfis;

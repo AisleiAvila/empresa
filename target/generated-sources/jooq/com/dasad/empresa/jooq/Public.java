@@ -14,6 +14,7 @@ import com.dasad.empresa.jooq.tables.PerfilModel;
 import com.dasad.empresa.jooq.tables.Perfis;
 import com.dasad.empresa.jooq.tables.UnidadeFederativa;
 import com.dasad.empresa.jooq.tables.Usuario;
+import com.dasad.empresa.jooq.tables.UsuarioRecuperarSenha;
 import com.dasad.empresa.jooq.tables.UsuariosPerfis;
 
 import java.util.Arrays;
@@ -88,6 +89,11 @@ public class Public extends SchemaImpl {
     public final Usuario USUARIO = Usuario.USUARIO;
 
     /**
+     * The table <code>public.usuario_recuperar_senha</code>.
+     */
+    public final UsuarioRecuperarSenha USUARIO_RECUPERAR_SENHA = UsuarioRecuperarSenha.USUARIO_RECUPERAR_SENHA;
+
+    /**
      * The table <code>public.usuarios_perfis</code>.
      */
     public final UsuariosPerfis USUARIOS_PERFIS = UsuariosPerfis.USUARIOS_PERFIS;
@@ -118,6 +124,7 @@ public class Public extends SchemaImpl {
             Perfis.PERFIS,
             UnidadeFederativa.UNIDADE_FEDERATIVA,
             Usuario.USUARIO,
+            UsuarioRecuperarSenha.USUARIO_RECUPERAR_SENHA,
             UsuariosPerfis.USUARIOS_PERFIS
         );
     }

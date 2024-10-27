@@ -1,15 +1,12 @@
 package com.dasad.empresa.service;
 
-import com.dasad.empresa.jooq.tables.records.PasswordResetTokenRecord;
-import com.dasad.empresa.jooq.tables.records.UsuarioRecord;
 import com.dasad.empresa.model.UsuarioModel;
 import com.dasad.empresa.model.UsuarioRequest;
-import com.dasad.empresa.repository.PasswordResetTokenRepository;
+import com.dasad.empresa.repository.UsuarioRecuperarSenhaRepository;
 import com.dasad.empresa.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +16,7 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private PasswordResetTokenRepository tokenRepository;
+    private UsuarioRecuperarSenhaRepository tokenRepository;
 
     public UsuarioService() {
     }
@@ -52,12 +49,17 @@ public class UsuarioService {
         this.usuarioRepository.deleteById(id);
     }
 
-    public void createPasswordResetTokenForUser(UsuarioRecord usuario, String token) {
-        PasswordResetTokenRecord tokenRecord = new PasswordResetTokenRecord();
-        tokenRecord.setToken(token);
-        tokenRecord.setUsuarioId(Long.valueOf(usuario.getId())); // Use o método correto para obter o ID do usuário
-        tokenRecord.setExpiryDate(new Timestamp(System.currentTimeMillis() + 3600000).toLocalDateTime()); // 1 hour expiry
-        tokenRepository.save(tokenRecord);
-    }
+//    public void createPasswordResetTokenForUser(UsuarioRecord usuario, String token) {
+//        PasswordResetTokenRecord tokenRecord = new PasswordResetTokenRecord();
+//        tokenRecord.setToken(token);
+//        tokenRecord.setUsuarioId(Long.valueOf(usuario.getId())); // Use o método correto para obter o ID do usuário
+//        tokenRecord.setExpiryDate(new Timestamp(System.currentTimeMillis() + 3600000).toLocalDateTime()); // 1 hour expiry
+//        tokenRepository.save(tokenRecord);
+//    }
+//
+//    public void saveRecoveryToken(Integer id,  String token, Timestamp expiryDate) {
+//
+//        tokenRepository.save(tokenRecord);
+//    }
 
 }

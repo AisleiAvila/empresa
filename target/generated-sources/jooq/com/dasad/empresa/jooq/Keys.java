@@ -13,6 +13,7 @@ import com.dasad.empresa.jooq.tables.PerfilModel;
 import com.dasad.empresa.jooq.tables.Perfis;
 import com.dasad.empresa.jooq.tables.UnidadeFederativa;
 import com.dasad.empresa.jooq.tables.Usuario;
+import com.dasad.empresa.jooq.tables.UsuarioRecuperarSenha;
 import com.dasad.empresa.jooq.tables.UsuariosPerfis;
 import com.dasad.empresa.jooq.tables.records.DatabasechangeloglockRecord;
 import com.dasad.empresa.jooq.tables.records.EnderecoRecord;
@@ -23,6 +24,7 @@ import com.dasad.empresa.jooq.tables.records.PerfilModelRecord;
 import com.dasad.empresa.jooq.tables.records.PerfisRecord;
 import com.dasad.empresa.jooq.tables.records.UnidadeFederativaRecord;
 import com.dasad.empresa.jooq.tables.records.UsuarioRecord;
+import com.dasad.empresa.jooq.tables.records.UsuarioRecuperarSenhaRecord;
 import com.dasad.empresa.jooq.tables.records.UsuariosPerfisRecord;
 
 import org.jooq.ForeignKey;
@@ -62,6 +64,7 @@ public class Keys {
     public static final ForeignKey<EnderecoRecord, UnidadeFederativaRecord> ENDERECO__FKSBFB2MDC0HMIXWPUD2D8O8QOY = Internal.createForeignKey(Endereco.ENDERECO, DSL.name("fksbfb2mdc0hmixwpud2d8o8qoy"), new TableField[] { Endereco.ENDERECO.UNIDADE_FEDERATIVA_ID }, Keys.UNIDADE_FEDERATIVA_PKEY, new TableField[] { UnidadeFederativa.UNIDADE_FEDERATIVA.ID }, true);
     public static final ForeignKey<ItensPedidosRecord, PedidosRecord> ITENS_PEDIDOS__FK_PEDIDO = Internal.createForeignKey(ItensPedidos.ITENS_PEDIDOS, DSL.name("fk_pedido"), new TableField[] { ItensPedidos.ITENS_PEDIDOS.ID_PEDIDO }, Keys.PEDIDOS_PKEY, new TableField[] { Pedidos.PEDIDOS.ID }, true);
     public static final ForeignKey<PasswordResetTokenRecord, UsuarioRecord> PASSWORD_RESET_TOKEN__PASSWORD_RESET_TOKEN_USUARIO_ID_FKEY = Internal.createForeignKey(PasswordResetToken.PASSWORD_RESET_TOKEN, DSL.name("password_reset_token_usuario_id_fkey"), new TableField[] { PasswordResetToken.PASSWORD_RESET_TOKEN.USUARIO_ID }, Keys.USUARIO_PKEY, new TableField[] { Usuario.USUARIO.ID }, true);
+    public static final ForeignKey<UsuarioRecuperarSenhaRecord, UsuarioRecord> USUARIO_RECUPERAR_SENHA__USUARIO_ID_FKEY = Internal.createForeignKey(UsuarioRecuperarSenha.USUARIO_RECUPERAR_SENHA, DSL.name("usuario_id_fkey"), new TableField[] { UsuarioRecuperarSenha.USUARIO_RECUPERAR_SENHA.USUARIO_ID }, Keys.USUARIO_PKEY, new TableField[] { Usuario.USUARIO.ID }, true);
     public static final ForeignKey<UsuariosPerfisRecord, PerfisRecord> USUARIOS_PERFIS__USUARIOS_PERFIS_PERFIL_ID_FKEY = Internal.createForeignKey(UsuariosPerfis.USUARIOS_PERFIS, DSL.name("usuarios_perfis_perfil_id_fkey"), new TableField[] { UsuariosPerfis.USUARIOS_PERFIS.PERFIL_ID }, Keys.PERFIS_PKEY, new TableField[] { Perfis.PERFIS.ID }, true);
     public static final ForeignKey<UsuariosPerfisRecord, UsuarioRecord> USUARIOS_PERFIS__USUARIOS_PERFIS_USUARIO_ID_FKEY = Internal.createForeignKey(UsuariosPerfis.USUARIOS_PERFIS, DSL.name("usuarios_perfis_usuario_id_fkey"), new TableField[] { UsuariosPerfis.USUARIOS_PERFIS.USUARIO_ID }, Keys.USUARIO_PKEY, new TableField[] { Usuario.USUARIO.ID }, true);
 }
