@@ -268,4 +268,11 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
         this.dsl.deleteFrom(Usuario.USUARIO).where(Usuario.USUARIO.ID.eq(id)).execute();
     }
 
+    public void updatePassword(Integer id, String password) {
+        String encryptedPassword = passwordEncoder.encode(password);
+        dsl.update(Usuario.USUARIO)
+                .set(Usuario.USUARIO.SENHA, encryptedPassword)
+                .where(Usuario.USUARIO.ID.eq(id))
+                .execute();
+    }
 }

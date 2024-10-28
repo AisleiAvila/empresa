@@ -14,4 +14,5 @@ public interface UsuarioRepository {
     UsuarioModel create(UsuarioModel usuario);
     UsuarioModel update(UsuarioModel usuario);
     void deleteById(Integer id);
+    void updatePassword(Integer id, String password);
 }

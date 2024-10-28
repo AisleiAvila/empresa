@@ -5,6 +5,9 @@ import com.dasad.empresa.infra.security.AuthorizationService;
 import com.dasad.empresa.jooq.tables.records.UsuarioRecord;
 import com.dasad.empresa.model.RecuperarSenha200Response;
 import com.dasad.empresa.model.RecuperarSenhaRequest;
+import com.dasad.empresa.model.SalvarSenha200Response;
+import com.dasad.empresa.model.SalvarSenhaRequest;
+import com.dasad.empresa.model.ValidarResetToken200Response;
 import com.dasad.empresa.service.EmailService;
 import com.dasad.empresa.service.SenhaService;
 import com.dasad.empresa.service.UsuarioService;
@@ -14,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -80,7 +84,7 @@ public class SenhaController implements SenhaApi {
 
         senhaService.create(usuario, token, expiryDate);
 
-        String recoveryLink = "http://seu-dominio.com/reset-password?token=" + token;
+        String recoveryLink = "http://localhost:4200/senha/validar-reset-token?token=" + token;
         try {
             emailService.sendPasswordResetEmail(email, recoveryLink, usuario.getNome());
         } catch (MessagingException e) {
@@ -93,4 +97,66 @@ public class SenhaController implements SenhaApi {
 
         return ResponseEntity.ok(response);
     }
+
+    @Override
+    @PostMapping("/salvar")
+    public ResponseEntity<SalvarSenha200Response> salvarSenha(SalvarSenhaRequest salvarSenhaRequest) {
+        var response = new SalvarSenha200Response();
+        try {
+            if (salvarSenhaRequest.getToken() == null)  {
+                response.message("Token inválido ou expirado");
+                return ResponseEntity.badRequest().body(response);
+            }
+
+            String email = authorizationService.validateToken(salvarSenhaRequest.getToken());
+
+            if (email == null) {
+                response.message("Token inválido ou expirado");
+                return ResponseEntity.badRequest().body(response);
+            }
+
+            // TODO: Implementar a lógica para buscar o id do usuário pelo e-mail
+            var usuario =  usuarioService.findByEmail(email);
+
+            if (usuario.isEmpty()) {
+                response.message("Usuário não encontrado");
+                return ResponseEntity.badRequest().body(response);
+            }
+
+            if (salvarSenhaRequest.getSenha() != salvarSenhaRequest.getRepeatSenha()) {
+                response.message("As senhas não conferem");
+                return ResponseEntity.badRequest().body(response);
+            }
+
+            usuarioService.updatePassword(usuario.get().getId(), salvarSenhaRequest.getSenha());
+            response.message("Senha atualizada com sucesso");
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.message("Erro ao atualizar senha");
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
+    @Override
+    @GetMapping("/validar-reset-token")
+    public ResponseEntity<ValidarResetToken200Response> validarResetToken(String token) {
+        try {
+            if (token != null)  {
+                String email = authorizationService.validateToken(token);
+                if (email != null) {
+                    var usuario = usuarioService.findByEmail(email).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                    var response = new ValidarResetToken200Response();
+                    response.email(email);
+                    response.nome(usuario.getNome());
+                    response.id(usuario.getId());
+                    return ResponseEntity.ok(response);
+                }
+            }
+            return ResponseEntity.badRequest().body(null);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
 }

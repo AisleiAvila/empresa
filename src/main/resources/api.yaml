@@ -152,6 +152,95 @@ paths:
                   error:
                     type: string
                     example: "Usuário não encontrado."
+  /senha/validar-reset-token/{token}:
+    get:
+      summary: Valida token de recuperação de senha
+      description: Valida o token de recuperação de senha e retorna o e-mail do usuário.
+      tags:
+        - Senha
+      operationId: validarResetToken
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c3VhcmlvQGV4Y2xlbW8uY29tIiwiZXhwIjoxNjI5MzQwNjY5fQ.1Z6"
+      responses:
+        '200':
+          description: Token válido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  email:
+                    type: string
+                    example: "usuario@exemplo.com"
+                  nome:
+                    type: string
+                    example: "Usuário Exemplo"
+        '404':
+            description: Token inválido
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                      example: "Token inválido."
+  /senha/salvar:
+    post:
+      summary: Salvar senha do usuário
+      description: Recebe o e-mail do usuário e a nova senha.
+      tags:
+        - Senha
+      operationId: salvarSenha
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: "usuario@exemplo.com"
+                senha:
+                    type: string
+                    example: "novaSenha"
+                repeatSenha:
+                    type: string
+                    example: "novaSenha"
+                token:
+                    type: string
+                    example: "eyJhbGciOi"
+      responses:
+        '200':
+          description: Senha alterada com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Senha alterada com sucesso."
+        '404':
+          description: Senha não salva.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Senha não salva."
   /unidade-federativa/find:
     post:
       summary: Busca unidades federativas
@@ -172,8 +261,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UnidadeFederativaResponseDTO'
-
-
 components:
   securitySchemes:
     bearerAuth:

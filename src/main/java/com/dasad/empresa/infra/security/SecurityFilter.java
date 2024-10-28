@@ -45,7 +45,8 @@ public class SecurityFilter extends OncePerRequestFilter {
 
             if (this.excludedUrls != null && (Arrays.asList(this.excludedUrls.split(",")).contains(requestUrl) ||
                     requestUrl.startsWith("/swagger-ui") ||
-                    requestUrl.startsWith("/v3/api-docs"))) {
+                    requestUrl.startsWith("/v3/api-docs") ||
+                    requestUrl.startsWith("/senha/validar-reset-token"))) {
                 filterChain.doFilter(request, response);
                 return;
             }

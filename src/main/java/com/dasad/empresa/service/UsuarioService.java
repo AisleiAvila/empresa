@@ -49,6 +49,10 @@ public class UsuarioService {
         this.usuarioRepository.deleteById(id);
     }
 
+    public void updatePassword(Integer id, String password) {
+        this.usuarioRepository.updatePassword(id, password);
+    }
+
 //    public void createPasswordResetTokenForUser(UsuarioRecord usuario, String token) {
 //        PasswordResetTokenRecord tokenRecord = new PasswordResetTokenRecord();
 //        tokenRecord.setToken(token);

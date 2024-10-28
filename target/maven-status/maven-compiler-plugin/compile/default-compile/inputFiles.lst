@@ -79,9 +79,14 @@ C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\RecuperarSenha404Response.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\RecuperarSenhaRequest.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\RegisterRequestDTO.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\SalvarSenha200Response.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\SalvarSenha404Response.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\SalvarSenhaRequest.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\UnidadeFederativaModel.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\UnidadeFederativaRequest.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\UnidadeFederativaResponseDTO.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\UsuarioModel.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\UsuarioRequest.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\UsuarioResponseDTO.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\ValidarResetToken200Response.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\ValidarResetToken404Response.java

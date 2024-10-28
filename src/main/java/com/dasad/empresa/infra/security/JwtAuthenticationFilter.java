@@ -40,6 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 endpoint.equals("/api-docs/swagger-config") ||
                 endpoint.equals("/auth/login") ||
                 endpoint.equals("/senha/recuperar") ||
+                endpoint.startsWith("/senha/validar-reset-token") ||
                 endpoint.equals("/auth/register") ||
                 endpoint.equals("/lembrar-senha")) {
             log.info("URL excluída: " + endpoint);

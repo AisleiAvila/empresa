@@ -1,4 +1,5 @@
 com\dasad\empresa\controller\EnderecoController.class
+com\dasad\empresa\model\SalvarSenha404Response.class
 com\dasad\empresa\model\UnidadeFederativaRequest.class
 com\dasad\empresa\api\SenhaApi.class
 com\dasad\empresa\exception\RestExceptionHandler.class
@@ -13,6 +14,7 @@ com\dasad\empresa\jooq\tables\records\UsuariosPerfisRecord.class
 com\dasad\empresa\model\UnidadeFederativaResponseDTO.class
 com\dasad\empresa\jooq\tables\UsuarioRecuperarSenha.class
 com\dasad\empresa\dto\EnderecoDto.class
+com\dasad\empresa\model\ValidarResetToken404Response.class
 com\dasad\empresa\service\SenhaService.class
 com\dasad\empresa\controller\AuthController.class
 com\dasad\empresa\models\EnderecoModel.class
@@ -31,6 +33,7 @@ com\dasad\empresa\repository\SenhaRepositoryImpl.class
 com\dasad\empresa\dto\RegisterRequestDTO.class
 com\dasad\empresa\models\request\UnidadeFederativaRequest$Builder.class
 com\dasad\empresa\jooq\tables\records\UsuarioRecuperarSenhaRecord.class
+com\dasad\empresa\model\SalvarSenha200Response.class
 com\dasad\empresa\service\UnidadeFederativaService.class
 com\dasad\empresa\jooq\tables\Pedidos$PedidosPath.class
 com\dasad\empresa\service\EnderecoService.class
@@ -58,6 +61,7 @@ com\dasad\empresa\dto\LoginResponseDTO.class
 com\dasad\empresa\model\UsuarioRequest.class
 com\dasad\empresa\repository\query\UsuarioQueryBuilder.class
 com\dasad\empresa\jooq\tables\PasswordResetToken$PasswordResetTokenPath.class
+com\dasad\empresa\model\SalvarSenhaRequest.class
 com\dasad\empresa\repository\UnidadeFederativaRepository.class
 com\dasad\empresa\controller\SenhaController.class
 com\dasad\empresa\model\RecuperarSenha200Response.class
@@ -87,6 +91,7 @@ com\dasad\empresa\api\UsuarioApi.class
 com\dasad\empresa\infra\security\AuthorizationService.class
 com\dasad\empresa\controller\UsuarioController.class
 com\dasad\empresa\models\UnidadeFederativaModel.class
+com\dasad\empresa\model\ValidarResetToken200Response.class
 com\dasad\empresa\jooq\tables\Perfis.class
 com\dasad\empresa\infra\security\SecurityFilter.class
 com\dasad\empresa\model\UsuarioResponseDTO.class
