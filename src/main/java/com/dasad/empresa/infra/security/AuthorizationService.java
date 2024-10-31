@@ -6,13 +6,13 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.dasad.empresa.model.PerfilModel;
 import com.dasad.empresa.model.UsuarioModel;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -20,18 +20,20 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.springframework.util.StringUtils;
-
 @Service
+@Log4j2
 public class AuthorizationService {
     private static final long JWT_EXPIRATION = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
-    private static final Logger log = LogManager.getLogger(AuthorizationService.class);
 
     @Value("${api.security.token.secret}")
     private String secret;
+
+    private Set<String> revokedTokens = new HashSet<>();
 
     public AuthorizationService() {
     }
@@ -55,6 +57,11 @@ public class AuthorizationService {
     }
 
     public String validateToken(String token) {
+        if (revokedTokens.contains(token)) {
+            log.error("Token has been revoked");
+            return null;
+        }
+
         try {
             Algorithm algorithm = Algorithm.HMAC512(this.secret.getBytes());
             DecodedJWT jwt = JWT.require(algorithm)
@@ -86,7 +93,13 @@ public class AuthorizationService {
         }
     }
 
+    public void revokeToken(String token) {
+        log.info("Revogando token");
+        revokedTokens.add(token);
+    }
+
     private Instant getExpirationTime() {
+        log.info("Calculating token expiration time");
         return LocalDateTime.now().plusHours(2L).toInstant(ZoneOffset.of("-03:00"));
     }
 }

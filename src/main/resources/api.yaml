@@ -152,7 +152,7 @@ paths:
                   error:
                     type: string
                     example: "Usuário não encontrado."
-  /senha/validar-reset-token/{token}:
+  /senha/validar-reset-token:
     get:
       summary: Valida token de recuperação de senha
       description: Valida o token de recuperação de senha e retorna o e-mail do usuário.
@@ -161,7 +161,7 @@ paths:
       operationId: validarResetToken
       parameters:
         - name: token
-          in: path
+          in: query
           required: true
           schema:
             type: string
@@ -184,15 +184,15 @@ paths:
                     type: string
                     example: "Usuário Exemplo"
         '404':
-            description: Token inválido
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    error:
-                      type: string
-                      example: "Token inválido."
+          description: Token inválido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Token inválido."
   /senha/salvar:
     post:
       summary: Salvar senha do usuário

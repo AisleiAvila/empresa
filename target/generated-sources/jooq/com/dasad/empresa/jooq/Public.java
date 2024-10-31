@@ -4,13 +4,7 @@
 package com.dasad.empresa.jooq;
 
 
-import com.dasad.empresa.jooq.tables.Databasechangelog;
-import com.dasad.empresa.jooq.tables.Databasechangeloglock;
 import com.dasad.empresa.jooq.tables.Endereco;
-import com.dasad.empresa.jooq.tables.ItensPedidos;
-import com.dasad.empresa.jooq.tables.PasswordResetToken;
-import com.dasad.empresa.jooq.tables.Pedidos;
-import com.dasad.empresa.jooq.tables.PerfilModel;
 import com.dasad.empresa.jooq.tables.Perfis;
 import com.dasad.empresa.jooq.tables.UnidadeFederativa;
 import com.dasad.empresa.jooq.tables.Usuario;
@@ -39,39 +33,9 @@ public class Public extends SchemaImpl {
     public static final Public PUBLIC = new Public();
 
     /**
-     * The table <code>public.databasechangelog</code>.
-     */
-    public final Databasechangelog DATABASECHANGELOG = Databasechangelog.DATABASECHANGELOG;
-
-    /**
-     * The table <code>public.databasechangeloglock</code>.
-     */
-    public final Databasechangeloglock DATABASECHANGELOGLOCK = Databasechangeloglock.DATABASECHANGELOGLOCK;
-
-    /**
      * The table <code>public.endereco</code>.
      */
     public final Endereco ENDERECO = Endereco.ENDERECO;
-
-    /**
-     * The table <code>public.itens_pedidos</code>.
-     */
-    public final ItensPedidos ITENS_PEDIDOS = ItensPedidos.ITENS_PEDIDOS;
-
-    /**
-     * The table <code>public.password_reset_token</code>.
-     */
-    public final PasswordResetToken PASSWORD_RESET_TOKEN = PasswordResetToken.PASSWORD_RESET_TOKEN;
-
-    /**
-     * The table <code>public.pedidos</code>.
-     */
-    public final Pedidos PEDIDOS = Pedidos.PEDIDOS;
-
-    /**
-     * The table <code>public.perfil_model</code>.
-     */
-    public final PerfilModel PERFIL_MODEL = PerfilModel.PERFIL_MODEL;
 
     /**
      * The table <code>public.perfis</code>.
@@ -114,13 +78,7 @@ public class Public extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
-            Databasechangelog.DATABASECHANGELOG,
-            Databasechangeloglock.DATABASECHANGELOGLOCK,
             Endereco.ENDERECO,
-            ItensPedidos.ITENS_PEDIDOS,
-            PasswordResetToken.PASSWORD_RESET_TOKEN,
-            Pedidos.PEDIDOS,
-            PerfilModel.PERFIL_MODEL,
             Perfis.PERFIS,
             UnidadeFederativa.UNIDADE_FEDERATIVA,
             Usuario.USUARIO,

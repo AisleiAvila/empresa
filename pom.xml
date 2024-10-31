@@ -274,7 +274,14 @@
                     <generator>
                         <database>
                             <name>org.jooq.meta.postgres.PostgresDatabase</name>
-                            <includes>.*</includes>
+                            <includes>
+                                endereco |
+                                perfis |
+                                unidade_federativa |
+                                usuario |
+                                usuario_recuperar_senha |
+                                usuarios_perfis
+                            </includes>
                             <inputSchema>public</inputSchema>
                         </database>
                         <target>

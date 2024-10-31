@@ -7,8 +7,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,8 +20,8 @@ import java.util.Date;
 import java.util.List;
 
 @Component
+@Log4j2
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private static final Logger log = LogManager.getLogger(JwtAuthenticationFilter.class);
 
     public JwtAuthenticationFilter() {
     }
@@ -32,7 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String authorizationHeader = request.getHeader("Authorization");
         String endpoint = request.getRequestURI();
 
-        log.info("Requisição recebida no JwtAuthenticationFilter: " + endpoint);
+        log.info("Requisição recebida no JwtAuthenticationFilter: {}", endpoint);
 
         // Excluir URLs do Swagger e endpoints de autenticação da autenticação
         if (endpoint.startsWith("/swagger-ui/") ||
@@ -42,8 +41,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 endpoint.equals("/senha/recuperar") ||
                 endpoint.startsWith("/senha/validar-reset-token") ||
                 endpoint.equals("/auth/register") ||
-                endpoint.equals("/lembrar-senha")) {
-            log.info("URL excluída: " + endpoint);
+                endpoint.equals("/lembrar-senha") ||
+                endpoint.equals("/favicon.ico")) {
+            log.info("URL excluída: {}", endpoint);
             filterChain.doFilter(request, response);
             return;
         }
@@ -58,7 +58,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userEmail, null, List.of(new SimpleGrantedAuthority("ROLE_" + role)));
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
-                    log.info("Autenticação bem-sucedida para o usuário: " + userEmail);
+                    log.info("Autenticação bem-sucedida para o usuário: {}", userEmail);
                 } else {
                     log.error("Token inválido ou expirado");
                 }
@@ -82,7 +82,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 return decodedJWT;
             }
         } catch (JWTDecodeException e) {
-            log.error("Erro ao decodificar o token: " + e.getMessage());
+            log.error("Erro ao decodificar o token: {}", e.getMessage());
             return null;
         }
     }

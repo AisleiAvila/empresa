@@ -50,7 +50,7 @@ springdoc:
     operationsSorter: alpha
 
 security:
-  excludedUrls: /auth/login,/auth/register,/senha/recuperar,/senha/validar-reset-token,/documentation.html,/swagger-ui/**,/v3/api-docs/**
+  excludedUrls: /auth/login,/auth/register,/senha/recuperar,/senha/validar-reset-token,/documentation.html,/favicon.ico,/swagger-ui/**,/v3/api-docs/**
 
 logging:
   level:

@@ -29,6 +29,7 @@ import static com.dasad.empresa.jooq.tables.Perfis.PERFIS;
 import static com.dasad.empresa.jooq.tables.UsuariosPerfis.USUARIOS_PERFIS;
 
 @Repository
+//@Transactional
 public class UsuarioRepositoryImpl implements UsuarioRepository {
     private static final Logger log = LogManager.getLogger(UsuarioRepositoryImpl.class);
     private final DSLContext dsl;
@@ -41,7 +42,7 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
     }
 
     public Optional<List<UsuarioModel>> find(UsuarioRequest usuarioRequest) {
-        UsuarioQueryBuilder queryBuilder = (new UsuarioQueryBuilder(this.dsl))
+        UsuarioQueryBuilder queryBuilder = new UsuarioQueryBuilder(this.dsl)
                 .withId(usuarioRequest.getId())
                 .withNome(usuarioRequest.getNome())
                 .withEmail(usuarioRequest.getEmail())
@@ -53,7 +54,7 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
     }
 
     public Optional<Integer> countTotalRecords(UsuarioRequest usuarioRequest) {
-        UsuarioQueryBuilder queryBuilder = (new UsuarioQueryBuilder(this.dsl))
+        UsuarioQueryBuilder queryBuilder = new UsuarioQueryBuilder(this.dsl)
                 .withId(usuarioRequest.getId())
                 .withNome(usuarioRequest.getNome())
                 .withEmail(usuarioRequest.getEmail())
@@ -64,9 +65,7 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
         return Optional.ofNullable(result == null ? 0 : result);
     }
 
-
     public Optional<UsuarioModel> findById(Integer id) {
-
         return dsl.select(
                         Usuario.USUARIO.ID,
                         Usuario.USUARIO.NOME,
@@ -130,10 +129,9 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
                     }
                     return usuario;
                 });
-
     }
 
-    public Optional<com.dasad.empresa.model.UsuarioModel> findByEmail(String email) {
+    public Optional<UsuarioModel> findByEmail(String email) {
         return dsl.select(Usuario.USUARIO.fields())
                 .select(USUARIOS_PERFIS.PERFIL_ID)
                 .select(PERFIS.NOME)
@@ -143,17 +141,17 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
                 .where(Usuario.USUARIO.EMAIL.eq(email))
                 .fetchOptional()
                 .map(record -> {
-                    com.dasad.empresa.model.UsuarioModel usuario = new com.dasad.empresa.model.UsuarioModel();
+                    UsuarioModel usuario = new UsuarioModel();
                     usuario.setId(record.get(Usuario.USUARIO.ID));
                     usuario.setNome(record.get(Usuario.USUARIO.NOME));
                     usuario.setEmail(record.get(Usuario.USUARIO.EMAIL));
                     usuario.setSenha(record.get(Usuario.USUARIO.SENHA));
                     usuario.setDataNascimento(record.get(Usuario.USUARIO.DATA_NASCIMENTO));
                     if (record.get(USUARIOS_PERFIS.PERFIL_ID) != null) {
-                        com.dasad.empresa.model.PerfilModel perfil = new com.dasad.empresa.model.PerfilModel();
+                        PerfilModel perfil = new PerfilModel();
                         perfil.setId(record.get(USUARIOS_PERFIS.PERFIL_ID));
                         perfil.setNome(record.get(PERFIS.NOME));
-                        List<com.dasad.empresa.model.PerfilModel> perfis = new ArrayList<>();
+                        List<PerfilModel> perfis = new ArrayList<>();
                         perfis.add(perfil);
                         usuario.setPerfis(perfis);
                     } else {
@@ -163,25 +161,17 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
                 });
     }
 
-    public com.dasad.empresa.model.UsuarioModel create(com.dasad.empresa.model.UsuarioModel usuario) {
-        // Verificar se o email já existe
-        boolean emailExists = dsl.fetchExists(
-                dsl.selectFrom(Usuario.USUARIO)
-                        .where(DSL.lower(Usuario.USUARIO.EMAIL).eq(usuario.getEmail().toLowerCase()))
-        );
-
-        if (emailExists) {
+    public UsuarioModel create(UsuarioModel usuario) {
+        if (isEmailExists(usuario)) {
             throw new EmailAlreadyExistsException("Email já existe: " + usuario.getEmail());
         }
 
         return dsl.transactionResult(configuration -> {
             DSLContext ctx = DSL.using(configuration);
 
-            // Criptografar a senha
             String encryptedPassword = passwordEncoder.encode(usuario.getSenha());
             usuario.setSenha(encryptedPassword);
 
-            // Inserir o usuário
             ctx.insertInto(Usuario.USUARIO)
                     .set(Usuario.USUARIO.NOME, usuario.getNome())
                     .set(Usuario.USUARIO.EMAIL, usuario.getEmail())
@@ -189,83 +179,46 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
                     .set(Usuario.USUARIO.DATA_NASCIMENTO, usuario.getDataNascimento())
                     .execute();
 
-            // Obter o ID gerado
             Integer userId = ctx.select(Usuario.USUARIO.ID)
                     .from(Usuario.USUARIO)
                     .where(Usuario.USUARIO.EMAIL.eq(usuario.getEmail()))
                     .fetchOneInto(Integer.class);
             usuario.setId(userId);
 
-            // Gravar a lista de perfis do usuário
-            for (com.dasad.empresa.model.PerfilModel perfil : usuario.getPerfis()) {
-                ctx.insertInto(USUARIOS_PERFIS)
-                        .set(USUARIOS_PERFIS.USUARIO_ID, userId)
-                        .set(USUARIOS_PERFIS.PERFIL_ID, perfil.getId())
-                        .execute();
-            }
-
-            // TODO gravar a lista de enderecos do usuario
+            saveUserProfiles(usuario, ctx);
+            saveUserAddresses(usuario, ctx);
 
             return usuario;
         });
     }
 
-    public UsuarioModel update(UsuarioModel usuario) {
+    public UsuarioModel update(UsuarioModel usuarioModel) {
         return dsl.transactionResult(configuration -> {
             DSLContext ctx = DSL.using(configuration);
 
-            // Atualizar o usuário
             ctx.update(Usuario.USUARIO)
-                    .set(Usuario.USUARIO.NOME, usuario.getNome())
-                    .set(Usuario.USUARIO.EMAIL, usuario.getEmail())
-                    .set(Usuario.USUARIO.DATA_NASCIMENTO, usuario.getDataNascimento())
-                    .where(Usuario.USUARIO.ID.eq(usuario.getId()))
+                    .set(Usuario.USUARIO.NOME, usuarioModel.getNome())
+                    .set(Usuario.USUARIO.EMAIL, usuarioModel.getEmail())
+                    .set(Usuario.USUARIO.DATA_NASCIMENTO, usuarioModel.getDataNascimento())
+                    .where(Usuario.USUARIO.ID.eq(usuarioModel.getId()))
                     .execute();
 
-            // Remover os perfis antigos
-            ctx.deleteFrom(USUARIOS_PERFIS)
-                    .where(USUARIOS_PERFIS.USUARIO_ID.eq(usuario.getId()))
-                    .execute();
+            deletePerfilUsuarioById(usuarioModel.getId(), ctx);
+            saveUserProfiles(usuarioModel, ctx);
+            saveUserAddresses(usuarioModel, ctx);
 
-            // Gravar a lista de perfis do usuário
-            for (PerfilModel perfil : usuario.getPerfis()) {
-                ctx.insertInto(USUARIOS_PERFIS)
-                        .set(USUARIOS_PERFIS.USUARIO_ID, usuario.getId())
-                        .set(USUARIOS_PERFIS.PERFIL_ID, perfil.getId())
-                        .execute();
-            }
-
-            // TODO gravar a lista de enderecos do usuario
-
-            // Buscar o usuário atualizado
-            return ctx.select(Usuario.USUARIO.fields())
-                    .select(USUARIOS_PERFIS.PERFIL_ID)
-                    .select(PERFIS.NOME)
-                    .from(Usuario.USUARIO)
-                    .leftJoin(USUARIOS_PERFIS).on(Usuario.USUARIO.ID.eq(USUARIOS_PERFIS.USUARIO_ID))
-                    .leftJoin(PERFIS).on(USUARIOS_PERFIS.PERFIL_ID.eq(PERFIS.ID))
-                    .where(Usuario.USUARIO.ID.eq(usuario.getId()))
-                    .fetchOne(record -> {
-                        UsuarioModel updatedUsuario = new UsuarioModel();
-                        updatedUsuario.setId(record.get(Usuario.USUARIO.ID));
-                        updatedUsuario.setNome(record.get(Usuario.USUARIO.NOME));
-                        updatedUsuario.setEmail(record.get(Usuario.USUARIO.EMAIL));
-                        updatedUsuario.setSenha(record.get(Usuario.USUARIO.SENHA));
-                        updatedUsuario.setDataNascimento(record.get(Usuario.USUARIO.DATA_NASCIMENTO));
-                        if (record.get(USUARIOS_PERFIS.PERFIL_ID) != null) {
-                            PerfilModel perfil = new PerfilModel();
-                            perfil.setId(record.get(USUARIOS_PERFIS.PERFIL_ID));
-                            perfil.setNome(record.get(PERFIS.NOME));
-                            updatedUsuario.setPerfis(Collections.singletonList(perfil));
-                        } else {
-                            updatedUsuario.setPerfis(Collections.emptyList());
-                        }
-                        return updatedUsuario;
-                    });
+            return findById(usuarioModel.getId()).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
         });
     }
+
+    private static void deletePerfilUsuarioById(Integer id, DSLContext ctx) {
+        ctx.deleteFrom(USUARIOS_PERFIS)
+                .where(USUARIOS_PERFIS.USUARIO_ID.eq(id))
+                .execute();
+    }
+
     public void deleteById(Integer id) {
-        this.dsl.deleteFrom(Usuario.USUARIO).where(Usuario.USUARIO.ID.eq(id)).execute();
+        dsl.deleteFrom(Usuario.USUARIO).where(Usuario.USUARIO.ID.eq(id)).execute();
     }
 
     public void updatePassword(Integer id, String password) {
@@ -273,6 +226,68 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
         dsl.update(Usuario.USUARIO)
                 .set(Usuario.USUARIO.SENHA, encryptedPassword)
                 .where(Usuario.USUARIO.ID.eq(id))
+                .execute();
+    }
+
+    private boolean isEmailExists(UsuarioModel usuario) {
+        return dsl.fetchExists(
+                dsl.selectFrom(Usuario.USUARIO)
+                        .where(DSL.lower(Usuario.USUARIO.EMAIL).eq(usuario.getEmail().toLowerCase()))
+        );
+    }
+
+    private void saveUserProfiles(UsuarioModel usuario, DSLContext ctx) {
+        for (PerfilModel perfil : usuario.getPerfis()) {
+            ctx.insertInto(USUARIOS_PERFIS)
+                    .set(USUARIOS_PERFIS.USUARIO_ID, usuario.getId())
+                    .set(USUARIOS_PERFIS.PERFIL_ID, perfil.getId())
+                    .execute();
+        }
+    }
+
+    private void saveUserAddresses(UsuarioModel usuario, DSLContext ctx) {
+        for (EnderecoModel endereco : usuario.getEnderecos()) {
+            if (isEnderecoExists(usuario, endereco, ctx)) {
+                updateEnderecoUsuario(usuario, endereco, ctx);
+            } else {
+                insertEnderecoUsuario(usuario, endereco, ctx);
+            }
+        }
+    }
+
+    private boolean isEnderecoExists(UsuarioModel usuario, EnderecoModel endereco, DSLContext ctx) {
+        return ctx.fetchExists(
+                ctx.selectFrom(Endereco.ENDERECO)
+                        .where(Endereco.ENDERECO.ID.eq(endereco.getId())
+                                .and(Endereco.ENDERECO.USUARIO_ID.eq(usuario.getId())))
+        );
+    }
+
+    private void insertEnderecoUsuario(UsuarioModel usuario, EnderecoModel endereco, DSLContext ctx) {
+        ctx.insertInto(Endereco.ENDERECO)
+//                .set(Endereco.ENDERECO.ID, endereco.getId())
+                .set(Endereco.ENDERECO.BAIRRO, endereco.getBairro())
+                .set(Endereco.ENDERECO.CEP, endereco.getCep())
+                .set(Endereco.ENDERECO.CIDADE, endereco.getCidade())
+                .set(Endereco.ENDERECO.LOGRADOURO, endereco.getLogradouro())
+                .set(Endereco.ENDERECO.USUARIO_ID, usuario.getId())
+                .set(Endereco.ENDERECO.UNIDADE_FEDERATIVA_ID, endereco.getUf().getId())
+                .set(Endereco.ENDERECO.NUMERO, endereco.getNumero())
+                .set(Endereco.ENDERECO.COMPLEMENTO, endereco.getComplemento())
+                .execute();
+    }
+
+    private void updateEnderecoUsuario(UsuarioModel usuario, EnderecoModel endereco, DSLContext ctx) {
+        ctx.update(Endereco.ENDERECO)
+                .set(Endereco.ENDERECO.BAIRRO, endereco.getBairro())
+                .set(Endereco.ENDERECO.CEP, endereco.getCep())
+                .set(Endereco.ENDERECO.CIDADE, endereco.getCidade())
+                .set(Endereco.ENDERECO.LOGRADOURO, endereco.getLogradouro())
+                .set(Endereco.ENDERECO.UNIDADE_FEDERATIVA_ID, endereco.getUf().getId())
+                .set(Endereco.ENDERECO.NUMERO, endereco.getNumero())
+                .set(Endereco.ENDERECO.COMPLEMENTO, endereco.getComplemento())
+                .where(Endereco.ENDERECO.ID.eq(endereco.getId())
+                        .and(Endereco.ENDERECO.USUARIO_ID.eq(usuario.getId())))
                 .execute();
     }
 }
