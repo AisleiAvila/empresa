@@ -45,15 +45,15 @@ public class SenhaService {
     public SenhaService() {
     }
 
-    public void create(UsuarioModel usuario, String token, LocalDateTime expiryDate) {
+    public void create(UsuarioModel usuarioModel, String token, LocalDateTime expiryDate) {
         try {
             UsuarioRecuperarSenhaRecord usuarioRecuperarSenhaRecord = new UsuarioRecuperarSenhaRecord();
-            usuarioRecuperarSenhaRecord.setUsuarioId(usuario.getId());
+            usuarioRecuperarSenhaRecord.setUsuarioId(usuarioModel.getId());
             usuarioRecuperarSenhaRecord.setToken(token);
             usuarioRecuperarSenhaRecord.setDataExpiracao(expiryDate);
             this.senhaRepository.create(usuarioRecuperarSenhaRecord);
         } catch (Exception e) {
-            log.error("Erro ao criar token de recuperação de senha para o usuário: {}", usuario.getId(), e);
+            log.error("Erro ao criar token de recuperação de senha para o usuário: {}", usuarioModel.getId(), e);
             throw new RuntimeException("Falha ao criar token de recuperação de senha", e);
         }
     }
@@ -110,16 +110,14 @@ public class SenhaService {
 
     public  ResponseEntity<ValidarResetToken200Response> getValidarResetToken(String token) {
         try {
-            if (token != null)  {
-                String email = authorizationService.validateToken(token);
-                if (email != null) {
-                    var usuario = usuarioService.findByEmail(email).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-                    var response = new ValidarResetToken200Response();
-                    response.email(email);
-                    response.nome(usuario.getNome());
-                    response.id(usuario.getId());
-                    return ResponseEntity.ok(response);
-                }
+            String email = authorizationService.validateToken(token);
+            if (email != null) {
+                var usuarioModel = usuarioService.findByEmail(email).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                var response = new ValidarResetToken200Response();
+                response.email(email);
+                response.nome(usuarioModel.getNome());
+                response.id(usuarioModel.getId());
+                return ResponseEntity.ok(response);
             }
             return ResponseEntity.badRequest().body(null);
         } catch (Exception e) {
@@ -130,11 +128,6 @@ public class SenhaService {
     public  ResponseEntity<SalvarSenha200Response> getSalvarSenha(SalvarSenhaRequest salvarSenhaRequest) {
         var response = new SalvarSenha200Response();
         try {
-            if (salvarSenhaRequest.getToken() == null)  {
-                response.message("Token inválido ou expirado");
-                return ResponseEntity.badRequest().body(response);
-            }
-
             String email = authorizationService.validateToken(salvarSenhaRequest.getToken());
 
             if (email == null) {

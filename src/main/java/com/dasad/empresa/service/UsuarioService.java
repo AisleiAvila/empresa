@@ -53,17 +53,4 @@ public class UsuarioService {
         this.usuarioRepository.updatePassword(id, password);
     }
 
-//    public void createPasswordResetTokenForUser(UsuarioRecord usuario, String token) {
-//        PasswordResetTokenRecord tokenRecord = new PasswordResetTokenRecord();
-//        tokenRecord.setToken(token);
-//        tokenRecord.setUsuarioId(Long.valueOf(usuario.getId())); // Use o método correto para obter o ID do usuário
-//        tokenRecord.setExpiryDate(new Timestamp(System.currentTimeMillis() + 3600000).toLocalDateTime()); // 1 hour expiry
-//        tokenRepository.save(tokenRecord);
-//    }
-//
-//    public void saveRecoveryToken(Integer id,  String token, Timestamp expiryDate) {
-//
-//        tokenRepository.save(tokenRecord);
-//    }
-
 }

@@ -1,10 +1,12 @@
 openapi: "3.0.3"
 info:
   title: Biblioteca API
-  description: API para gerenciar uma lista de livros
+  description: API para gerenciar organizações
   version: 1.0.0
 
 tags:
+  - name: Auth
+    description: Operações relacionadas a autenticação
   - name: Usuario
     description: Operações relacionadas a usuários
   - name: Endereço
@@ -15,6 +17,132 @@ tags:
     description: Operações relacionadas a senha de acesso do usuário
 
 paths:
+  /auth/revoke:
+    post:
+      summary: Revoke token
+      description: Revoke the authorization token.
+      tags:
+        - Auth
+      operationId: revokeToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  example: "eyJhbGciOi"
+      responses:
+        '200':
+          description: Token revoked successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Token revoked successfully."
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Invalid request."
+  /auth/verify-authorization:
+    get:
+      summary: Verify authorization endpoint
+      description: Verifica a autorização do token.
+      tags:
+        - Auth
+      operationId: verifyAuthorization
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Token válido
+          content:
+            application/json:
+              schema:
+                type: boolean
+                example: true
+        '400':
+          description: Token inválido ou ausente
+          content:
+            application/json:
+              schema:
+                type: boolean
+                example: false
+  /auth/login:
+    post:
+      summary: Login endpoint
+      description: Endpoint para autenticação de usuários.
+      tags:
+        - Auth
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequestDTO'
+      responses:
+        '200':
+          description: Login bem-sucedido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponseDTO'
+        '400':
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Credenciais inválidas."
+  /auth/register:
+    post:
+      summary: Register endpoint
+      description: Endpoint para registrar novos usuários.
+      tags:
+        - Auth
+      operationId: register
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequestDTO'
+      responses:
+        '200':
+          description: Registro bem-sucedido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponseDTO'
+        '400':
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Usuário já cadastrado."
+
   /usuario/find:
     post:
       summary: Busca usuários
@@ -268,6 +396,14 @@ components:
       scheme: bearer
       bearerFormat: JWT  # Especifica o formato do token, pode ser omitido
   schemas:
+    LoginRequestDTO:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        senha:
+          type: string
     UsuarioRequest:
       type: object
       properties:
@@ -297,7 +433,13 @@ components:
           type: integer
         offset:
           type: integer
-
+    LoginResponseDTO:
+      type: object
+      properties:
+        nome:
+          type: string
+        authorization:
+          type: string
     UsuarioResponseDTO:
       type: object
       properties:
@@ -351,7 +493,6 @@ components:
           type: string
         dataNascimento:
           type: string
-          format: date
         enderecos:
           type: array
           items:

@@ -1,7 +1,5 @@
 package infra.security;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.dasad.empresa.infra.security.AuthorizationService;
 import com.dasad.empresa.model.PerfilModel;
 import com.dasad.empresa.model.UsuarioModel;
@@ -14,9 +12,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Collections;
-import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,7 +27,7 @@ public class AuthorizationServiceTest {
     private AuthorizationService authorizationService;
 
     @Mock
-    private UsuarioModel usuario;
+    private UsuarioModel usuarioModel;
 
     @BeforeEach
     public void setUp() {
@@ -35,15 +36,15 @@ public class AuthorizationServiceTest {
 
     @Test
     public void testGenerateToken() {
-        PerfilModel perfil = new PerfilModel();
-        perfil.setNome("USER");
-        when(usuario.getEmail()).thenReturn("user@example.com");
-        when(usuario.getPerfis()).thenReturn(Collections.singletonList(perfil));
+        PerfilModel perfilModel = new PerfilModel();
+        perfilModel.setNome("USER");
+        when(usuarioModel.getEmail()).thenReturn("user@example.com");
+        when(usuarioModel.getPerfis()).thenReturn(Collections.singletonList(perfilModel));
 
-        String token = authorizationService.generateToken(usuario);
+        String token = authorizationService.generateToken(usuarioModel);
 
         assertNotNull(token);
-        assertTrue(token.length() > 0);
+        assertFalse(token.isEmpty());
     }
 
     @Test
@@ -51,7 +52,7 @@ public class AuthorizationServiceTest {
         ReflectionTestUtils.setField(authorizationService, "secret", "");
 
         IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
-            authorizationService.generateToken(usuario);
+            authorizationService.generateToken(usuarioModel);
         });
 
         assertEquals("Token secret is not configured properly.", exception.getMessage());
@@ -59,12 +60,12 @@ public class AuthorizationServiceTest {
 
     @Test
     public void testValidateToken() {
-        PerfilModel perfil = new PerfilModel();
-        perfil.setNome("USER");
-        when(usuario.getEmail()).thenReturn("user@example.com");
-        when(usuario.getPerfis()).thenReturn(Collections.singletonList(perfil));
+        PerfilModel perfilModel = new PerfilModel();
+        perfilModel.setNome("USER");
+        when(usuarioModel.getEmail()).thenReturn("user@example.com");
+        when(usuarioModel.getPerfis()).thenReturn(Collections.singletonList(perfilModel));
 
-        String token = authorizationService.generateToken(usuario);
+        String token = authorizationService.generateToken(usuarioModel);
         String userEmail = authorizationService.validateToken(token);
 
         assertNotNull(userEmail);
@@ -73,7 +74,6 @@ public class AuthorizationServiceTest {
 
     @Test
     public void testValidateTokenWithInvalidToken() {
-        // Token malformado com três partes e base64 válido
         String invalidToken = "eyJhbGciOiJIUzI1NiJ9.invalid.payload";
 
         String userEmail = authorizationService.validateToken(invalidToken);

@@ -31,7 +31,7 @@ public class EnderecoController {
 
     @GetMapping({"/{id}"})
     public ResponseEntity<EnderecoModel> getEnderecoById(@PathVariable Integer id) {
-        return (ResponseEntity)this.enderecoService.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        return this.enderecoService.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -41,13 +41,13 @@ public class EnderecoController {
 
     @PutMapping({"/{id}"})
     public ResponseEntity<EnderecoModel> updateEndereco(@PathVariable Integer id, @RequestBody EnderecoModel enderecoDetails) {
-        return (ResponseEntity)this.enderecoService.findById(id).map((endereco) -> {
+        return this.enderecoService.findById(id).map((endereco) -> {
             endereco.setLogradouro(enderecoDetails.getLogradouro());
             endereco.setCidade(enderecoDetails.getCidade());
 //            endereco.setEstado(enderecoDetails.getEstado());
             endereco.setCep(enderecoDetails.getCep());
-            EnderecoModel updatedEndereco = this.enderecoService.save(endereco);
-            return ResponseEntity.ok(updatedEndereco);
+            EnderecoModel enderecoSave = this.enderecoService.save(endereco);
+            return ResponseEntity.ok(enderecoSave);
         }).orElse(ResponseEntity.notFound().build());
     }
 

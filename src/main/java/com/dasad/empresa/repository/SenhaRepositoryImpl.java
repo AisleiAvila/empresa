@@ -1,7 +1,6 @@
 package com.dasad.empresa.repository;
 
 import com.dasad.empresa.jooq.tables.records.UsuarioRecuperarSenhaRecord;
-import com.dasad.empresa.model.UsuarioModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jooq.DSLContext;

@@ -21,29 +21,23 @@ public class UnidadeFederativaQueryBuilder {
     }
 
     public UnidadeFederativaQueryBuilder withNome(@Nonnull String nome) {
-        if (nome != null && !nome.isEmpty()) {
+        if (nome != null &&  !nome.isEmpty()) {
             this.query.where(DSL.lower(UnidadeFederativa.UNIDADE_FEDERATIVA.NOME).like("%" + nome.toLowerCase() + "%"));
         }
         return this;
     }
 
     public UnidadeFederativaQueryBuilder withSigla(@Nonnull Optional<String> optionalSigla) {
-        optionalSigla.ifPresent((sigla) -> {
-            this.query.where(DSL.lower(UnidadeFederativa.UNIDADE_FEDERATIVA.SIGLA).like("%" + sigla.toLowerCase() + "%"));
-        });
+        optionalSigla.ifPresent((sigla) -> this.query.where(DSL.lower(UnidadeFederativa.UNIDADE_FEDERATIVA.SIGLA).like("%" + sigla.toLowerCase() + "%")));
         return this;
     }
 
     public UnidadeFederativaQueryBuilder withId(@Nonnull Optional<Integer> optionalId) {
-        optionalId.ifPresent((sigla) -> {
-            this.query.where(UnidadeFederativa.UNIDADE_FEDERATIVA.ID.eq(sigla));
-        });
+        optionalId.ifPresent((sigla) -> this.query.where(UnidadeFederativa.UNIDADE_FEDERATIVA.ID.eq(sigla)));
         return this;
     }
 
     public CompletableFuture<List<UnidadeFederativaModel>> build() {
-        return CompletableFuture.supplyAsync(() -> {
-            return this.query.fetchInto(UnidadeFederativaModel.class);
-        });
+        return CompletableFuture.supplyAsync(() -> this.query.fetchInto(UnidadeFederativaModel.class));
     }
 }

@@ -38,18 +38,18 @@ public class AuthorizationService {
     public AuthorizationService() {
     }
 
-    public String generateToken(UsuarioModel usuario) {
+    public String generateToken(UsuarioModel usuarioModel) {
         if (!StringUtils.hasText(this.secret)) {
             log.error("Token secret is not configured properly.");
             throw new IllegalStateException("Token secret is not configured properly.");
         }
 
-        List<String> roles = usuario.getPerfis().stream()
+        List<String> roles = usuarioModel.getPerfis().stream()
                 .map(PerfilModel::getNome)
                 .collect(Collectors.toList());
         String rolesString = String.join(",", roles);
         return JWT.create()
-                .withSubject(usuario.getEmail())
+                .withSubject(usuarioModel.getEmail())
                 .withIssuer("login-auth-api")
                 .withClaim("role", rolesString)
                 .withExpiresAt(new Date(System.currentTimeMillis() + JWT_EXPIRATION))
@@ -57,6 +57,12 @@ public class AuthorizationService {
     }
 
     public String validateToken(String token) {
+
+        if (token == null ||  token.isEmpty()) {
+            log.error("Token inexistente ");
+            return null;
+        }
+
         if (revokedTokens.contains(token)) {
             log.error("Token has been revoked");
             return null;
@@ -81,7 +87,7 @@ public class AuthorizationService {
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userEmail, null, authorities);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-                log.info("Autenticação bem-sucedida para o usuário: " + userEmail + " com roles: " + rolesString);
+                log.info("Autenticação bem-sucedida para o usuário: {} com roles: {}", userEmail, rolesString);
                 return userEmail;
             } else {
                 log.error("Token inválido ou expirado");

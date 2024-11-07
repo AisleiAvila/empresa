@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
+import static com.dasad.empresa.util.DataUtil.convertLocalDateToString;
+
 public class UsuarioQueryBuilder {
     private final @NotNull SelectOnConditionStep<Record17<Integer, String, String, String, LocalDate, Integer, String, Integer, String, Integer, String, String, String, String, Integer, String, String>> query;
     private final static Integer DEFAULT_LIMIT = 10;
@@ -100,13 +102,14 @@ public class UsuarioQueryBuilder {
                     record -> record.get(Usuario.USUARIO.ID),
                     Collectors.mapping(record -> record, Collectors.toList())
             )).values().stream().map(records -> {
-                Record17<Integer, String, String, String, LocalDate, Integer, String, Integer, String, Integer, String, String, String, String, Integer, String, String> record = records.get(0);
+                Record17<Integer, String, String, String, LocalDate, Integer, String, Integer, String, Integer, String, String, String, String, Integer, String, String> record = records.getFirst();
                 UsuarioModel usuario = new UsuarioModel();
                 usuario.setId(record.get(Usuario.USUARIO.ID));
                 usuario.setNome(record.get(Usuario.USUARIO.NOME));
                 usuario.setEmail(record.get(Usuario.USUARIO.EMAIL));
                 usuario.setSenha(record.get(Usuario.USUARIO.SENHA));
-                usuario.setDataNascimento(record.get(Usuario.USUARIO.DATA_NASCIMENTO));
+                usuario.setDataNascimento(convertLocalDateToString(record.get(Usuario.USUARIO.DATA_NASCIMENTO)));
+//                usuario.setDataNascimento(record.get(Usuario.USUARIO.DATA_NASCIMENTO));
                 usuario.setPerfis(records.stream()
                         .filter(r -> r.get("perfil_id") != null)
                         .map(r -> {
@@ -145,9 +148,7 @@ public class UsuarioQueryBuilder {
 
     public CompletableFuture<Integer> calculateTotalPages(Integer limit) {
         int effectiveLimit = (limit != null && limit > 0) ? limit : DEFAULT_LIMIT;
-        return countTotalRecords().thenApply(totalRecords -> {
-            return (int) Math.ceil((double) totalRecords / effectiveLimit);
-        });
+        return countTotalRecords().thenApply(totalRecords -> (int) Math.ceil((double) totalRecords / effectiveLimit));
     }
 
     public CompletableFuture<Integer> countTotalRecords() {

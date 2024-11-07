@@ -30,10 +30,9 @@ public class PerfilRepositoryImpl implements PerfilRepository {
             });
             log.info("Buscado com sucesso {} perfis", perfis.size());
             return perfis;
-        } catch (Exception var2) {
-            Exception e = var2;
-            log.error("Erro ao buscar perfis: {}", e.getMessage());
-            throw new RuntimeException("Erro ao buscar perfis", e);
+        } catch (Exception exception) {
+            log.error("Erro ao buscar perfis: {}", exception.getMessage());
+            throw new RuntimeException("Erro ao buscar perfis", exception);
         }
     }
 }

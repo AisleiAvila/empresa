@@ -27,6 +27,8 @@ import java.util.Optional;
 
 import static com.dasad.empresa.jooq.tables.Perfis.PERFIS;
 import static com.dasad.empresa.jooq.tables.UsuariosPerfis.USUARIOS_PERFIS;
+import static com.dasad.empresa.util.DataUtil.convertLocalDateToString;
+import static com.dasad.empresa.util.DataUtil.convertStringToLocalDate;
 
 @Repository
 //@Transactional
@@ -46,6 +48,7 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
                 .withId(usuarioRequest.getId())
                 .withNome(usuarioRequest.getNome())
                 .withEmail(usuarioRequest.getEmail())
+//                .withDataNascimento(convertStringToLocalDate(usuarioRequest.getDataNascimento()))
                 .withDataNascimento(usuarioRequest.getDataNascimento())
                 .withLimit(usuarioRequest.getLimit())
                 .withOffset(usuarioRequest.getOffset());
@@ -58,6 +61,7 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
                 .withId(usuarioRequest.getId())
                 .withNome(usuarioRequest.getNome())
                 .withEmail(usuarioRequest.getEmail())
+//                .withDataNascimento(convertStringToLocalDate(usuarioRequest.getDataNascimento()))
                 .withDataNascimento(usuarioRequest.getDataNascimento())
                 .withLimit(0)
                 .withOffset(0);
@@ -98,7 +102,8 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
                     usuario.setId(record.get(Usuario.USUARIO.ID));
                     usuario.setNome(record.get(Usuario.USUARIO.NOME));
                     usuario.setEmail(record.get(Usuario.USUARIO.EMAIL));
-                    usuario.setDataNascimento(record.get(Usuario.USUARIO.DATA_NASCIMENTO));
+                    usuario.setDataNascimento(convertLocalDateToString(record.get(Usuario.USUARIO.DATA_NASCIMENTO)));
+//                    usuario.setDataNascimento(record.get(Usuario.USUARIO.DATA_NASCIMENTO));
                     if (record.get("perfil_id") != null) {
                         PerfilModel perfil = new PerfilModel();
                         perfil.setId(record.get("perfil_id", Integer.class));
@@ -146,7 +151,8 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
                     usuario.setNome(record.get(Usuario.USUARIO.NOME));
                     usuario.setEmail(record.get(Usuario.USUARIO.EMAIL));
                     usuario.setSenha(record.get(Usuario.USUARIO.SENHA));
-                    usuario.setDataNascimento(record.get(Usuario.USUARIO.DATA_NASCIMENTO));
+                    usuario.setDataNascimento(convertLocalDateToString(record.get(Usuario.USUARIO.DATA_NASCIMENTO)));
+//                    usuario.setDataNascimento(record.get(Usuario.USUARIO.DATA_NASCIMENTO));
                     if (record.get(USUARIOS_PERFIS.PERFIL_ID) != null) {
                         PerfilModel perfil = new PerfilModel();
                         perfil.setId(record.get(USUARIOS_PERFIS.PERFIL_ID));
@@ -176,7 +182,8 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
                     .set(Usuario.USUARIO.NOME, usuario.getNome())
                     .set(Usuario.USUARIO.EMAIL, usuario.getEmail())
                     .set(Usuario.USUARIO.SENHA, usuario.getSenha())
-                    .set(Usuario.USUARIO.DATA_NASCIMENTO, usuario.getDataNascimento())
+                    .set(Usuario.USUARIO.DATA_NASCIMENTO, convertStringToLocalDate(usuario.getDataNascimento()))
+//                    .set(Usuario.USUARIO.DATA_NASCIMENTO, usuario.getDataNascimento())
                     .execute();
 
             Integer userId = ctx.select(Usuario.USUARIO.ID)
@@ -199,7 +206,8 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
             ctx.update(Usuario.USUARIO)
                     .set(Usuario.USUARIO.NOME, usuarioModel.getNome())
                     .set(Usuario.USUARIO.EMAIL, usuarioModel.getEmail())
-                    .set(Usuario.USUARIO.DATA_NASCIMENTO, usuarioModel.getDataNascimento())
+                    .set(Usuario.USUARIO.DATA_NASCIMENTO, convertStringToLocalDate(usuarioModel.getDataNascimento()))
+//                    .set(Usuario.USUARIO.DATA_NASCIMENTO, usuarioModel.getDataNascimento())
                     .where(Usuario.USUARIO.ID.eq(usuarioModel.getId()))
                     .execute();
 
@@ -265,7 +273,6 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
 
     private void insertEnderecoUsuario(UsuarioModel usuario, EnderecoModel endereco, DSLContext ctx) {
         ctx.insertInto(Endereco.ENDERECO)
-//                .set(Endereco.ENDERECO.ID, endereco.getId())
                 .set(Endereco.ENDERECO.BAIRRO, endereco.getBairro())
                 .set(Endereco.ENDERECO.CEP, endereco.getCep())
                 .set(Endereco.ENDERECO.CIDADE, endereco.getCidade())

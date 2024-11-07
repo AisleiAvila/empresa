@@ -40,7 +40,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException {
         log.info("Filtrando requisição");
         try {
-            log.info("Requisição recebida: " + request.getRequestURI());
+            log.info("Requisição recebida: {}", request.getRequestURI());
             String requestUrl = request.getRequestURI();
             if (requestUrl.endsWith("/")) {
                 log.info("Removendo última barra da URL");

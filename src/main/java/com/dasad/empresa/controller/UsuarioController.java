@@ -24,6 +24,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static com.dasad.empresa.util.DataUtil.convertLocalDateToString;
+
 @RestController
 @RequestMapping("/usuario")
 @CrossOrigin(origins = {"http://localhost:4200", "http://localhost:8080"})
@@ -36,16 +38,16 @@ public class UsuarioController implements UsuarioApi{
     @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<UsuarioModel> createUsuario(RegisterRequestDTO registerRequestDTO) {
 
-        UsuarioModel usuario = new UsuarioModel();
-        usuario.setId(registerRequestDTO.getId());
-        usuario.setNome(registerRequestDTO.getNome());
-        usuario.setEmail(registerRequestDTO.getEmail());
-        usuario.setSenha(registerRequestDTO.getSenha());
-        usuario.setDataNascimento(registerRequestDTO.getDataNascimento());
-        usuario.setEnderecos(registerRequestDTO.getEnderecos());
-        usuario.setPerfis(registerRequestDTO.getPerfis());
+        UsuarioModel usuarioModel = new UsuarioModel();
+        usuarioModel.setId(registerRequestDTO.getId());
+        usuarioModel.setNome(registerRequestDTO.getNome());
+        usuarioModel.setEmail(registerRequestDTO.getEmail());
+        usuarioModel.setSenha(registerRequestDTO.getSenha());
+        usuarioModel.setDataNascimento(convertLocalDateToString(registerRequestDTO.getDataNascimento()));
+        usuarioModel.setEnderecos(registerRequestDTO.getEnderecos());
+        usuarioModel.setPerfis(registerRequestDTO.getPerfis());
 
-        return ResponseEntity.ok(this.usuarioService.create(usuario));
+        return ResponseEntity.ok(this.usuarioService.create(usuarioModel));
     }
 
     @Override
@@ -55,7 +57,7 @@ public class UsuarioController implements UsuarioApi{
         Optional<UsuarioModel> usuario = this.usuarioService.findById(id);
         return usuario.map(u -> {
             UsuarioResponseDTO responseDTO = new UsuarioResponseDTO();
-            responseDTO.setUsuarios(Collections.singletonList(usuario.orElse(null)));;
+            responseDTO.setUsuarios(Collections.singletonList(usuario.orElse(null)));
             return ResponseEntity.ok(responseDTO);
         }).orElseGet(() -> ResponseEntity.notFound().build());
     }
