@@ -40,12 +40,9 @@ public class AuthController implements AuthApi {
     @GetMapping({"/verify-authorization"})
     public ResponseEntity<Boolean> verifyAuthorization(@RequestHeader("Authorization") String authorization) {
         log.info("Verify authorization endpoint");
-//        if (authorization == null) {
-//            return ResponseEntity.badRequest().build();
-//        } else {
-            String authorized = this.authorizationService.validateToken(authorization);
-            return authorized != null ? ResponseEntity.ok(true) : ResponseEntity.badRequest().build();
-//        }
+        String authorized = this.authorizationService.validateToken(authorization);
+        return authorized != null ? ResponseEntity.ok(true) : ResponseEntity.badRequest().build();
+
     }
 
     public AuthController(final UsuarioRepository usuarioRepository, final PasswordEncoder passwordEncoder, final AuthorizationService authorizationService) {

@@ -1,5 +1,6 @@
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\config\JacksonConfig.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\controller\AuthController.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\controller\ChatController.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\controller\EnderecoController.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\controller\PerfilController.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\controller\SenhaController.java
@@ -55,9 +56,16 @@ C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\jooq\com
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\jooq\com\dasad\empresa\jooq\tables\UsuarioRecuperarSenha.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\jooq\com\dasad\empresa\jooq\tables\UsuariosPerfis.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\api\AuthApi.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\api\ChatApi.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\api\EnderecoApi.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\api\PerfilApi.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\api\SenhaApi.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\api\UnidadeFederativaApi.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\api\UsuarioApi.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\ChatRequestDTO.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\ChatResponseDTO.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\CreateEndereco400Response.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\CreateEndereco500Response.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\EnderecoModel.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\Login400Response.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\LoginRequestDTO.java
@@ -77,6 +85,7 @@ C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\UnidadeFederativaModel.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\UnidadeFederativaRequest.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\UnidadeFederativaResponseDTO.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\UpdateEndereco404Response.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\UsuarioModel.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\UsuarioRequest.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\UsuarioResponseDTO.java

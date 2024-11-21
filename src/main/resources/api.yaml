@@ -9,8 +9,10 @@ tags:
     description: Operações relacionadas a autenticação
   - name: Usuario
     description: Operações relacionadas a usuários
-  - name: Endereço
+  - name: Endereco
     description: Operações relacionadas a endereços
+  - name: Perfil
+    description: Operações relacionadas a perfis
   - name: Unidade Federativa
     description: Operações relacionadas a Unidades Federativas
   - name: Senha
@@ -142,6 +144,27 @@ paths:
                   error:
                     type: string
                     example: "Usuário já cadastrado."
+  /chat/generate:
+    post:
+      summary:  Generate endpoint
+      description: Endpoint para gerar resposta baseada no modelo e prompt fornecidos.
+      tags:
+        - chat
+      operationId: generate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRequestDTO'
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatResponseDTO'
+
 
   /usuario/find:
     post:
@@ -241,6 +264,160 @@ paths:
       responses:
         '204':
           description: No Content
+  /endereco:
+    post:
+      summary: Cria um novo endereço
+      security:
+        - bearerAuth: []
+      tags:
+        - Endereço
+      operationId: createEndereco
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnderecoModel'
+      responses:
+        '200':
+          description: Endereço criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnderecoModel'
+        '400':
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Endereço não criado."
+        '500':
+          description: Erro interno
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Erro interno."
+  /endereco/{id}:
+    put:
+      summary: Atualiza um endereço existente
+      operationId: updateEndereco
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnderecoModel'
+      responses:
+        '200':
+          description: Endereço atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnderecoModel'
+        '404':
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Endereço não encontrado."
+        '500':
+          description: Erro interno
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Erro interno."
+    get:
+      summary: Detalha um endereço
+      security:
+        - bearerAuth: []
+      tags:
+        - Endereço
+      operationId: detailEndereco
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnderecoModel'
+    delete:
+      summary: Deleta um endereço existente
+      operationId: deleteEndereco
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Endereço excluído com sucesso
+        '404':
+          description: Endereço não encontrado
+        '500':
+          description: Erro interno do servidor
+  /endereco/find:
+    get:
+      summary: Busca Enderecos
+      security:
+        - bearerAuth: []
+      tags:
+        - Perfil
+      operationId: findEndereco
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EnderecoModel'
+  /perfil/find:
+    get:
+      summary: Busca Perfis
+      security:
+        - bearerAuth: []
+      tags:
+        - Perfil
+      operationId: findPerfil
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PerfilModel'
   /senha/recuperar:
     post:
       summary: Gera link de recuperação de senha
@@ -396,6 +573,13 @@ components:
       scheme: bearer
       bearerFormat: JWT  # Especifica o formato do token, pode ser omitido
   schemas:
+    ChatRequestDTO:
+      type: object
+      properties:
+        model:
+          type: string
+        prompt:
+          type: string
     LoginRequestDTO:
       type: object
       properties:
@@ -433,6 +617,17 @@ components:
           type: integer
         offset:
           type: integer
+    ChatResponseDTO:
+        type: object
+        properties:
+            model:
+              type: string
+            createdAt:
+              type: string
+            response:
+              type: string
+            done:
+                type: boolean
     LoginResponseDTO:
       type: object
       properties:

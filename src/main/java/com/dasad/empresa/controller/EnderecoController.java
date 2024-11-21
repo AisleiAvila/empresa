@@ -1,5 +1,6 @@
 package com.dasad.empresa.controller;
 
+import com.dasad.empresa.api.EnderecoApi;
 import com.dasad.empresa.model.EnderecoModel;
 import com.dasad.empresa.service.EnderecoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,27 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping({"/enderecos"})
-public class EnderecoController {
+@RequestMapping({"/endereco"})
+public class EnderecoController implements EnderecoApi {
     @Autowired
     private EnderecoService enderecoService;
 
     public EnderecoController() {
-    }
-
-    @GetMapping
-    public List<EnderecoModel> findAll() {
-        return this.enderecoService.findAll();
-    }
-
-    @GetMapping({"/{id}"})
-    public ResponseEntity<EnderecoModel> getEnderecoById(@PathVariable Integer id) {
-        return this.enderecoService.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-    }
-
-    @PostMapping
-    public EnderecoModel createEndereco(@RequestBody EnderecoModel endereco) {
-        return this.enderecoService.save(endereco);
     }
 
     @PutMapping({"/{id}"})
@@ -59,5 +45,25 @@ public class EnderecoController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @Override
+    @PostMapping
+    public ResponseEntity<EnderecoModel> createEndereco(@RequestBody EnderecoModel enderecoModel) {
+        var endereco = this.enderecoService.save(enderecoModel);
+        return ResponseEntity.ok(endereco);
+    }
+
+    @Override
+    @GetMapping({"/{id}"})
+    public ResponseEntity<EnderecoModel> detailEndereco(Integer id) {
+        return this.enderecoService.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
+    @Override
+    @GetMapping
+    public ResponseEntity<List<EnderecoModel>> findEndereco() {
+        var enderecos =  this.enderecoService.findAll();
+        return ResponseEntity.ok(enderecos);
     }
 }

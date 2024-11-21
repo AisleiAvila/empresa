@@ -42,6 +42,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 endpoint.startsWith("/senha/validar-reset-token") ||
                 endpoint.equals("/auth/register") ||
                 endpoint.equals("/lembrar-senha") ||
+                endpoint.equals("/api/public/**") ||
                 endpoint.equals("/favicon.ico")) {
             log.info("URL excluída: {}", endpoint);
             filterChain.doFilter(request, response);

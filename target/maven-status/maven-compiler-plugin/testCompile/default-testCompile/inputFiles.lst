@@ -1,2 +1,15 @@
+C:\Users\aisle\Documents\Ambiente\Java\empresa\src\test\java\controller\AuthControllerTest.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\src\test\java\controller\EnderecoControllerTest.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\src\test\java\controller\SenhaControllerTest.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\test\java\controller\UsuarioControllerTest.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\test\java\infra\security\AuthorizationServiceTest.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\src\test\java\infra\security\CustomAccessDeniedHandlerTest.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\src\test\java\infra\security\CustomUserDetailServiceTest.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\src\test\java\service\EmailServiceTest.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\src\test\java\service\EnderecoServiceTest.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\src\test\java\service\PerfilServiceTest.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\src\test\java\service\SenhaServiceTest.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\src\test\java\service\UnidadeFederativaServiceTest.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\src\test\java\service\UsuarioServiceTest.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\src\test\java\util\DataUtilTest.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\src\test\java\util\LocalDateDeserializerTest.java

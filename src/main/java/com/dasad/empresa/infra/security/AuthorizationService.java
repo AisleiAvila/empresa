@@ -58,7 +58,7 @@ public class AuthorizationService {
 
     public String validateToken(String token) {
 
-        if (token == null ||  token.isEmpty()) {
+        if (!StringUtils.hasText(token)) {
             log.error("Token inexistente ");
             return null;
         }

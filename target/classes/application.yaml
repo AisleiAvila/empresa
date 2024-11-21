@@ -50,9 +50,12 @@ springdoc:
     operationsSorter: alpha
 
 security:
-  excludedUrls: /auth/login,/auth/register,/senha/recuperar,/senha/validar-reset-token,/documentation.html,/favicon.ico,/swagger-ui/**,/v3/api-docs/**
+  excludedUrls: /auth/login,/auth/register,/senha/recuperar,/senha/validar-reset-token,/documentation.html,/favicon.ico,/swagger-ui/**,/v3/api-docs/**,"/api/public/**"
 
 logging:
   level:
     org.jooq: DEBUG
     org.springframework: DEBUG
+
+llama:
+  url: http://localhost:11434/api/generate
