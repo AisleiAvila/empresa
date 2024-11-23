@@ -7,9 +7,9 @@ package com.dasad.empresa.jooq.tables;
 import com.dasad.empresa.jooq.Keys;
 import com.dasad.empresa.jooq.Public;
 import com.dasad.empresa.jooq.tables.Endereco.EnderecoPath;
-import com.dasad.empresa.jooq.tables.Perfis.PerfisPath;
+import com.dasad.empresa.jooq.tables.Perfil.PerfilPath;
+import com.dasad.empresa.jooq.tables.UsuarioPerfil.UsuarioPerfilPath;
 import com.dasad.empresa.jooq.tables.UsuarioRecuperarSenha.UsuarioRecuperarSenhaPath;
-import com.dasad.empresa.jooq.tables.UsuariosPerfis.UsuariosPerfisPath;
 import com.dasad.empresa.jooq.tables.records.UsuarioRecord;
 
 import java.time.LocalDate;
@@ -174,6 +174,19 @@ public class Usuario extends TableImpl<UsuarioRecord> {
         return _endereco;
     }
 
+    private transient UsuarioPerfilPath _usuarioPerfil;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>public.usuario_perfil</code> table
+     */
+    public UsuarioPerfilPath usuarioPerfil() {
+        if (_usuarioPerfil == null)
+            _usuarioPerfil = new UsuarioPerfilPath(this, null, Keys.USUARIO_PERFIL__USUARIOS_PERFIS_USUARIO_ID_FKEY.getInverseKey());
+
+        return _usuarioPerfil;
+    }
+
     private transient UsuarioRecuperarSenhaPath _usuarioRecuperarSenha;
 
     /**
@@ -187,25 +200,12 @@ public class Usuario extends TableImpl<UsuarioRecord> {
         return _usuarioRecuperarSenha;
     }
 
-    private transient UsuariosPerfisPath _usuariosPerfis;
-
     /**
-     * Get the implicit to-many join path to the
-     * <code>public.usuarios_perfis</code> table
-     */
-    public UsuariosPerfisPath usuariosPerfis() {
-        if (_usuariosPerfis == null)
-            _usuariosPerfis = new UsuariosPerfisPath(this, null, Keys.USUARIOS_PERFIS__USUARIOS_PERFIS_USUARIO_ID_FKEY.getInverseKey());
-
-        return _usuariosPerfis;
-    }
-
-    /**
-     * Get the implicit many-to-many join path to the <code>public.perfis</code>
+     * Get the implicit many-to-many join path to the <code>public.perfil</code>
      * table
      */
-    public PerfisPath perfis() {
-        return usuariosPerfis().perfis();
+    public PerfilPath perfil() {
+        return usuarioPerfil().perfil();
     }
 
     @Override

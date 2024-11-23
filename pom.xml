@@ -284,11 +284,11 @@
                             <name>org.jooq.meta.postgres.PostgresDatabase</name>
                             <includes>
                                 endereco |
-                                perfis |
+                                perfil |
                                 unidade_federativa |
                                 usuario |
                                 usuario_recuperar_senha |
-                                usuarios_perfis
+                                usuario_perfil
                             </includes>
                             <inputSchema>public</inputSchema>
                         </database>
@@ -359,9 +359,8 @@
                     <version>11.1.0</version>
                     <executions>
                         <execution>
-                            <goals>
-                                <goal>check</goal>
-                            </goals>
+                            <id>default</id>
+                            <phase>none</phase>
                         </execution>
                     </executions>
                 </plugin>

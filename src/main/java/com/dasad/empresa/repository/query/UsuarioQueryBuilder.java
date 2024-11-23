@@ -1,10 +1,10 @@
 package com.dasad.empresa.repository.query;
 
 import com.dasad.empresa.jooq.tables.Endereco;
-import com.dasad.empresa.jooq.tables.Perfis;
+import com.dasad.empresa.jooq.tables.Perfil;
 import com.dasad.empresa.jooq.tables.UnidadeFederativa;
 import com.dasad.empresa.jooq.tables.Usuario;
-import com.dasad.empresa.jooq.tables.UsuariosPerfis;
+import com.dasad.empresa.jooq.tables.UsuarioPerfil;
 import com.dasad.empresa.model.EnderecoModel;
 import com.dasad.empresa.model.PerfilModel;
 import com.dasad.empresa.model.UnidadeFederativaModel;
@@ -36,8 +36,8 @@ public class UsuarioQueryBuilder {
                         Usuario.USUARIO.EMAIL,
                         Usuario.USUARIO.SENHA,
                         Usuario.USUARIO.DATA_NASCIMENTO,
-                        Perfis.PERFIS.ID.as("perfil_id"),
-                        Perfis.PERFIS.NOME.as("perfil_nome"),
+                        Perfil.PERFIL.ID.as("perfil_id"),
+                        Perfil.PERFIL.NOME.as("perfil_nome"),
                         Endereco.ENDERECO.ID.as("endereco_id"),
                         Endereco.ENDERECO.LOGRADOURO,
                         Endereco.ENDERECO.NUMERO,
@@ -50,10 +50,10 @@ public class UsuarioQueryBuilder {
                         UnidadeFederativa.UNIDADE_FEDERATIVA.NOME
                 )
                 .from(Usuario.USUARIO)
-                .leftJoin(UsuariosPerfis.USUARIOS_PERFIS)
-                .on(Usuario.USUARIO.ID.eq(UsuariosPerfis.USUARIOS_PERFIS.USUARIO_ID))
-                .leftJoin(Perfis.PERFIS)
-                .on(UsuariosPerfis.USUARIOS_PERFIS.PERFIL_ID.eq(Perfis.PERFIS.ID))
+                .leftJoin(UsuarioPerfil.USUARIO_PERFIL)
+                .on(Usuario.USUARIO.ID.eq(UsuarioPerfil.USUARIO_PERFIL.USUARIO_ID))
+                .leftJoin(Perfil.PERFIL)
+                .on(UsuarioPerfil.USUARIO_PERFIL.PERFIL_ID.eq(Perfil.PERFIL.ID))
                 .leftJoin(Endereco.ENDERECO).on(Usuario.USUARIO.ID.eq(Endereco.ENDERECO.USUARIO_ID))
                 .leftJoin(UnidadeFederativa.UNIDADE_FEDERATIVA).on(Endereco.ENDERECO.UNIDADE_FEDERATIVA_ID.eq(UnidadeFederativa.UNIDADE_FEDERATIVA.ID));
     }

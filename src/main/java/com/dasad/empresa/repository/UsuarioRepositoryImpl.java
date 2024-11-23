@@ -2,10 +2,9 @@ package com.dasad.empresa.repository;
 
 import com.dasad.empresa.exception.EmailAlreadyExistsException;
 import com.dasad.empresa.jooq.tables.Endereco;
-import com.dasad.empresa.jooq.tables.Perfis;
 import com.dasad.empresa.jooq.tables.UnidadeFederativa;
 import com.dasad.empresa.jooq.tables.Usuario;
-import com.dasad.empresa.jooq.tables.UsuariosPerfis;
+import com.dasad.empresa.jooq.tables.UsuarioPerfil;
 import com.dasad.empresa.model.EnderecoModel;
 import com.dasad.empresa.model.PerfilModel;
 import com.dasad.empresa.model.UnidadeFederativaModel;
@@ -25,8 +24,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static com.dasad.empresa.jooq.tables.Perfis.PERFIS;
-import static com.dasad.empresa.jooq.tables.UsuariosPerfis.USUARIOS_PERFIS;
+import static com.dasad.empresa.jooq.tables.Perfil.PERFIL;
+import static com.dasad.empresa.jooq.tables.UsuarioPerfil.USUARIO_PERFIL;
 import static com.dasad.empresa.util.DataUtil.convertLocalDateToString;
 import static com.dasad.empresa.util.DataUtil.convertStringToLocalDate;
 
@@ -75,8 +74,8 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
                         Usuario.USUARIO.NOME,
                         Usuario.USUARIO.EMAIL,
                         Usuario.USUARIO.DATA_NASCIMENTO,
-                        Perfis.PERFIS.ID.as("perfil_id"),
-                        Perfis.PERFIS.NOME.as("perfil_nome"),
+                        PERFIL.ID.as("perfil_id"),
+                        PERFIL.NOME.as("perfil_nome"),
                         Endereco.ENDERECO.ID.as("endereco_id"),
                         Endereco.ENDERECO.LOGRADOURO,
                         Endereco.ENDERECO.NUMERO,
@@ -89,10 +88,10 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
                         UnidadeFederativa.UNIDADE_FEDERATIVA.NOME
                 )
                 .from(Usuario.USUARIO)
-                .leftJoin(UsuariosPerfis.USUARIOS_PERFIS)
-                .on(Usuario.USUARIO.ID.eq(UsuariosPerfis.USUARIOS_PERFIS.USUARIO_ID))
-                .leftJoin(Perfis.PERFIS)
-                .on(UsuariosPerfis.USUARIOS_PERFIS.PERFIL_ID.eq(Perfis.PERFIS.ID))
+                .leftJoin(UsuarioPerfil.USUARIO_PERFIL)
+                .on(Usuario.USUARIO.ID.eq(UsuarioPerfil.USUARIO_PERFIL.USUARIO_ID))
+                .leftJoin(PERFIL)
+                .on(UsuarioPerfil.USUARIO_PERFIL.PERFIL_ID.eq(PERFIL.ID))
                 .leftJoin(Endereco.ENDERECO).on(Usuario.USUARIO.ID.eq(Endereco.ENDERECO.USUARIO_ID))
                 .leftJoin(UnidadeFederativa.UNIDADE_FEDERATIVA).on(Endereco.ENDERECO.UNIDADE_FEDERATIVA_ID.eq(UnidadeFederativa.UNIDADE_FEDERATIVA.ID))
                 .where(Usuario.USUARIO.ID.eq(id))
@@ -138,11 +137,11 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
 
     public Optional<UsuarioModel> findByEmail(String email) {
         return dsl.select(Usuario.USUARIO.fields())
-                .select(USUARIOS_PERFIS.PERFIL_ID)
-                .select(PERFIS.NOME)
+                .select(USUARIO_PERFIL.PERFIL_ID)
+                .select(PERFIL.NOME)
                 .from(Usuario.USUARIO)
-                .leftJoin(USUARIOS_PERFIS).on(Usuario.USUARIO.ID.eq(USUARIOS_PERFIS.USUARIO_ID))
-                .leftJoin(PERFIS).on(USUARIOS_PERFIS.PERFIL_ID.eq(PERFIS.ID))
+                .leftJoin(USUARIO_PERFIL).on(Usuario.USUARIO.ID.eq(USUARIO_PERFIL.USUARIO_ID))
+                .leftJoin(PERFIL).on(USUARIO_PERFIL.PERFIL_ID.eq(PERFIL.ID))
                 .where(Usuario.USUARIO.EMAIL.eq(email))
                 .fetchOptional()
                 .map(record -> {
@@ -153,10 +152,10 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
                     usuario.setSenha(record.get(Usuario.USUARIO.SENHA));
                     usuario.setDataNascimento(convertLocalDateToString(record.get(Usuario.USUARIO.DATA_NASCIMENTO)));
 //                    usuario.setDataNascimento(record.get(Usuario.USUARIO.DATA_NASCIMENTO));
-                    if (record.get(USUARIOS_PERFIS.PERFIL_ID) != null) {
+                    if (record.get(USUARIO_PERFIL.PERFIL_ID) != null) {
                         PerfilModel perfil = new PerfilModel();
-                        perfil.setId(record.get(USUARIOS_PERFIS.PERFIL_ID));
-                        perfil.setNome(record.get(PERFIS.NOME));
+                        perfil.setId(record.get(USUARIO_PERFIL.PERFIL_ID));
+                        perfil.setNome(record.get(PERFIL.NOME));
                         List<PerfilModel> perfis = new ArrayList<>();
                         perfis.add(perfil);
                         usuario.setPerfis(perfis);
@@ -219,8 +218,8 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
     }
 
     private static void deletePerfilUsuarioById(Integer id, DSLContext ctx) {
-        ctx.deleteFrom(USUARIOS_PERFIS)
-                .where(USUARIOS_PERFIS.USUARIO_ID.eq(id))
+        ctx.deleteFrom(USUARIO_PERFIL)
+                .where(USUARIO_PERFIL.USUARIO_ID.eq(id))
                 .execute();
     }
 
@@ -245,9 +244,9 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
 
     private void saveUserProfiles(UsuarioModel usuario, DSLContext ctx) {
         for (PerfilModel perfil : usuario.getPerfis()) {
-            ctx.insertInto(USUARIOS_PERFIS)
-                    .set(USUARIOS_PERFIS.USUARIO_ID, usuario.getId())
-                    .set(USUARIOS_PERFIS.PERFIL_ID, perfil.getId())
+            ctx.insertInto(USUARIO_PERFIL)
+                    .set(USUARIO_PERFIL.USUARIO_ID, usuario.getId())
+                    .set(USUARIO_PERFIL.PERFIL_ID, perfil.getId())
                     .execute();
         }
     }

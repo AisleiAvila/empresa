@@ -5,11 +5,11 @@ package com.dasad.empresa.jooq;
 
 
 import com.dasad.empresa.jooq.tables.Endereco;
-import com.dasad.empresa.jooq.tables.Perfis;
+import com.dasad.empresa.jooq.tables.Perfil;
 import com.dasad.empresa.jooq.tables.UnidadeFederativa;
 import com.dasad.empresa.jooq.tables.Usuario;
+import com.dasad.empresa.jooq.tables.UsuarioPerfil;
 import com.dasad.empresa.jooq.tables.UsuarioRecuperarSenha;
-import com.dasad.empresa.jooq.tables.UsuariosPerfis;
 
 
 /**
@@ -24,9 +24,9 @@ public class Tables {
     public static final Endereco ENDERECO = Endereco.ENDERECO;
 
     /**
-     * The table <code>public.perfis</code>.
+     * The table <code>public.perfil</code>.
      */
-    public static final Perfis PERFIS = Perfis.PERFIS;
+    public static final Perfil PERFIL = Perfil.PERFIL;
 
     /**
      * The table <code>public.unidade_federativa</code>.
@@ -39,12 +39,12 @@ public class Tables {
     public static final Usuario USUARIO = Usuario.USUARIO;
 
     /**
+     * The table <code>public.usuario_perfil</code>.
+     */
+    public static final UsuarioPerfil USUARIO_PERFIL = UsuarioPerfil.USUARIO_PERFIL;
+
+    /**
      * The table <code>public.usuario_recuperar_senha</code>.
      */
     public static final UsuarioRecuperarSenha USUARIO_RECUPERAR_SENHA = UsuarioRecuperarSenha.USUARIO_RECUPERAR_SENHA;
-
-    /**
-     * The table <code>public.usuarios_perfis</code>.
-     */
-    public static final UsuariosPerfis USUARIOS_PERFIS = UsuariosPerfis.USUARIOS_PERFIS;
 }

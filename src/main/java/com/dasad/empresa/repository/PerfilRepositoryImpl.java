@@ -1,6 +1,6 @@
 package com.dasad.empresa.repository;
 
-import com.dasad.empresa.jooq.tables.Perfis;
+import com.dasad.empresa.jooq.tables.Perfil;
 import com.dasad.empresa.model.PerfilModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,10 +22,10 @@ public class PerfilRepositoryImpl implements PerfilRepository {
         log.info("Executando o método findAll");
 
         try {
-            List<PerfilModel> perfis = this.dsl.selectFrom(Perfis.PERFIS).fetch((record) -> {
+            List<PerfilModel> perfis = this.dsl.selectFrom(Perfil.PERFIL).fetch((record) -> {
                 PerfilModel perfil = new PerfilModel();
-                perfil.setId((Integer) record.get(Perfis.PERFIS.ID));
-                perfil.setNome((String) record.get(Perfis.PERFIS.NOME));
+                perfil.setId((Integer) record.get(Perfil.PERFIL.ID));
+                perfil.setNome((String) record.get(Perfil.PERFIL.NOME));
                 return perfil;
             });
             log.info("Buscado com sucesso {} perfis", perfis.size());
