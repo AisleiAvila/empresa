@@ -1,4 +1,5 @@
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\config\JacksonConfig.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\config\RestTemplateConfig.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\controller\AuthController.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\controller\ChatController.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\controller\EnderecoController.java
@@ -39,6 +40,7 @@ C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\s
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\service\UsuarioService.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\util\DataUtil.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\util\LocalDateDeserializer.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\util\NdjsonHttpMessageConverter.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\jooq\com\dasad\empresa\jooq\DefaultCatalog.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\jooq\com\dasad\empresa\jooq\Keys.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\jooq\com\dasad\empresa\jooq\Public.java
@@ -67,6 +69,7 @@ C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\CreateEndereco400Response.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\CreateEndereco500Response.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\EnderecoModel.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\EventPagination.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\Login400Response.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\LoginRequestDTO.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\LoginResponseDTO.java

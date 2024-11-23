@@ -46,6 +46,7 @@ com\dasad\empresa\infra\security\JwtAuthenticationFilter.class
 com\dasad\empresa\controller\PerfilController.class
 com\dasad\empresa\repository\PerfilRepositoryImpl.class
 com\dasad\empresa\jooq\tables\Perfis$PerfisPath.class
+com\dasad\empresa\config\RestTemplateConfig.class
 com\dasad\empresa\jooq\tables\records\UnidadeFederativaRecord.class
 com\dasad\empresa\model\UpdateEndereco404Response.class
 com\dasad\empresa\model\RecuperarSenha404Response.class
@@ -54,6 +55,7 @@ com\dasad\empresa\repository\UnidadeFederativaRepositoryImpl.class
 com\dasad\empresa\jooq\Public.class
 com\dasad\empresa\repository\SenhaRepository.class
 com\dasad\empresa\model\RevokeTokenRequest.class
+com\dasad\empresa\model\EventPagination.class
 com\dasad\empresa\models\request\UnidadeFederativaRequest.class
 com\dasad\empresa\model\UsuarioRequest.class
 com\dasad\empresa\repository\query\UsuarioQueryBuilder.class
@@ -95,6 +97,7 @@ com\dasad\empresa\jooq\tables\Perfis.class
 com\dasad\empresa\infra\security\SecurityFilter.class
 com\dasad\empresa\model\UsuarioResponseDTO.class
 com\dasad\empresa\repository\query\UnidadeFederativaQueryBuilder.class
+com\dasad\empresa\util\NdjsonHttpMessageConverter.class
 com\dasad\empresa\infra\security\SecurityConfig.class
 com\dasad\empresa\jooq\tables\UsuariosPerfis.class
 com\dasad\empresa\repository\EnderecoRepositoryImpl.class

@@ -604,6 +604,22 @@ components:
             type: integer
         offset:
           type: integer
+        event:
+          type: object
+          $ref: '#/components/schemas/EventPagination'
+
+    EventPagination:
+      type: object
+      properties:
+        length:
+          type: integer
+        pageIndex:
+          type: integer
+        pageSize:
+            type: integer
+        previousPageIndex:
+            type: integer
+
     UnidadeFederativaRequest:
       type: object
       properties:

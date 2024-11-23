@@ -207,7 +207,6 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
                     .set(Usuario.USUARIO.NOME, usuarioModel.getNome())
                     .set(Usuario.USUARIO.EMAIL, usuarioModel.getEmail())
                     .set(Usuario.USUARIO.DATA_NASCIMENTO, convertStringToLocalDate(usuarioModel.getDataNascimento()))
-//                    .set(Usuario.USUARIO.DATA_NASCIMENTO, usuarioModel.getDataNascimento())
                     .where(Usuario.USUARIO.ID.eq(usuarioModel.getId()))
                     .execute();
 
@@ -272,13 +271,14 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
     }
 
     private void insertEnderecoUsuario(UsuarioModel usuario, EnderecoModel endereco, DSLContext ctx) {
+        Integer ufId = endereco.getUf() != null ? endereco.getUf().getId() : null;
         ctx.insertInto(Endereco.ENDERECO)
                 .set(Endereco.ENDERECO.BAIRRO, endereco.getBairro())
                 .set(Endereco.ENDERECO.CEP, endereco.getCep())
                 .set(Endereco.ENDERECO.CIDADE, endereco.getCidade())
                 .set(Endereco.ENDERECO.LOGRADOURO, endereco.getLogradouro())
                 .set(Endereco.ENDERECO.USUARIO_ID, usuario.getId())
-                .set(Endereco.ENDERECO.UNIDADE_FEDERATIVA_ID, endereco.getUf().getId())
+                .set(Endereco.ENDERECO.UNIDADE_FEDERATIVA_ID, ufId)
                 .set(Endereco.ENDERECO.NUMERO, endereco.getNumero())
                 .set(Endereco.ENDERECO.COMPLEMENTO, endereco.getComplemento())
                 .execute();
