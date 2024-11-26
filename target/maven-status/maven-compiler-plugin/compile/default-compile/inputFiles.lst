@@ -3,12 +3,14 @@ C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\c
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\controller\AuthController.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\controller\ChatController.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\controller\EnderecoController.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\controller\OrganizacaoController.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\controller\PerfilController.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\controller\SenhaController.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\controller\UnidadeFederativaController.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\controller\UsuarioController.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\EmpresaApplication.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\exception\EmailAlreadyExistsException.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\exception\OrganizacaoAlreadyExistsException.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\exception\RestExceptionHandler.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\infra\security\AuthorizationService.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\infra\security\CustomAccessDeniedHandler.java
@@ -21,8 +23,11 @@ C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\m
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\models\UnidadeFederativaModel.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\repository\EnderecoRepository.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\repository\EnderecoRepositoryImpl.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\repository\OrganizacaoRepository.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\repository\OrganizacaoRepositoryImpl.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\repository\PerfilRepository.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\repository\PerfilRepositoryImpl.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\repository\query\OrganizacaoQueryBuilder.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\repository\query\UnidadeFederativaQueryBuilder.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\repository\query\UsuarioQueryBuilder.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\repository\SenhaRepository.java
@@ -34,6 +39,7 @@ C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\r
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\repository\UsuarioRepositoryImpl.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\service\EmailService.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\service\EnderecoService.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\service\OrganizacaoService.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\service\PerfilService.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\service\SenhaService.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\src\main\java\com\dasad\empresa\service\UnidadeFederativaService.java
@@ -46,8 +52,10 @@ C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\jooq\com
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\jooq\com\dasad\empresa\jooq\Public.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\jooq\com\dasad\empresa\jooq\Tables.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\jooq\com\dasad\empresa\jooq\tables\Endereco.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\jooq\com\dasad\empresa\jooq\tables\Organizacao.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\jooq\com\dasad\empresa\jooq\tables\Perfil.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\jooq\com\dasad\empresa\jooq\tables\records\EnderecoRecord.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\jooq\com\dasad\empresa\jooq\tables\records\OrganizacaoRecord.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\jooq\com\dasad\empresa\jooq\tables\records\PerfilRecord.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\jooq\com\dasad\empresa\jooq\tables\records\UnidadeFederativaRecord.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\jooq\com\dasad\empresa\jooq\tables\records\UsuarioPerfilRecord.java
@@ -60,6 +68,7 @@ C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\jooq\com
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\api\AuthApi.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\api\ChatApi.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\api\EnderecoApi.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\api\OrganizacaoApi.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\api\PerfilApi.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\api\SenhaApi.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\api\UnidadeFederativaApi.java
@@ -73,6 +82,10 @@ C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\Login400Response.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\LoginRequestDTO.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\LoginResponseDTO.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\OrganizacaoModel.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\OrganizacaoRequest.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\OrganizacaoRequestDTO.java
+C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\OrganizacaoResponseDTO.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\PerfilModel.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\RecuperarSenha200Response.java
 C:\Users\aisle\Documents\Ambiente\Java\empresa\target\generated-sources\openapi\src\main\java\com\dasad\empresa\model\RecuperarSenha404Response.java

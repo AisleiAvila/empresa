@@ -5,12 +5,14 @@ package com.dasad.empresa.jooq;
 
 
 import com.dasad.empresa.jooq.tables.Endereco;
+import com.dasad.empresa.jooq.tables.Organizacao;
 import com.dasad.empresa.jooq.tables.Perfil;
 import com.dasad.empresa.jooq.tables.UnidadeFederativa;
 import com.dasad.empresa.jooq.tables.Usuario;
 import com.dasad.empresa.jooq.tables.UsuarioPerfil;
 import com.dasad.empresa.jooq.tables.UsuarioRecuperarSenha;
 import com.dasad.empresa.jooq.tables.records.EnderecoRecord;
+import com.dasad.empresa.jooq.tables.records.OrganizacaoRecord;
 import com.dasad.empresa.jooq.tables.records.PerfilRecord;
 import com.dasad.empresa.jooq.tables.records.UnidadeFederativaRecord;
 import com.dasad.empresa.jooq.tables.records.UsuarioPerfilRecord;
@@ -36,6 +38,8 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final UniqueKey<EnderecoRecord> ENDERECO_PKEY = Internal.createUniqueKey(Endereco.ENDERECO, DSL.name("endereco_pkey"), new TableField[] { Endereco.ENDERECO.ID }, true);
+    public static final UniqueKey<OrganizacaoRecord> ORGANIZACAO_NIF_KEY = Internal.createUniqueKey(Organizacao.ORGANIZACAO, DSL.name("organizacao_nif_key"), new TableField[] { Organizacao.ORGANIZACAO.NIF }, true);
+    public static final UniqueKey<OrganizacaoRecord> ORGANIZACAO_PKEY = Internal.createUniqueKey(Organizacao.ORGANIZACAO, DSL.name("organizacao_pkey"), new TableField[] { Organizacao.ORGANIZACAO.ID }, true);
     public static final UniqueKey<PerfilRecord> PERFIS_PKEY = Internal.createUniqueKey(Perfil.PERFIL, DSL.name("perfis_pkey"), new TableField[] { Perfil.PERFIL.ID }, true);
     public static final UniqueKey<UnidadeFederativaRecord> UNIDADE_FEDERATIVA_PKEY = Internal.createUniqueKey(UnidadeFederativa.UNIDADE_FEDERATIVA, DSL.name("unidade_federativa_pkey"), new TableField[] { UnidadeFederativa.UNIDADE_FEDERATIVA.ID }, true);
     public static final UniqueKey<UsuarioRecord> USUARIO_PKEY = Internal.createUniqueKey(Usuario.USUARIO, DSL.name("usuario_pkey"), new TableField[] { Usuario.USUARIO.ID }, true);

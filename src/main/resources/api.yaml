@@ -7,9 +7,13 @@ info:
 tags:
   - name: Auth
     description: Operações relacionadas a autenticação
+  - name: chat
+    description: Operações relacionadas a chat
+  - name: Organização
+    description: Operações relacionadas a organizações
   - name: Usuario
     description: Operações relacionadas a usuários
-  - name: Endereco
+  - name: Endereço
     description: Operações relacionadas a endereços
   - name: Perfil
     description: Operações relacionadas a perfis
@@ -164,7 +168,104 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ChatResponseDTO'
-
+  /organizacao/find:
+    post:
+      summary: Busca Organizações
+      security:
+        - bearerAuth: []
+      tags:
+        - Organização
+      operationId: findOrganizacao
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizacaoRequest'
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizacaoResponseDTO'
+  /organizacao/detail/{id}:
+    get:
+      summary: Detalha  uma organização
+      security:
+        - bearerAuth: []
+      tags:
+        - Organização
+      operationId: detailOrganizacao
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizacaoResponseDTO'
+  /organizacao/create:
+    put:
+      summary: Cria uma organização
+      security:
+        - bearerAuth: []
+      tags:
+        - Organização
+      operationId: createOrganizacao
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizacaoRequestDTO'
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizacaoModel'
+  /organizacao/update:
+    patch:
+      summary: Atualiza uma organização
+      security:
+        - bearerAuth: []
+      tags:
+        - Organização
+      operationId: updateOrganizacao
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizacaoModel'
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizacaoModel'
+  /organizacao/delete/{id}:
+    delete:
+      summary: Deleta uma organização
+      security:
+        - bearerAuth: []
+      tags:
+        - Organização
+      operationId: deleteOrganizacao
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: No Content
 
   /usuario/find:
     post:
@@ -588,6 +689,54 @@ components:
           format: email
         senha:
           type: string
+    OrganizacaoRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        nif:
+          type: string
+        email:
+          type: string
+        website:
+          type: string
+        setorAtividade:
+          type: string
+        limit:
+          type: integer
+        offset:
+          type: integer
+        event:
+          type: object
+          $ref: '#/components/schemas/EventPagination'
+    OrganizacaoRequestDTO:
+        type: object
+        properties:
+            id:
+              type: integer
+            nome:
+              type: string
+            nif:
+              type: string
+            email:
+              type: string
+            website:
+              type: string
+            setorAtividade:
+              type: string
+            missao:
+              type: string
+            representante_legal:
+              type: string
+            cargo:
+              type: string
+            numero_registo_comercial:
+              type: string
+            data_registo:
+              type: string
+              format: date
     UsuarioRequest:
       type: object
       properties:
@@ -607,7 +756,6 @@ components:
         event:
           type: object
           $ref: '#/components/schemas/EventPagination'
-
     EventPagination:
       type: object
       properties:
@@ -660,6 +808,15 @@ components:
             $ref: '#/components/schemas/UsuarioModel'
         totalRecords:
           type: integer
+    OrganizacaoResponseDTO:
+      type: object
+      properties:
+        organizacoes:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizacaoModel'
+        totalRecords:
+          type: integer
     UnidadeFederativaResponseDTO:
       type: object
       properties:
@@ -691,6 +848,32 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PerfilModel'
+    OrganizacaoModel:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        nif:
+          type: string
+        email:
+          type: string
+        website:
+          type: string
+        setorAtividade:
+            type: string
+        missao:
+            type: string
+        representante_legal:
+            type: string
+        cargo:
+            type: string
+        numero_registo_comercial:
+            type: string
+        data_registo:
+            type: string
+            format: date
     UsuarioModel:
       type: object
       properties:

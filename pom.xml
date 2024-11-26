@@ -284,6 +284,7 @@
                             <name>org.jooq.meta.postgres.PostgresDatabase</name>
                             <includes>
                                 endereco |
+                                organizacao |
                                 perfil |
                                 unidade_federativa |
                                 usuario |

@@ -5,6 +5,7 @@ package com.dasad.empresa.jooq;
 
 
 import com.dasad.empresa.jooq.tables.Endereco;
+import com.dasad.empresa.jooq.tables.Organizacao;
 import com.dasad.empresa.jooq.tables.Perfil;
 import com.dasad.empresa.jooq.tables.UnidadeFederativa;
 import com.dasad.empresa.jooq.tables.Usuario;
@@ -22,6 +23,11 @@ public class Tables {
      * The table <code>public.endereco</code>.
      */
     public static final Endereco ENDERECO = Endereco.ENDERECO;
+
+    /**
+     * The table <code>public.organizacao</code>.
+     */
+    public static final Organizacao ORGANIZACAO = Organizacao.ORGANIZACAO;
 
     /**
      * The table <code>public.perfil</code>.
