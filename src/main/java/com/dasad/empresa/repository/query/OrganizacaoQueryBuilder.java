@@ -9,6 +9,7 @@ import org.jooq.DSLContext;
 import org.jooq.Record11;
 import org.jooq.SelectJoinStep;
 import org.jooq.impl.DSL;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -94,7 +95,8 @@ public class OrganizacaoQueryBuilder {
                 organizacao.setRepresentanteLegal(record.get(Organizacao.ORGANIZACAO.REPRESENTANTE_LEGAL));
                 organizacao.setCargo(record.get(Organizacao.ORGANIZACAO.CARGO));
                 organizacao.setNumeroRegistoComercial(record.get(Organizacao.ORGANIZACAO.NUMERO_REGISTO_COMERCIAL));
-                organizacao.setDataRegisto(record.get(Organizacao.ORGANIZACAO.DATA_REGISTO));
+                LocalDate dataRegisto = record.get(Organizacao.ORGANIZACAO.DATA_REGISTO);
+                organizacao.setDataRegisto(dataRegisto != null ? JsonNullable.of(dataRegisto) : JsonNullable.undefined());
                 return organizacao;
             }).collect(Collectors.toList());
         });

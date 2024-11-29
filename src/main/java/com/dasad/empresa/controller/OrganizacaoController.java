@@ -49,7 +49,6 @@ public class OrganizacaoController implements OrganizacaoApi {
         organizacaoModel.setCargo(organizacaoRequestDTO.getCargo());
         organizacaoModel.setNumeroRegistoComercial(organizacaoRequestDTO.getNumeroRegistoComercial());
         organizacaoModel.setDataRegisto(organizacaoRequestDTO.getDataRegisto());
-
         return ResponseEntity.ok(this.organizacaoService.create(organizacaoModel));
     }
 
@@ -101,7 +100,7 @@ public class OrganizacaoController implements OrganizacaoApi {
     @PatchMapping
     @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<OrganizacaoModel> updateOrganizacao(OrganizacaoModel organizacaoModel) {
-        var usuario = this.organizacaoService.update(organizacaoModel);
-        return ResponseEntity.ok(usuario);
+        var organizacao = this.organizacaoService.update(organizacaoModel);
+        return ResponseEntity.ok(organizacao);
     }
 }

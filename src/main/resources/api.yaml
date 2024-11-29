@@ -209,7 +209,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrganizacaoResponseDTO'
-  /organizacao/create:
+  /organizacao:
     put:
       summary: Cria uma organização
       security:
@@ -229,7 +229,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrganizacaoModel'
-  /organizacao/update:
     patch:
       summary: Atualiza uma organização
       security:
@@ -716,27 +715,50 @@ components:
         properties:
             id:
               type: integer
+              description: Identificador da organização
+              example: 1
             nome:
               type: string
+              description: Nome da organização
+              example: "XPTO Lda"
             nif:
               type: string
+              description: Número de Identificação Fiscal
+              example: "123456789"
             email:
               type: string
+              description: Endereço de e-mail
+              example: "Baker Street 221B"
             website:
               type: string
+              description: Endereço do website
+              example: "https://www.exemplo.com"
             setorAtividade:
               type: string
+              description: Setor de atividade
+              example: "Educação"
             missao:
               type: string
-            representante_legal:
+              description: Missão da organização
+              example: "Promover a educação"
+            representanteLegal:
               type: string
+              description: Representante legal
+              example: "João Silva"
             cargo:
               type: string
-            numero_registo_comercial:
+              description: Cargo do representante legal
+              example: "CEO"
+            numeroRegistoComercial:
               type: string
-            data_registo:
+              description: Número de registo comercial
+              example: "123456789"
+            dataRegisto:
               type: string
               format: date
+              nullable: true
+              description: Data de registo comercial
+              example: "2021-09-01"
     UsuarioRequest:
       type: object
       properties:
@@ -869,11 +891,12 @@ components:
             type: string
         cargo:
             type: string
-        numero_registo_comercial:
+        numeroRegistoComercial:
             type: string
-        data_registo:
+        dataRegisto:
             type: string
             format: date
+            nullable: true
     UsuarioModel:
       type: object
       properties:

@@ -9,9 +9,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
+import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,7 +84,8 @@ public class OrganizacaoRepositoryImpl implements  OrganizacaoRepository {
                     organizacao.setRepresentanteLegal(record.get(Organizacao.ORGANIZACAO.REPRESENTANTE_LEGAL));
                     organizacao.setCargo(record.get(Organizacao.ORGANIZACAO.CARGO));
                     organizacao.setNumeroRegistoComercial(record.get(Organizacao.ORGANIZACAO.NUMERO_REGISTO_COMERCIAL));
-                    organizacao.setDataRegisto(record.get(Organizacao.ORGANIZACAO.DATA_REGISTO));
+                    LocalDate dataRegisto = record.get(Organizacao.ORGANIZACAO.DATA_REGISTO);
+                    organizacao.setDataRegisto(dataRegisto != null ? JsonNullable.of(dataRegisto) : JsonNullable.undefined());
                     return organizacao;
                 });
     }
@@ -110,7 +113,7 @@ public class OrganizacaoRepositoryImpl implements  OrganizacaoRepository {
                     .set(Organizacao.ORGANIZACAO.REPRESENTANTE_LEGAL, organizacao.getRepresentanteLegal())
                     .set(Organizacao.ORGANIZACAO.CARGO, organizacao.getCargo())
                     .set(Organizacao.ORGANIZACAO.NUMERO_REGISTO_COMERCIAL, organizacao.getNumeroRegistoComercial())
-                    .set(Organizacao.ORGANIZACAO.DATA_REGISTO, organizacao.getDataRegisto())
+                     .set(Organizacao.ORGANIZACAO.DATA_REGISTO, organizacao.getDataRegisto().orElse(null))
                     .execute();
 
             Integer userId = ctx.select(Organizacao.ORGANIZACAO.ID)
@@ -138,7 +141,7 @@ public class OrganizacaoRepositoryImpl implements  OrganizacaoRepository {
                     .set(Organizacao.ORGANIZACAO.REPRESENTANTE_LEGAL, organizacaoModel.getRepresentanteLegal())
                     .set(Organizacao.ORGANIZACAO.CARGO, organizacaoModel.getCargo())
                     .set(Organizacao.ORGANIZACAO.NUMERO_REGISTO_COMERCIAL, organizacaoModel.getNumeroRegistoComercial())
-                    .set(Organizacao.ORGANIZACAO.DATA_REGISTO, organizacaoModel.getDataRegisto())
+                    .set(Organizacao.ORGANIZACAO.DATA_REGISTO, organizacaoModel.getDataRegisto().orElse(null))
                     .where(Organizacao.ORGANIZACAO.ID.eq(organizacaoModel.getId()))
                     .execute();
 
