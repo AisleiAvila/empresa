@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.5</version>
+        <version>3.4.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.dasad</groupId>
@@ -103,7 +103,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
-            <version>6.1.8</version>
+            <version>6.2.0</version>
         </dependency>
 
         <dependency>
@@ -185,11 +185,10 @@
             <artifactId>jakarta.el</artifactId>
             <version>4.0.2</version>
         </dependency>
-        <!-- Dependência para io.swagger.annotations -->
         <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>1.6.2</version>
+            <groupId>org.webjars</groupId>
+            <artifactId>swagger-ui</artifactId>
+            <version>5.18.2</version>
         </dependency>
 
         <!-- Dependência para org.openapitools.jackson.nullable -->
@@ -251,6 +250,9 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>3.2.6</version>
                 <configuration>
+                    <jvmArguments>
+                        -Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false --add-modules jdk.incubator.vector
+                    </jvmArguments>
                     <mainClass>com.dasad.empresa.EmpresaApplication</mainClass>
                     <excludes>
                         <exclude>
