@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/senha")
 @CrossOrigin(
-        origins = {"http://localhost:4200", "http://localhost:8080"}
+        origins = {"http://localhost:4200", "http://localhost:8080", "http://localhost:8100"}
 )
 public class SenhaController implements SenhaApi {
 

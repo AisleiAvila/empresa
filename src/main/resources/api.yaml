@@ -9,18 +9,24 @@ tags:
     description: Operações relacionadas a autenticação
   - name: chat
     description: Operações relacionadas a chat
-  - name: Organização
-    description: Operações relacionadas a organizações
-  - name: Usuario
-    description: Operações relacionadas a usuários
   - name: Endereço
     description: Operações relacionadas a endereços
+  - name: Estado
+    description: Operações relacionadas a estados
+  - name: Organização
+    description: Operações relacionadas a organizações
+  - name: País
+    description: Operações relacionadas a países
   - name: Perfil
     description: Operações relacionadas a perfis
-  - name: Unidade Federativa
-    description: Operações relacionadas a Unidades Federativas
+  - name: Produto
+    description: Operações relacionadas a produtos
   - name: Senha
     description: Operações relacionadas a senha de acesso do usuário
+  - name: Unidade Federativa
+    description: Operações relacionadas a Unidades Federativas
+  - name: Usuario
+    description: Operações relacionadas a usuários
 
 paths:
   /auth/revoke:
@@ -265,7 +271,26 @@ paths:
       responses:
         '204':
           description: No Content
-
+  /produto/find:
+    post:
+      summary: Busca Produtos
+      security:
+        - bearerAuth: []
+      tags:
+        - Produto
+      operationId: findProduto
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProdutoRequest'
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProdutoResponseDTO'
   /usuario/find:
     post:
       summary: Busca usuários
@@ -501,6 +526,288 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/EnderecoModel'
+
+  /endereco2:
+    post:
+      summary: Cria um novo endereço
+      security:
+        - bearerAuth: []
+      tags:
+        - Endereço
+      operationId: createEndereco2
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Endereco2Model'
+      responses:
+        '200':
+          description: Endereço criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Endereco2Model'
+        '400':
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Endereço não criado."
+        '500':
+          description: Erro interno
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Erro interno."
+    get:
+      summary: Busca Enderecos
+      security:
+        - bearerAuth: []
+      tags:
+        - Perfil
+      operationId: findEndereco2
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Endereco2Model'
+
+  /endereco2/{id}:
+    put:
+      summary: Atualiza um endereço existente
+      operationId: updateEndereco2
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Endereco2Model'
+      responses:
+        '200':
+          description: Endereço atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Endereco2Model'
+        '404':
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Endereço não encontrado."
+        '500':
+          description: Erro interno
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Erro interno."
+    get:
+      summary: Detalha um endereço
+      security:
+        - bearerAuth: []
+      tags:
+        - Endereço
+      operationId: detailEndereco2
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Endereco2Model'
+    delete:
+      summary: Deleta um endereço existente
+      operationId: deleteEndereco2
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Endereço excluído com sucesso
+        '404':
+          description: Endereço não encontrado
+        '500':
+          description: Erro interno do servidor
+  /pais:
+    get:
+      summary: Busca Países
+      security:
+        - bearerAuth: []
+      tags:
+        - País
+      operationId: findPais
+      parameters:
+        - name: nome
+          in: path
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PaisModel'
+  /pais/{id}:
+    get:
+      summary: Detalha um País
+      security:
+        - bearerAuth: []
+      tags:
+        - País
+      operationId: detailPais
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaisModel'
+  /estado:
+    get:
+      summary: Busca Estados
+      security:
+        - bearerAuth: []
+      tags:
+        - Estado
+      operationId: findEstado
+      parameters:
+        - name: nome
+          in: path
+          required: false
+          schema:
+            type: string
+        - name: pais_id
+          in: path
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EstadoModel'
+  /estado/{id}:
+    get:
+      summary: Detalha um Estado
+      security:
+        - bearerAuth: []
+      tags:
+        - Estado
+      operationId: detailEstado
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EstadoModel'
+  /cidade:
+    get:
+      summary: Busca Cidades
+      security:
+        - bearerAuth: []
+      tags:
+        - Cidade
+      operationId: findCidade
+      parameters:
+        - name: nome
+          in: path
+          required: false
+          schema:
+            type: string
+        - name: estado_id
+          in: path
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CidadeModel'
+  /cidade/{id}:
+    get:
+      summary: Detalha uma Cidade
+      security:
+        - bearerAuth: []
+      tags:
+        - Cidade
+      operationId: detailCidade
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CidadeModel'
+
+
   /perfil/find:
     get:
       summary: Busca Perfis
@@ -759,6 +1066,24 @@ components:
               nullable: true
               description: Data de registo comercial
               example: "2021-09-01"
+    ProdutoRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        preco:
+          type: number
+        categoria:
+          type: string
+        limit:
+          type: integer
+        offset:
+          type: integer
+        event:
+          type: object
+          $ref: '#/components/schemas/EventPagination'
     UsuarioRequest:
       type: object
       properties:
@@ -771,6 +1096,10 @@ components:
         dataNascimento:
           type: string
           format: date
+        perfis:
+          type: array
+          items:
+            type: integer
         limit:
             type: integer
         offset:
@@ -839,6 +1168,15 @@ components:
             $ref: '#/components/schemas/OrganizacaoModel'
         totalRecords:
           type: integer
+    ProdutoResponseDTO:
+      type: object
+      properties:
+        produtos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProdutoModel'
+        totalRecords:
+          type: integer
     UnidadeFederativaResponseDTO:
       type: object
       properties:
@@ -897,6 +1235,23 @@ components:
             type: string
             format: date
             nullable: true
+    ProdutoModel:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        descricao:
+          type: string
+        preco:
+          type: number
+        categoria:
+          type: string
+        dataCadastro:
+          type: string
+          format: date
+          nullable: true
     UsuarioModel:
       type: object
       properties:
@@ -937,6 +1292,32 @@ components:
           $ref: '#/components/schemas/UnidadeFederativaModel'
         cep:
           type: string
+
+    Endereco2Model:
+      type: object
+      properties:
+        id:
+          type: integer
+        cidade_id:
+          $ref: '#/components/schemas/CidadeModel'
+        cep:
+          type: string
+        logradouro:
+          type: string
+        numero:
+          type: string
+        complemento:
+          type: string
+        bairro:
+          type: string
+        latitude:
+          type: number
+        longitude:
+            type: number
+        usuario_id:
+          type: integer
+
+
     PerfilModel:
       type: object
       properties:
@@ -953,4 +1334,29 @@ components:
           type: string
         sigla:
             type: string
+    CidadeModel:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        estado_id:
+          $ref: '#/components/schemas/EstadoModel'
+    EstadoModel:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        pais_id:
+          $ref: '#/components/schemas/PaisModel'
+    PaisModel:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
 

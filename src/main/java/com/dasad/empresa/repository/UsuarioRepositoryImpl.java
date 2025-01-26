@@ -49,6 +49,7 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
                 .withEmail(usuarioRequest.getEmail())
 //                .withDataNascimento(convertStringToLocalDate(usuarioRequest.getDataNascimento()))
                 .withDataNascimento(usuarioRequest.getDataNascimento())
+                .withPerfil(usuarioRequest.getPerfis())
                 .withLimit(usuarioRequest.getLimit())
                 .withOffset(usuarioRequest.getOffset());
         List<UsuarioModel> result = queryBuilder.build().join();
@@ -62,6 +63,7 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
                 .withEmail(usuarioRequest.getEmail())
 //                .withDataNascimento(convertStringToLocalDate(usuarioRequest.getDataNascimento()))
                 .withDataNascimento(usuarioRequest.getDataNascimento())
+                .withPerfil(usuarioRequest.getPerfis())
                 .withLimit(0)
                 .withOffset(0);
         var result = queryBuilder.countTotalRecords().join();

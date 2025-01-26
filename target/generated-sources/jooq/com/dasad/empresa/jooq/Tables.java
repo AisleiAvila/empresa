@@ -4,9 +4,23 @@
 package com.dasad.empresa.jooq;
 
 
+import com.dasad.empresa.jooq.tables.Cidade;
+import com.dasad.empresa.jooq.tables.Cliente;
+import com.dasad.empresa.jooq.tables.Desconto;
 import com.dasad.empresa.jooq.tables.Endereco;
+import com.dasad.empresa.jooq.tables.Endereco2;
+import com.dasad.empresa.jooq.tables.Estado;
+import com.dasad.empresa.jooq.tables.Estoque;
+import com.dasad.empresa.jooq.tables.Fornecedor;
+import com.dasad.empresa.jooq.tables.HistoricoPreco;
+import com.dasad.empresa.jooq.tables.ItemPedido;
 import com.dasad.empresa.jooq.tables.Organizacao;
+import com.dasad.empresa.jooq.tables.Pais;
+import com.dasad.empresa.jooq.tables.PasswordResetToken;
+import com.dasad.empresa.jooq.tables.Pedido;
 import com.dasad.empresa.jooq.tables.Perfil;
+import com.dasad.empresa.jooq.tables.Produto;
+import com.dasad.empresa.jooq.tables.ProdutoFornecedor;
 import com.dasad.empresa.jooq.tables.UnidadeFederativa;
 import com.dasad.empresa.jooq.tables.Usuario;
 import com.dasad.empresa.jooq.tables.UsuarioPerfil;
@@ -20,9 +34,54 @@ import com.dasad.empresa.jooq.tables.UsuarioRecuperarSenha;
 public class Tables {
 
     /**
+     * The table <code>public.cidade</code>.
+     */
+    public static final Cidade CIDADE = Cidade.CIDADE;
+
+    /**
+     * The table <code>public.cliente</code>.
+     */
+    public static final Cliente CLIENTE = Cliente.CLIENTE;
+
+    /**
+     * The table <code>public.desconto</code>.
+     */
+    public static final Desconto DESCONTO = Desconto.DESCONTO;
+
+    /**
      * The table <code>public.endereco</code>.
      */
     public static final Endereco ENDERECO = Endereco.ENDERECO;
+
+    /**
+     * The table <code>public.endereco2</code>.
+     */
+    public static final Endereco2 ENDERECO2 = Endereco2.ENDERECO2;
+
+    /**
+     * The table <code>public.estado</code>.
+     */
+    public static final Estado ESTADO = Estado.ESTADO;
+
+    /**
+     * The table <code>public.estoque</code>.
+     */
+    public static final Estoque ESTOQUE = Estoque.ESTOQUE;
+
+    /**
+     * The table <code>public.fornecedor</code>.
+     */
+    public static final Fornecedor FORNECEDOR = Fornecedor.FORNECEDOR;
+
+    /**
+     * The table <code>public.historico_preco</code>.
+     */
+    public static final HistoricoPreco HISTORICO_PRECO = HistoricoPreco.HISTORICO_PRECO;
+
+    /**
+     * The table <code>public.item_pedido</code>.
+     */
+    public static final ItemPedido ITEM_PEDIDO = ItemPedido.ITEM_PEDIDO;
 
     /**
      * The table <code>public.organizacao</code>.
@@ -30,9 +89,34 @@ public class Tables {
     public static final Organizacao ORGANIZACAO = Organizacao.ORGANIZACAO;
 
     /**
+     * The table <code>public.pais</code>.
+     */
+    public static final Pais PAIS = Pais.PAIS;
+
+    /**
+     * The table <code>public.password_reset_token</code>.
+     */
+    public static final PasswordResetToken PASSWORD_RESET_TOKEN = PasswordResetToken.PASSWORD_RESET_TOKEN;
+
+    /**
+     * The table <code>public.pedido</code>.
+     */
+    public static final Pedido PEDIDO = Pedido.PEDIDO;
+
+    /**
      * The table <code>public.perfil</code>.
      */
     public static final Perfil PERFIL = Perfil.PERFIL;
+
+    /**
+     * The table <code>public.produto</code>.
+     */
+    public static final Produto PRODUTO = Produto.PRODUTO;
+
+    /**
+     * The table <code>public.produto_fornecedor</code>.
+     */
+    public static final ProdutoFornecedor PRODUTO_FORNECEDOR = ProdutoFornecedor.PRODUTO_FORNECEDOR;
 
     /**
      * The table <code>public.unidade_federativa</code>.

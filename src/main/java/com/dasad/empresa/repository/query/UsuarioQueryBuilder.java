@@ -79,6 +79,13 @@ public class UsuarioQueryBuilder {
         return this;
     }
 
+    public UsuarioQueryBuilder withPerfil(@Nonnull List<Integer> perfis) {
+        if(perfis != null && !perfis.isEmpty()) {
+            this.query.where(Perfil.PERFIL.ID.in(perfis));
+        }
+        return this;
+    }
+
     public UsuarioQueryBuilder withId(@Nonnull Integer id) {
         if(id != null) {
             this.query.where(Usuario.USUARIO.ID.eq(id));

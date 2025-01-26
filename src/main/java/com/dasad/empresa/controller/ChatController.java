@@ -27,7 +27,7 @@ import java.util.Map;
 @RestController
 @RequestMapping({"/chat"})
 @CrossOrigin(
-        origins = {"http://localhost:4200", "http://localhost:8080"}
+        origins = {"http://localhost:4200", "http://localhost:8080", "http://localhost:8100"}
 )
 @Log4j2
 public class ChatController implements ChatApi {

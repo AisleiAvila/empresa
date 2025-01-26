@@ -7,6 +7,8 @@ package com.dasad.empresa.jooq.tables;
 import com.dasad.empresa.jooq.Keys;
 import com.dasad.empresa.jooq.Public;
 import com.dasad.empresa.jooq.tables.Endereco.EnderecoPath;
+import com.dasad.empresa.jooq.tables.Endereco2.Endereco2Path;
+import com.dasad.empresa.jooq.tables.PasswordResetToken.PasswordResetTokenPath;
 import com.dasad.empresa.jooq.tables.Perfil.PerfilPath;
 import com.dasad.empresa.jooq.tables.UsuarioPerfil.UsuarioPerfilPath;
 import com.dasad.empresa.jooq.tables.UsuarioRecuperarSenha.UsuarioRecuperarSenhaPath;
@@ -172,6 +174,32 @@ public class Usuario extends TableImpl<UsuarioRecord> {
             _endereco = new EnderecoPath(this, null, Keys.ENDERECO__FKEKDPB8K6GMP3LLLLA9D1QGMXK.getInverseKey());
 
         return _endereco;
+    }
+
+    private transient Endereco2Path _endereco2;
+
+    /**
+     * Get the implicit to-many join path to the <code>public.endereco2</code>
+     * table
+     */
+    public Endereco2Path endereco2() {
+        if (_endereco2 == null)
+            _endereco2 = new Endereco2Path(this, null, Keys.ENDERECO2__ENDERECO2_USUARIO_ID_FKEY.getInverseKey());
+
+        return _endereco2;
+    }
+
+    private transient PasswordResetTokenPath _passwordResetToken;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>public.password_reset_token</code> table
+     */
+    public PasswordResetTokenPath passwordResetToken() {
+        if (_passwordResetToken == null)
+            _passwordResetToken = new PasswordResetTokenPath(this, null, Keys.PASSWORD_RESET_TOKEN__PASSWORD_RESET_TOKEN_USUARIO_ID_FKEY.getInverseKey());
+
+        return _passwordResetToken;
     }
 
     private transient UsuarioPerfilPath _usuarioPerfil;

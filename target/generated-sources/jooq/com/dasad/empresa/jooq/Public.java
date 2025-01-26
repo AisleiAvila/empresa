@@ -4,9 +4,23 @@
 package com.dasad.empresa.jooq;
 
 
+import com.dasad.empresa.jooq.tables.Cidade;
+import com.dasad.empresa.jooq.tables.Cliente;
+import com.dasad.empresa.jooq.tables.Desconto;
 import com.dasad.empresa.jooq.tables.Endereco;
+import com.dasad.empresa.jooq.tables.Endereco2;
+import com.dasad.empresa.jooq.tables.Estado;
+import com.dasad.empresa.jooq.tables.Estoque;
+import com.dasad.empresa.jooq.tables.Fornecedor;
+import com.dasad.empresa.jooq.tables.HistoricoPreco;
+import com.dasad.empresa.jooq.tables.ItemPedido;
 import com.dasad.empresa.jooq.tables.Organizacao;
+import com.dasad.empresa.jooq.tables.Pais;
+import com.dasad.empresa.jooq.tables.PasswordResetToken;
+import com.dasad.empresa.jooq.tables.Pedido;
 import com.dasad.empresa.jooq.tables.Perfil;
+import com.dasad.empresa.jooq.tables.Produto;
+import com.dasad.empresa.jooq.tables.ProdutoFornecedor;
 import com.dasad.empresa.jooq.tables.UnidadeFederativa;
 import com.dasad.empresa.jooq.tables.Usuario;
 import com.dasad.empresa.jooq.tables.UsuarioPerfil;
@@ -34,9 +48,54 @@ public class Public extends SchemaImpl {
     public static final Public PUBLIC = new Public();
 
     /**
+     * The table <code>public.cidade</code>.
+     */
+    public final Cidade CIDADE = Cidade.CIDADE;
+
+    /**
+     * The table <code>public.cliente</code>.
+     */
+    public final Cliente CLIENTE = Cliente.CLIENTE;
+
+    /**
+     * The table <code>public.desconto</code>.
+     */
+    public final Desconto DESCONTO = Desconto.DESCONTO;
+
+    /**
      * The table <code>public.endereco</code>.
      */
     public final Endereco ENDERECO = Endereco.ENDERECO;
+
+    /**
+     * The table <code>public.endereco2</code>.
+     */
+    public final Endereco2 ENDERECO2 = Endereco2.ENDERECO2;
+
+    /**
+     * The table <code>public.estado</code>.
+     */
+    public final Estado ESTADO = Estado.ESTADO;
+
+    /**
+     * The table <code>public.estoque</code>.
+     */
+    public final Estoque ESTOQUE = Estoque.ESTOQUE;
+
+    /**
+     * The table <code>public.fornecedor</code>.
+     */
+    public final Fornecedor FORNECEDOR = Fornecedor.FORNECEDOR;
+
+    /**
+     * The table <code>public.historico_preco</code>.
+     */
+    public final HistoricoPreco HISTORICO_PRECO = HistoricoPreco.HISTORICO_PRECO;
+
+    /**
+     * The table <code>public.item_pedido</code>.
+     */
+    public final ItemPedido ITEM_PEDIDO = ItemPedido.ITEM_PEDIDO;
 
     /**
      * The table <code>public.organizacao</code>.
@@ -44,9 +103,34 @@ public class Public extends SchemaImpl {
     public final Organizacao ORGANIZACAO = Organizacao.ORGANIZACAO;
 
     /**
+     * The table <code>public.pais</code>.
+     */
+    public final Pais PAIS = Pais.PAIS;
+
+    /**
+     * The table <code>public.password_reset_token</code>.
+     */
+    public final PasswordResetToken PASSWORD_RESET_TOKEN = PasswordResetToken.PASSWORD_RESET_TOKEN;
+
+    /**
+     * The table <code>public.pedido</code>.
+     */
+    public final Pedido PEDIDO = Pedido.PEDIDO;
+
+    /**
      * The table <code>public.perfil</code>.
      */
     public final Perfil PERFIL = Perfil.PERFIL;
+
+    /**
+     * The table <code>public.produto</code>.
+     */
+    public final Produto PRODUTO = Produto.PRODUTO;
+
+    /**
+     * The table <code>public.produto_fornecedor</code>.
+     */
+    public final ProdutoFornecedor PRODUTO_FORNECEDOR = ProdutoFornecedor.PRODUTO_FORNECEDOR;
 
     /**
      * The table <code>public.unidade_federativa</code>.
@@ -84,9 +168,23 @@ public class Public extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
+            Cidade.CIDADE,
+            Cliente.CLIENTE,
+            Desconto.DESCONTO,
             Endereco.ENDERECO,
+            Endereco2.ENDERECO2,
+            Estado.ESTADO,
+            Estoque.ESTOQUE,
+            Fornecedor.FORNECEDOR,
+            HistoricoPreco.HISTORICO_PRECO,
+            ItemPedido.ITEM_PEDIDO,
             Organizacao.ORGANIZACAO,
+            Pais.PAIS,
+            PasswordResetToken.PASSWORD_RESET_TOKEN,
+            Pedido.PEDIDO,
             Perfil.PERFIL,
+            Produto.PRODUTO,
+            ProdutoFornecedor.PRODUTO_FORNECEDOR,
             UnidadeFederativa.UNIDADE_FEDERATIVA,
             Usuario.USUARIO,
             UsuarioPerfil.USUARIO_PERFIL,
