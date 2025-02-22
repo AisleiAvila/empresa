@@ -7,7 +7,6 @@ package com.dasad.empresa.jooq.tables;
 import com.dasad.empresa.jooq.Keys;
 import com.dasad.empresa.jooq.Public;
 import com.dasad.empresa.jooq.tables.Endereco.EnderecoPath;
-import com.dasad.empresa.jooq.tables.Endereco2.Endereco2Path;
 import com.dasad.empresa.jooq.tables.PasswordResetToken.PasswordResetTokenPath;
 import com.dasad.empresa.jooq.tables.Perfil.PerfilPath;
 import com.dasad.empresa.jooq.tables.UsuarioPerfil.UsuarioPerfilPath;
@@ -171,22 +170,9 @@ public class Usuario extends TableImpl<UsuarioRecord> {
      */
     public EnderecoPath endereco() {
         if (_endereco == null)
-            _endereco = new EnderecoPath(this, null, Keys.ENDERECO__FKEKDPB8K6GMP3LLLLA9D1QGMXK.getInverseKey());
+            _endereco = new EnderecoPath(this, null, Keys.ENDERECO__ENDERECO2_USUARIO_ID_FKEY.getInverseKey());
 
         return _endereco;
-    }
-
-    private transient Endereco2Path _endereco2;
-
-    /**
-     * Get the implicit to-many join path to the <code>public.endereco2</code>
-     * table
-     */
-    public Endereco2Path endereco2() {
-        if (_endereco2 == null)
-            _endereco2 = new Endereco2Path(this, null, Keys.ENDERECO2__ENDERECO2_USUARIO_ID_FKEY.getInverseKey());
-
-        return _endereco2;
     }
 
     private transient PasswordResetTokenPath _passwordResetToken;
@@ -202,19 +188,6 @@ public class Usuario extends TableImpl<UsuarioRecord> {
         return _passwordResetToken;
     }
 
-    private transient UsuarioPerfilPath _usuarioPerfil;
-
-    /**
-     * Get the implicit to-many join path to the
-     * <code>public.usuario_perfil</code> table
-     */
-    public UsuarioPerfilPath usuarioPerfil() {
-        if (_usuarioPerfil == null)
-            _usuarioPerfil = new UsuarioPerfilPath(this, null, Keys.USUARIO_PERFIL__USUARIOS_PERFIS_USUARIO_ID_FKEY.getInverseKey());
-
-        return _usuarioPerfil;
-    }
-
     private transient UsuarioRecuperarSenhaPath _usuarioRecuperarSenha;
 
     /**
@@ -226,6 +199,19 @@ public class Usuario extends TableImpl<UsuarioRecord> {
             _usuarioRecuperarSenha = new UsuarioRecuperarSenhaPath(this, null, Keys.USUARIO_RECUPERAR_SENHA__USUARIO_ID_FKEY.getInverseKey());
 
         return _usuarioRecuperarSenha;
+    }
+
+    private transient UsuarioPerfilPath _usuarioPerfil;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>public.usuario_perfil</code> table
+     */
+    public UsuarioPerfilPath usuarioPerfil() {
+        if (_usuarioPerfil == null)
+            _usuarioPerfil = new UsuarioPerfilPath(this, null, Keys.USUARIO_PERFIL__USUARIOS_PERFIS_USUARIO_ID_FKEY.getInverseKey());
+
+        return _usuarioPerfil;
     }
 
     /**

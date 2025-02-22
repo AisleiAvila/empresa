@@ -204,7 +204,7 @@ public class UsuarioControllerTest {
             usuarioModel.setNome(registerRequestDTO.getNome());
             usuarioModel.setEmail(registerRequestDTO.getEmail());
             usuarioModel.setSenha(registerRequestDTO.getSenha());
-            usuarioModel.setDataNascimento(convertLocalDateToString(registerRequestDTO.getDataNascimento()));
+            usuarioModel.setDataNascimento(registerRequestDTO.getDataNascimento());
             usuarioModel.setEnderecos(registerRequestDTO.getEnderecos());
             usuarioModel.setPerfis(registerRequestDTO.getPerfis());
 

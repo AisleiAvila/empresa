@@ -6,10 +6,11 @@ package com.dasad.empresa.jooq.tables;
 
 import com.dasad.empresa.jooq.Keys;
 import com.dasad.empresa.jooq.Public;
-import com.dasad.empresa.jooq.tables.UnidadeFederativa.UnidadeFederativaPath;
+import com.dasad.empresa.jooq.tables.Cidade.CidadePath;
 import com.dasad.empresa.jooq.tables.Usuario.UsuarioPath;
 import com.dasad.empresa.jooq.tables.records.EnderecoRecord;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -64,9 +65,9 @@ public class Endereco extends TableImpl<EnderecoRecord> {
     public final TableField<EnderecoRecord, Integer> ID = createField(DSL.name("id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>public.endereco.bairro</code>.
+     * The column <code>public.endereco.cidade_id</code>.
      */
-    public final TableField<EnderecoRecord, String> BAIRRO = createField(DSL.name("bairro"), SQLDataType.VARCHAR(100), this, "");
+    public final TableField<EnderecoRecord, Integer> CIDADE_ID = createField(DSL.name("cidade_id"), SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * The column <code>public.endereco.cep</code>.
@@ -74,34 +75,39 @@ public class Endereco extends TableImpl<EnderecoRecord> {
     public final TableField<EnderecoRecord, String> CEP = createField(DSL.name("cep"), SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>public.endereco.cidade</code>.
-     */
-    public final TableField<EnderecoRecord, String> CIDADE = createField(DSL.name("cidade"), SQLDataType.VARCHAR(100), this, "");
-
-    /**
      * The column <code>public.endereco.logradouro</code>.
      */
-    public final TableField<EnderecoRecord, String> LOGRADOURO = createField(DSL.name("logradouro"), SQLDataType.VARCHAR(100).nullable(false), this, "");
-
-    /**
-     * The column <code>public.endereco.usuario_id</code>.
-     */
-    public final TableField<EnderecoRecord, Integer> USUARIO_ID = createField(DSL.name("usuario_id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
-
-    /**
-     * The column <code>public.endereco.unidade_federativa_id</code>.
-     */
-    public final TableField<EnderecoRecord, Integer> UNIDADE_FEDERATIVA_ID = createField(DSL.name("unidade_federativa_id"), SQLDataType.INTEGER.identity(true), this, "");
+    public final TableField<EnderecoRecord, String> LOGRADOURO = createField(DSL.name("logradouro"), SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
      * The column <code>public.endereco.numero</code>.
      */
-    public final TableField<EnderecoRecord, Integer> NUMERO = createField(DSL.name("numero"), SQLDataType.INTEGER, this, "");
+    public final TableField<EnderecoRecord, String> NUMERO = createField(DSL.name("numero"), SQLDataType.VARCHAR(20), this, "");
 
     /**
      * The column <code>public.endereco.complemento</code>.
      */
-    public final TableField<EnderecoRecord, String> COMPLEMENTO = createField(DSL.name("complemento"), SQLDataType.VARCHAR(100), this, "");
+    public final TableField<EnderecoRecord, String> COMPLEMENTO = createField(DSL.name("complemento"), SQLDataType.CLOB, this, "");
+
+    /**
+     * The column <code>public.endereco.bairro</code>.
+     */
+    public final TableField<EnderecoRecord, String> BAIRRO = createField(DSL.name("bairro"), SQLDataType.VARCHAR(100), this, "");
+
+    /**
+     * The column <code>public.endereco.latitude</code>.
+     */
+    public final TableField<EnderecoRecord, BigDecimal> LATITUDE = createField(DSL.name("latitude"), SQLDataType.NUMERIC(10, 8), this, "");
+
+    /**
+     * The column <code>public.endereco.longitude</code>.
+     */
+    public final TableField<EnderecoRecord, BigDecimal> LONGITUDE = createField(DSL.name("longitude"), SQLDataType.NUMERIC(11, 8), this, "");
+
+    /**
+     * The column <code>public.endereco.usuario_id</code>.
+     */
+    public final TableField<EnderecoRecord, Integer> USUARIO_ID = createField(DSL.name("usuario_id"), SQLDataType.INTEGER.nullable(false), this, "");
 
     private Endereco(Name alias, Table<EnderecoRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
@@ -182,7 +188,19 @@ public class Endereco extends TableImpl<EnderecoRecord> {
 
     @Override
     public List<ForeignKey<EnderecoRecord, ?>> getReferences() {
-        return Arrays.asList(Keys.ENDERECO__FKEKDPB8K6GMP3LLLLA9D1QGMXK, Keys.ENDERECO__FKSBFB2MDC0HMIXWPUD2D8O8QOY);
+        return Arrays.asList(Keys.ENDERECO__ENDERECO2_CIDADE_ID_FKEY, Keys.ENDERECO__ENDERECO2_USUARIO_ID_FKEY);
+    }
+
+    private transient CidadePath _cidade;
+
+    /**
+     * Get the implicit join path to the <code>public.cidade</code> table.
+     */
+    public CidadePath cidade() {
+        if (_cidade == null)
+            _cidade = new CidadePath(this, Keys.ENDERECO__ENDERECO2_CIDADE_ID_FKEY, null);
+
+        return _cidade;
     }
 
     private transient UsuarioPath _usuario;
@@ -192,22 +210,9 @@ public class Endereco extends TableImpl<EnderecoRecord> {
      */
     public UsuarioPath usuario() {
         if (_usuario == null)
-            _usuario = new UsuarioPath(this, Keys.ENDERECO__FKEKDPB8K6GMP3LLLLA9D1QGMXK, null);
+            _usuario = new UsuarioPath(this, Keys.ENDERECO__ENDERECO2_USUARIO_ID_FKEY, null);
 
         return _usuario;
-    }
-
-    private transient UnidadeFederativaPath _unidadeFederativa;
-
-    /**
-     * Get the implicit join path to the <code>public.unidade_federativa</code>
-     * table.
-     */
-    public UnidadeFederativaPath unidadeFederativa() {
-        if (_unidadeFederativa == null)
-            _unidadeFederativa = new UnidadeFederativaPath(this, Keys.ENDERECO__FKSBFB2MDC0HMIXWPUD2D8O8QOY, null);
-
-        return _unidadeFederativa;
     }
 
     @Override

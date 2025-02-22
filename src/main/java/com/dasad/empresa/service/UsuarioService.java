@@ -2,6 +2,7 @@ package com.dasad.empresa.service;
 
 import com.dasad.empresa.model.UsuarioModel;
 import com.dasad.empresa.model.UsuarioRequest;
+import com.dasad.empresa.repository.EnderecoRepository;
 import com.dasad.empresa.repository.UsuarioRecuperarSenhaRepository;
 import com.dasad.empresa.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRecuperarSenhaRepository tokenRepository;
+
+    @Autowired
+    private EnderecoRepository enderecoRepository;
 
     public UsuarioService() {
     }
@@ -46,6 +50,10 @@ public class UsuarioService {
     }
 
     public void deleteById(Integer id) {
+        enderecoRepository.findAll()
+                .stream()
+                .filter(endereco -> endereco.getUsuarioId().equals(id)).
+                forEach(endereco -> enderecoRepository.deleteById(endereco.getId()));
         this.usuarioRepository.deleteById(id);
     }
 

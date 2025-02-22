@@ -7,6 +7,7 @@ import com.dasad.empresa.model.UsuarioRequest;
 import com.dasad.empresa.model.UsuarioResponseDTO;
 import com.dasad.empresa.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,8 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-
-import static com.dasad.empresa.util.DataUtil.convertLocalDateToString;
 
 @RestController
 @RequestMapping("/usuario")
@@ -34,16 +32,16 @@ public class UsuarioController implements UsuarioApi{
     private UsuarioService usuarioService;
 
     @Override
-    @PutMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('Administrador')")
-    public ResponseEntity<UsuarioModel> createUsuario(RegisterRequestDTO registerRequestDTO) {
+    public ResponseEntity<UsuarioModel> createUsuario(@RequestBody RegisterRequestDTO registerRequestDTO) {
 
         UsuarioModel usuarioModel = new UsuarioModel();
         usuarioModel.setId(registerRequestDTO.getId());
         usuarioModel.setNome(registerRequestDTO.getNome());
         usuarioModel.setEmail(registerRequestDTO.getEmail());
         usuarioModel.setSenha(registerRequestDTO.getSenha());
-        usuarioModel.setDataNascimento(convertLocalDateToString(registerRequestDTO.getDataNascimento()));
+        usuarioModel.setDataNascimento(registerRequestDTO.getDataNascimento());
         usuarioModel.setEnderecos(registerRequestDTO.getEnderecos());
         usuarioModel.setPerfis(registerRequestDTO.getPerfis());
 

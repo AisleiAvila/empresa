@@ -23,8 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
-import static com.dasad.empresa.util.DataUtil.convertLocalDateToString;
-
 @RestController
 @Log4j2
 @RequestMapping({"/auth"})
@@ -84,7 +82,8 @@ public class AuthController implements AuthApi {
             usuario.setNome(registerRequestDTO.getNome());
             usuario.setEmail(registerRequestDTO.getEmail());
             usuario.setSenha(this.passwordEncoder.encode(registerRequestDTO.getSenha()));
-            usuario.setDataNascimento(convertLocalDateToString(registerRequestDTO.getDataNascimento()));
+//            usuario.setDataNascimento(convertLocalDateToString(registerRequestDTO.getDataNascimento()));
+            usuario.setDataNascimento(registerRequestDTO.getDataNascimento());
             usuario.setEnderecos(registerRequestDTO.getEnderecos());
             usuario.setPerfis(registerRequestDTO.getPerfis());
 

@@ -1,7 +1,10 @@
 package controller;
 
 import com.dasad.empresa.controller.EnderecoController;
+import com.dasad.empresa.model.CidadeModel;
 import com.dasad.empresa.model.EnderecoModel;
+import com.dasad.empresa.model.EstadoModel;
+import com.dasad.empresa.model.PaisModel;
 import com.dasad.empresa.service.EnderecoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -32,12 +35,28 @@ public class EnderecoControllerTest {
 
     private EnderecoModel enderecoModel;
 
+    private CidadeModel cidadeModel;
+
+    private EstadoModel estadoModel;
+
+    private PaisModel paisModel;
+
     @BeforeEach
     void setup() {
+        paisModel = new PaisModel();
+        paisModel.setId(1);
+        paisModel.setNome("Brasil");
+        estadoModel = new EstadoModel();
+        estadoModel.setId(1);
+        estadoModel.setNome("São Paulo");
+        estadoModel.setPaisId(paisModel);
+        cidadeModel = new CidadeModel();
+        cidadeModel.setId(1);
+        cidadeModel.setNome("São Paulo");
         enderecoModel = new EnderecoModel();
         enderecoModel.setId(1);
         enderecoModel.setLogradouro("Rua Teste");
-        enderecoModel.setCidade("Cidade Teste");
+        enderecoModel.setCidadeId(cidadeModel);
         enderecoModel.setCep("12345-678");
     }
 
@@ -50,7 +69,7 @@ public class EnderecoControllerTest {
             when(enderecoService.findAll()).thenReturn(Collections.singletonList(enderecoModel));
 
             // Act
-            var response = enderecoController.findEndereco();
+            var response = enderecoController.findendereco();
 
             // Assert
             assertNotNull(response);
@@ -68,7 +87,7 @@ public class EnderecoControllerTest {
             when(enderecoService.findById(1)).thenReturn(Optional.of(enderecoModel));
 
             // Act
-            ResponseEntity<EnderecoModel> response = enderecoController.detailEndereco(1);
+            ResponseEntity<EnderecoModel> response = enderecoController.detailendereco(1);
 
             // Assert
             assertNotNull(response);
@@ -81,7 +100,7 @@ public class EnderecoControllerTest {
             when(enderecoService.findById(1)).thenReturn(Optional.empty());
 
             // Act
-            ResponseEntity<EnderecoModel> response = enderecoController.detailEndereco(1);
+            ResponseEntity<EnderecoModel> response = enderecoController.detailendereco(1);
 
             // Assert
             assertNotNull(response);
@@ -98,7 +117,7 @@ public class EnderecoControllerTest {
             when(enderecoService.save(any(EnderecoModel.class))).thenReturn(enderecoModel);
 
             // Act
-            var response = enderecoController.createEndereco(enderecoModel);
+            var response = enderecoController.createendereco(enderecoModel);
 
             // Assert
             assertNotNull(response);
@@ -116,7 +135,7 @@ public class EnderecoControllerTest {
             when(enderecoService.save(any(EnderecoModel.class))).thenReturn(enderecoModel);
 
             // Act
-            ResponseEntity<EnderecoModel> response = enderecoController.updateEndereco(1, enderecoModel);
+            ResponseEntity<EnderecoModel> response = enderecoController.updateendereco(1, enderecoModel);
 
             // Assert
             assertNotNull(response);
@@ -129,7 +148,7 @@ public class EnderecoControllerTest {
             when(enderecoService.findById(1)).thenReturn(Optional.empty());
 
             // Act
-            ResponseEntity<EnderecoModel> response = enderecoController.updateEndereco(1, enderecoModel);
+            ResponseEntity<EnderecoModel> response = enderecoController.updateendereco(1, enderecoModel);
 
             // Assert
             assertNotNull(response);
@@ -147,7 +166,7 @@ public class EnderecoControllerTest {
             doNothing().when(enderecoService).deleteById(1);
 
             // Act
-            ResponseEntity<Void> response = enderecoController.deleteEndereco(1);
+            ResponseEntity<Void> response = enderecoController.deleteendereco(1);
 
             // Assert
             assertNotNull(response);
@@ -160,7 +179,7 @@ public class EnderecoControllerTest {
             when(enderecoService.findById(1)).thenReturn(Optional.empty());
 
             // Act
-            ResponseEntity<Void> response = enderecoController.deleteEndereco(1);
+            ResponseEntity<Void> response = enderecoController.deleteendereco(1);
 
             // Assert
             assertNotNull(response);

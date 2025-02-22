@@ -6,6 +6,8 @@ package com.dasad.empresa.jooq.tables.records;
 
 import com.dasad.empresa.jooq.tables.Endereco;
 
+import java.math.BigDecimal;
+
 import org.jooq.Record1;
 import org.jooq.impl.UpdatableRecordImpl;
 
@@ -33,17 +35,17 @@ public class EnderecoRecord extends UpdatableRecordImpl<EnderecoRecord> {
     }
 
     /**
-     * Setter for <code>public.endereco.bairro</code>.
+     * Setter for <code>public.endereco.cidade_id</code>.
      */
-    public void setBairro(String value) {
+    public void setCidadeId(Integer value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>public.endereco.bairro</code>.
+     * Getter for <code>public.endereco.cidade_id</code>.
      */
-    public String getBairro() {
-        return (String) get(1);
+    public Integer getCidadeId() {
+        return (Integer) get(1);
     }
 
     /**
@@ -61,87 +63,101 @@ public class EnderecoRecord extends UpdatableRecordImpl<EnderecoRecord> {
     }
 
     /**
-     * Setter for <code>public.endereco.cidade</code>.
-     */
-    public void setCidade(String value) {
-        set(3, value);
-    }
-
-    /**
-     * Getter for <code>public.endereco.cidade</code>.
-     */
-    public String getCidade() {
-        return (String) get(3);
-    }
-
-    /**
      * Setter for <code>public.endereco.logradouro</code>.
      */
     public void setLogradouro(String value) {
-        set(4, value);
+        set(3, value);
     }
 
     /**
      * Getter for <code>public.endereco.logradouro</code>.
      */
     public String getLogradouro() {
-        return (String) get(4);
-    }
-
-    /**
-     * Setter for <code>public.endereco.usuario_id</code>.
-     */
-    public void setUsuarioId(Integer value) {
-        set(5, value);
-    }
-
-    /**
-     * Getter for <code>public.endereco.usuario_id</code>.
-     */
-    public Integer getUsuarioId() {
-        return (Integer) get(5);
-    }
-
-    /**
-     * Setter for <code>public.endereco.unidade_federativa_id</code>.
-     */
-    public void setUnidadeFederativaId(Integer value) {
-        set(6, value);
-    }
-
-    /**
-     * Getter for <code>public.endereco.unidade_federativa_id</code>.
-     */
-    public Integer getUnidadeFederativaId() {
-        return (Integer) get(6);
+        return (String) get(3);
     }
 
     /**
      * Setter for <code>public.endereco.numero</code>.
      */
-    public void setNumero(Integer value) {
-        set(7, value);
+    public void setNumero(String value) {
+        set(4, value);
     }
 
     /**
      * Getter for <code>public.endereco.numero</code>.
      */
-    public Integer getNumero() {
-        return (Integer) get(7);
+    public String getNumero() {
+        return (String) get(4);
     }
 
     /**
      * Setter for <code>public.endereco.complemento</code>.
      */
     public void setComplemento(String value) {
-        set(8, value);
+        set(5, value);
     }
 
     /**
      * Getter for <code>public.endereco.complemento</code>.
      */
     public String getComplemento() {
-        return (String) get(8);
+        return (String) get(5);
+    }
+
+    /**
+     * Setter for <code>public.endereco.bairro</code>.
+     */
+    public void setBairro(String value) {
+        set(6, value);
+    }
+
+    /**
+     * Getter for <code>public.endereco.bairro</code>.
+     */
+    public String getBairro() {
+        return (String) get(6);
+    }
+
+    /**
+     * Setter for <code>public.endereco.latitude</code>.
+     */
+    public void setLatitude(BigDecimal value) {
+        set(7, value);
+    }
+
+    /**
+     * Getter for <code>public.endereco.latitude</code>.
+     */
+    public BigDecimal getLatitude() {
+        return (BigDecimal) get(7);
+    }
+
+    /**
+     * Setter for <code>public.endereco.longitude</code>.
+     */
+    public void setLongitude(BigDecimal value) {
+        set(8, value);
+    }
+
+    /**
+     * Getter for <code>public.endereco.longitude</code>.
+     */
+    public BigDecimal getLongitude() {
+        return (BigDecimal) get(8);
+    }
+
+    /**
+     * Setter for <code>public.endereco.usuario_id</code>.
+     */
+    public void setUsuarioId(Integer value) {
+        set(9, value);
+    }
+
+    /**
+     * Getter for <code>public.endereco.usuario_id</code>.
+     */
+    public Integer getUsuarioId() {
+        return (Integer) get(9);
     }
 
     // -------------------------------------------------------------------------
@@ -167,18 +183,19 @@ public class EnderecoRecord extends UpdatableRecordImpl<EnderecoRecord> {
     /**
      * Create a detached, initialised EnderecoRecord
      */
-    public EnderecoRecord(Integer id, String bairro, String cep, String cidade, String logradouro, Integer usuarioId, Integer unidadeFederativaId, Integer numero, String complemento) {
+    public EnderecoRecord(Integer id, Integer cidadeId, String cep, String logradouro, String numero, String complemento, String bairro, BigDecimal latitude, BigDecimal longitude, Integer usuarioId) {
         super(Endereco.ENDERECO);
 
         setId(id);
-        setBairro(bairro);
+        setCidadeId(cidadeId);
         setCep(cep);
-        setCidade(cidade);
         setLogradouro(logradouro);
-        setUsuarioId(usuarioId);
-        setUnidadeFederativaId(unidadeFederativaId);
         setNumero(numero);
         setComplemento(complemento);
+        setBairro(bairro);
+        setLatitude(latitude);
+        setLongitude(longitude);
+        setUsuarioId(usuarioId);
         resetChangedOnNotNull();
     }
 }

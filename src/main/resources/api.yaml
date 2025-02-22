@@ -396,20 +396,20 @@ paths:
         - bearerAuth: []
       tags:
         - Endereço
-      operationId: createEndereco
+      operationId: createendereco
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EnderecoModel'
+              $ref: '#/components/schemas/enderecoModel'
       responses:
         '200':
           description: Endereço criado com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EnderecoModel'
+                $ref: '#/components/schemas/enderecoModel'
         '400':
           description: Requisição inválida
           content:
@@ -430,10 +430,27 @@ paths:
                   error:
                     type: string
                     example: "Erro interno."
+    get:
+      summary: Busca Enderecos
+      security:
+        - bearerAuth: []
+      tags:
+        - Perfil
+      operationId: findendereco
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/enderecoModel'
+
   /endereco/{id}:
     put:
       summary: Atualiza um endereço existente
-      operationId: updateEndereco
+      operationId: updateendereco
       parameters:
         - name: id
           in: path
@@ -445,14 +462,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EnderecoModel'
+              $ref: '#/components/schemas/enderecoModel'
       responses:
         '200':
           description: Endereço atualizado com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EnderecoModel'
+                $ref: '#/components/schemas/enderecoModel'
         '404':
           description: Requisição inválida
           content:
@@ -479,7 +496,7 @@ paths:
         - bearerAuth: []
       tags:
         - Endereço
-      operationId: detailEndereco
+      operationId: detailendereco
       parameters:
         - name: id
           in: path
@@ -492,165 +509,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EnderecoModel'
+                $ref: '#/components/schemas/enderecoModel'
     delete:
       summary: Deleta um endereço existente
-      operationId: deleteEndereco
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        '204':
-          description: Endereço excluído com sucesso
-        '404':
-          description: Endereço não encontrado
-        '500':
-          description: Erro interno do servidor
-  /endereco/find:
-    get:
-      summary: Busca Enderecos
-      security:
-        - bearerAuth: []
-      tags:
-        - Perfil
-      operationId: findEndereco
-      responses:
-        '200':
-          description: Sucesso
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/EnderecoModel'
-
-  /endereco2:
-    post:
-      summary: Cria um novo endereço
-      security:
-        - bearerAuth: []
-      tags:
-        - Endereço
-      operationId: createEndereco2
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Endereco2Model'
-      responses:
-        '200':
-          description: Endereço criado com sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Endereco2Model'
-        '400':
-          description: Requisição inválida
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Endereço não criado."
-        '500':
-          description: Erro interno
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Erro interno."
-    get:
-      summary: Busca Enderecos
-      security:
-        - bearerAuth: []
-      tags:
-        - Perfil
-      operationId: findEndereco2
-      responses:
-        '200':
-          description: Sucesso
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Endereco2Model'
-
-  /endereco2/{id}:
-    put:
-      summary: Atualiza um endereço existente
-      operationId: updateEndereco2
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Endereco2Model'
-      responses:
-        '200':
-          description: Endereço atualizado com sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Endereco2Model'
-        '404':
-          description: Requisição inválida
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Endereço não encontrado."
-        '500':
-          description: Erro interno
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Erro interno."
-    get:
-      summary: Detalha um endereço
-      security:
-        - bearerAuth: []
-      tags:
-        - Endereço
-      operationId: detailEndereco2
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Endereco2Model'
-    delete:
-      summary: Deleta um endereço existente
-      operationId: deleteEndereco2
+      operationId: deleteendereco
       parameters:
         - name: id
           in: path
@@ -674,7 +536,7 @@ paths:
       operationId: findPais
       parameters:
         - name: nome
-          in: path
+          in: query
           required: false
           schema:
             type: string
@@ -718,12 +580,12 @@ paths:
       operationId: findEstado
       parameters:
         - name: nome
-          in: path
+          in: query
           required: false
           schema:
             type: string
         - name: pais_id
-          in: path
+          in: query
           required: false
           schema:
             type: integer
@@ -767,12 +629,12 @@ paths:
       operationId: findCidade
       parameters:
         - name: nome
-          in: path
+          in: query
           required: false
           schema:
             type: string
         - name: estado_id
-          in: path
+          in: query
           required: false
           schema:
             type: integer
@@ -1015,7 +877,6 @@ components:
         offset:
           type: integer
         event:
-          type: object
           $ref: '#/components/schemas/EventPagination'
     OrganizacaoRequestDTO:
         type: object
@@ -1082,7 +943,6 @@ components:
         offset:
           type: integer
         event:
-          type: object
           $ref: '#/components/schemas/EventPagination'
     UsuarioRequest:
       type: object
@@ -1105,7 +965,6 @@ components:
         offset:
           type: integer
         event:
-          type: object
           $ref: '#/components/schemas/EventPagination'
     EventPagination:
       type: object
@@ -1203,7 +1062,7 @@ components:
         enderecos:
           type: array
           items:
-            $ref: '#/components/schemas/EnderecoModel'
+            $ref: '#/components/schemas/enderecoModel'
         perfis:
           type: array
           items:
@@ -1265,35 +1124,16 @@ components:
           type: string
         dataNascimento:
           type: string
+          format: date
         enderecos:
           type: array
           items:
-            $ref: '#/components/schemas/EnderecoModel'
+            $ref: '#/components/schemas/enderecoModel'
         perfis:
             type: array
             items:
                 $ref: '#/components/schemas/PerfilModel'
-    EnderecoModel:
-      type: object
-      properties:
-        id:
-          type: integer
-        logradouro:
-          type: string
-        numero:
-          type: integer
-        complemento:
-            type: string
-        bairro:
-          type: string
-        cidade:
-          type: string
-        uf:
-          $ref: '#/components/schemas/UnidadeFederativaModel'
-        cep:
-          type: string
-
-    Endereco2Model:
+    enderecoModel:
       type: object
       properties:
         id:

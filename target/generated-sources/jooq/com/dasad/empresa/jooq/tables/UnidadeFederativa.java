@@ -6,21 +6,16 @@ package com.dasad.empresa.jooq.tables;
 
 import com.dasad.empresa.jooq.Keys;
 import com.dasad.empresa.jooq.Public;
-import com.dasad.empresa.jooq.tables.Endereco.EnderecoPath;
 import com.dasad.empresa.jooq.tables.records.UnidadeFederativaRecord;
 
 import java.util.Collection;
 
 import org.jooq.Condition;
 import org.jooq.Field;
-import org.jooq.ForeignKey;
 import org.jooq.Identity;
-import org.jooq.InverseForeignKey;
 import org.jooq.Name;
-import org.jooq.Path;
 import org.jooq.PlainSQL;
 import org.jooq.QueryPart;
-import org.jooq.Record;
 import org.jooq.SQL;
 import org.jooq.Schema;
 import org.jooq.Select;
@@ -99,39 +94,6 @@ public class UnidadeFederativa extends TableImpl<UnidadeFederativaRecord> {
         this(DSL.name("unidade_federativa"), null);
     }
 
-    public <O extends Record> UnidadeFederativa(Table<O> path, ForeignKey<O, UnidadeFederativaRecord> childPath, InverseForeignKey<O, UnidadeFederativaRecord> parentPath) {
-        super(path, childPath, parentPath, UNIDADE_FEDERATIVA);
-    }
-
-    /**
-     * A subtype implementing {@link Path} for simplified path-based joins.
-     */
-    public static class UnidadeFederativaPath extends UnidadeFederativa implements Path<UnidadeFederativaRecord> {
-
-        private static final long serialVersionUID = 1L;
-        public <O extends Record> UnidadeFederativaPath(Table<O> path, ForeignKey<O, UnidadeFederativaRecord> childPath, InverseForeignKey<O, UnidadeFederativaRecord> parentPath) {
-            super(path, childPath, parentPath);
-        }
-        private UnidadeFederativaPath(Name alias, Table<UnidadeFederativaRecord> aliased) {
-            super(alias, aliased);
-        }
-
-        @Override
-        public UnidadeFederativaPath as(String alias) {
-            return new UnidadeFederativaPath(DSL.name(alias), this);
-        }
-
-        @Override
-        public UnidadeFederativaPath as(Name alias) {
-            return new UnidadeFederativaPath(alias, this);
-        }
-
-        @Override
-        public UnidadeFederativaPath as(Table<?> alias) {
-            return new UnidadeFederativaPath(alias.getQualifiedName(), this);
-        }
-    }
-
     @Override
     public Schema getSchema() {
         return aliased() ? null : Public.PUBLIC;
@@ -145,19 +107,6 @@ public class UnidadeFederativa extends TableImpl<UnidadeFederativaRecord> {
     @Override
     public UniqueKey<UnidadeFederativaRecord> getPrimaryKey() {
         return Keys.UNIDADE_FEDERATIVA_PKEY;
-    }
-
-    private transient EnderecoPath _endereco;
-
-    /**
-     * Get the implicit to-many join path to the <code>public.endereco</code>
-     * table
-     */
-    public EnderecoPath endereco() {
-        if (_endereco == null)
-            _endereco = new EnderecoPath(this, null, Keys.ENDERECO__FKSBFB2MDC0HMIXWPUD2D8O8QOY.getInverseKey());
-
-        return _endereco;
     }
 
     @Override

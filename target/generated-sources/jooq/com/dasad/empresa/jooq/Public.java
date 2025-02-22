@@ -8,7 +8,6 @@ import com.dasad.empresa.jooq.tables.Cidade;
 import com.dasad.empresa.jooq.tables.Cliente;
 import com.dasad.empresa.jooq.tables.Desconto;
 import com.dasad.empresa.jooq.tables.Endereco;
-import com.dasad.empresa.jooq.tables.Endereco2;
 import com.dasad.empresa.jooq.tables.Estado;
 import com.dasad.empresa.jooq.tables.Estoque;
 import com.dasad.empresa.jooq.tables.Fornecedor;
@@ -66,11 +65,6 @@ public class Public extends SchemaImpl {
      * The table <code>public.endereco</code>.
      */
     public final Endereco ENDERECO = Endereco.ENDERECO;
-
-    /**
-     * The table <code>public.endereco2</code>.
-     */
-    public final Endereco2 ENDERECO2 = Endereco2.ENDERECO2;
 
     /**
      * The table <code>public.estado</code>.
@@ -172,7 +166,6 @@ public class Public extends SchemaImpl {
             Cliente.CLIENTE,
             Desconto.DESCONTO,
             Endereco.ENDERECO,
-            Endereco2.ENDERECO2,
             Estado.ESTADO,
             Estoque.ESTOQUE,
             Fornecedor.FORNECEDOR,

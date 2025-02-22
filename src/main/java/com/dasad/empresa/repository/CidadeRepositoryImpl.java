@@ -30,6 +30,8 @@ public class CidadeRepositoryImpl implements CidadeRepository {
         Optional.ofNullable(estadoId)
                 .ifPresent(id -> query.where(Cidade.CIDADE.ESTADO_ID.eq(id)));
 
+        query.orderBy(Cidade.CIDADE.NOME.asc());
+
         return query.fetch(CidadeRepositoryImpl::getCidadeModel);
     }
 

@@ -28,4 +28,5 @@ controller\AuthControllerTest$LoginTests.class
 controller\EnderecoControllerTest$DeleteEnderecoTests.class
 controller\SenhaControllerTest.class
 infra\security\AuthorizationServiceTest.class
+controller\CidadeControllerTest.class
 controller\UsuarioControllerTest$DeleteUsuarioTests.class

@@ -1,18 +1,22 @@
 package com.dasad.empresa.repository.query;
 
+import com.dasad.empresa.jooq.tables.Cidade;
 import com.dasad.empresa.jooq.tables.Endereco;
+import com.dasad.empresa.jooq.tables.Estado;
+import com.dasad.empresa.jooq.tables.Pais;
 import com.dasad.empresa.jooq.tables.Perfil;
-import com.dasad.empresa.jooq.tables.UnidadeFederativa;
 import com.dasad.empresa.jooq.tables.Usuario;
 import com.dasad.empresa.jooq.tables.UsuarioPerfil;
+import com.dasad.empresa.model.CidadeModel;
 import com.dasad.empresa.model.EnderecoModel;
+import com.dasad.empresa.model.EstadoModel;
+import com.dasad.empresa.model.PaisModel;
 import com.dasad.empresa.model.PerfilModel;
-import com.dasad.empresa.model.UnidadeFederativaModel;
 import com.dasad.empresa.model.UsuarioModel;
 import jakarta.annotation.Nonnull;
 import jakarta.validation.constraints.NotNull;
 import org.jooq.DSLContext;
-import org.jooq.Record17;
+import org.jooq.Record20;
 import org.jooq.SelectOnConditionStep;
 import org.jooq.impl.DSL;
 
@@ -21,10 +25,10 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-import static com.dasad.empresa.util.DataUtil.convertLocalDateToString;
+import static com.dasad.empresa.jooq.tables.Endereco.ENDERECO;
 
 public class UsuarioQueryBuilder {
-    private final @NotNull SelectOnConditionStep<Record17<Integer, String, String, String, LocalDate, Integer, String, Integer, String, Integer, String, String, String, String, Integer, String, String>> query;
+    private final @NotNull SelectOnConditionStep<Record20<Integer, String, String, String, LocalDate, Integer, String, Integer, String, String, String, String, Integer, String, String, Integer, String, Integer, String, Integer>> query;
     private final static Integer DEFAULT_LIMIT = 10;
     private final DSLContext dslContext;
 
@@ -38,24 +42,29 @@ public class UsuarioQueryBuilder {
                         Usuario.USUARIO.DATA_NASCIMENTO,
                         Perfil.PERFIL.ID.as("perfil_id"),
                         Perfil.PERFIL.NOME.as("perfil_nome"),
-                        Endereco.ENDERECO.ID.as("endereco_id"),
-                        Endereco.ENDERECO.LOGRADOURO,
-                        Endereco.ENDERECO.NUMERO,
-                        Endereco.ENDERECO.COMPLEMENTO,
-                        Endereco.ENDERECO.BAIRRO,
-                        Endereco.ENDERECO.CIDADE,
-                        Endereco.ENDERECO.CEP,
-                        UnidadeFederativa.UNIDADE_FEDERATIVA.ID.as("unidade_federatival_id"),
-                        UnidadeFederativa.UNIDADE_FEDERATIVA.SIGLA,
-                        UnidadeFederativa.UNIDADE_FEDERATIVA.NOME
+                        ENDERECO.ID.as("endereco_id"),
+                        ENDERECO.LOGRADOURO,
+                        ENDERECO.NUMERO,
+                        ENDERECO.COMPLEMENTO,
+                        ENDERECO.BAIRRO,
+                        ENDERECO.CIDADE_ID,
+                        ENDERECO.CEP,
+                        Cidade.CIDADE.NOME,
+                        Cidade.CIDADE.ESTADO_ID,
+                        Estado.ESTADO.NOME,
+                        Estado.ESTADO.ID,
+                        Pais.PAIS.NOME,
+                        Pais.PAIS.ID
                 )
                 .from(Usuario.USUARIO)
                 .leftJoin(UsuarioPerfil.USUARIO_PERFIL)
                 .on(Usuario.USUARIO.ID.eq(UsuarioPerfil.USUARIO_PERFIL.USUARIO_ID))
                 .leftJoin(Perfil.PERFIL)
                 .on(UsuarioPerfil.USUARIO_PERFIL.PERFIL_ID.eq(Perfil.PERFIL.ID))
-                .leftJoin(Endereco.ENDERECO).on(Usuario.USUARIO.ID.eq(Endereco.ENDERECO.USUARIO_ID))
-                .leftJoin(UnidadeFederativa.UNIDADE_FEDERATIVA).on(Endereco.ENDERECO.UNIDADE_FEDERATIVA_ID.eq(UnidadeFederativa.UNIDADE_FEDERATIVA.ID));
+                .leftJoin(ENDERECO).on(Usuario.USUARIO.ID.eq(ENDERECO.USUARIO_ID))
+                .leftJoin(Cidade.CIDADE).on(ENDERECO.CIDADE_ID.eq(Cidade.CIDADE.ID))
+                .leftJoin(Estado.ESTADO).on(Cidade.CIDADE.ESTADO_ID.eq(Estado.ESTADO.ID))
+                .leftJoin(Pais.PAIS).on(Estado.ESTADO.PAIS_ID.eq(Pais.PAIS.ID));
     }
 
     public UsuarioQueryBuilder withNome(@Nonnull String nome) {
@@ -109,14 +118,13 @@ public class UsuarioQueryBuilder {
                     record -> record.get(Usuario.USUARIO.ID),
                     Collectors.mapping(record -> record, Collectors.toList())
             )).values().stream().map(records -> {
-                Record17<Integer, String, String, String, LocalDate, Integer, String, Integer, String, Integer, String, String, String, String, Integer, String, String> record = records.getFirst();
+                Record20<Integer, String, String, String, LocalDate, Integer, String, Integer, String, String, String, String, Integer, String, String, Integer, String, Integer, String, Integer> record = records.getFirst();
                 UsuarioModel usuario = new UsuarioModel();
                 usuario.setId(record.get(Usuario.USUARIO.ID));
                 usuario.setNome(record.get(Usuario.USUARIO.NOME));
                 usuario.setEmail(record.get(Usuario.USUARIO.EMAIL));
                 usuario.setSenha(record.get(Usuario.USUARIO.SENHA));
-                usuario.setDataNascimento(convertLocalDateToString(record.get(Usuario.USUARIO.DATA_NASCIMENTO)));
-//                usuario.setDataNascimento(record.get(Usuario.USUARIO.DATA_NASCIMENTO));
+                usuario.setDataNascimento(record.get(Usuario.USUARIO.DATA_NASCIMENTO));
                 usuario.setPerfis(records.stream()
                         .filter(r -> r.get("perfil_id") != null)
                         .map(r -> {
@@ -127,24 +135,27 @@ public class UsuarioQueryBuilder {
                         })
                         .collect(Collectors.toList()));
                 usuario.setEnderecos(records.stream()
-                        .filter(r -> r.get(Endereco.ENDERECO.BAIRRO) != null)
+                        .filter(r -> r.get(ENDERECO.BAIRRO) != null)
                         .map(r -> {
                             var endereco = new EnderecoModel();
-                            endereco.setId(r.get(Endereco.ENDERECO.ID));
-                            endereco.setLogradouro(r.get(Endereco.ENDERECO.LOGRADOURO));
-                            endereco.setNumero(r.get(Endereco.ENDERECO.NUMERO));
-                            endereco.setComplemento(r.get(Endereco.ENDERECO.COMPLEMENTO));
-                            endereco.setBairro(r.get(Endereco.ENDERECO.BAIRRO));
-                            endereco.setCidade(r.get(Endereco.ENDERECO.CIDADE));
-                            endereco.setCep(r.get(Endereco.ENDERECO.CEP));
-                            if (r.get(UnidadeFederativa.UNIDADE_FEDERATIVA.ID) != null) {
-                                var unidadeFederativaModel = new UnidadeFederativaModel();
-                                unidadeFederativaModel.setId(r.get(UnidadeFederativa.UNIDADE_FEDERATIVA.ID));
-                                unidadeFederativaModel.setSigla(r.get(UnidadeFederativa.UNIDADE_FEDERATIVA.SIGLA));
-                                unidadeFederativaModel.setNome(r.get(UnidadeFederativa.UNIDADE_FEDERATIVA.NOME));
-                                endereco.setUf(unidadeFederativaModel);
-                            }
-
+                            endereco.setId(r.get(ENDERECO.ID));
+                            endereco.setLogradouro(r.get(ENDERECO.LOGRADOURO));
+                            endereco.setNumero(r.get(ENDERECO.NUMERO));
+                            endereco.setComplemento(r.get(ENDERECO.COMPLEMENTO));
+                            endereco.setBairro(r.get(ENDERECO.BAIRRO));
+                            var pais = new PaisModel();
+                            pais.setId(r.get(Pais.PAIS.ID));
+                            pais.setNome(r.get(Pais.PAIS.NOME));
+                            var estado = new EstadoModel();
+                            estado.setId(r.get(Estado.ESTADO.ID));
+                            estado.setNome(r.get(Estado.ESTADO.NOME));
+                            estado.setPaisId(pais);
+                            var cidade = new CidadeModel();
+                            cidade.setId(r.get(ENDERECO.CIDADE_ID));
+                            cidade.setNome(r.get(Cidade.CIDADE.NOME));
+                            cidade.setEstadoId(estado);
+                            endereco.setCidadeId(cidade);
+                            endereco.setCep(r.get(ENDERECO.CEP));
                             return endereco;
                         })
                         .collect(Collectors.toList()));

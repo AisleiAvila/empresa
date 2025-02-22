@@ -8,7 +8,6 @@ import com.dasad.empresa.jooq.tables.Cidade;
 import com.dasad.empresa.jooq.tables.Cliente;
 import com.dasad.empresa.jooq.tables.Desconto;
 import com.dasad.empresa.jooq.tables.Endereco;
-import com.dasad.empresa.jooq.tables.Endereco2;
 import com.dasad.empresa.jooq.tables.Estado;
 import com.dasad.empresa.jooq.tables.Estoque;
 import com.dasad.empresa.jooq.tables.Fornecedor;
@@ -28,7 +27,6 @@ import com.dasad.empresa.jooq.tables.UsuarioRecuperarSenha;
 import com.dasad.empresa.jooq.tables.records.CidadeRecord;
 import com.dasad.empresa.jooq.tables.records.ClienteRecord;
 import com.dasad.empresa.jooq.tables.records.DescontoRecord;
-import com.dasad.empresa.jooq.tables.records.Endereco2Record;
 import com.dasad.empresa.jooq.tables.records.EnderecoRecord;
 import com.dasad.empresa.jooq.tables.records.EstadoRecord;
 import com.dasad.empresa.jooq.tables.records.EstoqueRecord;
@@ -65,12 +63,11 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<CidadeRecord> CIDADE_PKEY = Internal.createUniqueKey(Cidade.CIDADE, DSL.name("cidade_pkey"), new TableField[] { Cidade.CIDADE.ID }, true);
+    public static final UniqueKey<CidadeRecord> CIDADE_NOVA_PKEY = Internal.createUniqueKey(Cidade.CIDADE, DSL.name("cidade_nova_pkey"), new TableField[] { Cidade.CIDADE.ID }, true);
     public static final UniqueKey<ClienteRecord> CLIENTE_EMAIL_KEY = Internal.createUniqueKey(Cliente.CLIENTE, DSL.name("cliente_email_key"), new TableField[] { Cliente.CLIENTE.EMAIL }, true);
     public static final UniqueKey<ClienteRecord> CLIENTE_PKEY = Internal.createUniqueKey(Cliente.CLIENTE, DSL.name("cliente_pkey"), new TableField[] { Cliente.CLIENTE.ID }, true);
     public static final UniqueKey<DescontoRecord> DESCONTO_PKEY = Internal.createUniqueKey(Desconto.DESCONTO, DSL.name("desconto_pkey"), new TableField[] { Desconto.DESCONTO.ID }, true);
     public static final UniqueKey<EnderecoRecord> ENDERECO_PKEY = Internal.createUniqueKey(Endereco.ENDERECO, DSL.name("endereco_pkey"), new TableField[] { Endereco.ENDERECO.ID }, true);
-    public static final UniqueKey<Endereco2Record> ENDERECO2_PKEY = Internal.createUniqueKey(Endereco2.ENDERECO2, DSL.name("endereco2_pkey"), new TableField[] { Endereco2.ENDERECO2.ID }, true);
     public static final UniqueKey<EstadoRecord> ESTADO_PKEY = Internal.createUniqueKey(Estado.ESTADO, DSL.name("estado_pkey"), new TableField[] { Estado.ESTADO.ID }, true);
     public static final UniqueKey<EstoqueRecord> ESTOQUE_PKEY = Internal.createUniqueKey(Estoque.ESTOQUE, DSL.name("estoque_pkey"), new TableField[] { Estoque.ESTOQUE.ID }, true);
     public static final UniqueKey<FornecedorRecord> FORNECEDOR_PKEY = Internal.createUniqueKey(Fornecedor.FORNECEDOR, DSL.name("fornecedor_pkey"), new TableField[] { Fornecedor.FORNECEDOR.ID }, true);
@@ -92,12 +89,10 @@ public class Keys {
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final ForeignKey<CidadeRecord, EstadoRecord> CIDADE__CIDADE_ESTADO_ID_FKEY = Internal.createForeignKey(Cidade.CIDADE, DSL.name("cidade_estado_id_fkey"), new TableField[] { Cidade.CIDADE.ESTADO_ID }, Keys.ESTADO_PKEY, new TableField[] { Estado.ESTADO.ID }, true);
+    public static final ForeignKey<CidadeRecord, EstadoRecord> CIDADE__CIDADE_NOVA_ESTADO_ID_FKEY = Internal.createForeignKey(Cidade.CIDADE, DSL.name("cidade_nova_estado_id_fkey"), new TableField[] { Cidade.CIDADE.ESTADO_ID }, Keys.ESTADO_PKEY, new TableField[] { Estado.ESTADO.ID }, true);
     public static final ForeignKey<DescontoRecord, ProdutoRecord> DESCONTO__DESCONTO_PRODUTO_ID_FKEY = Internal.createForeignKey(Desconto.DESCONTO, DSL.name("desconto_produto_id_fkey"), new TableField[] { Desconto.DESCONTO.PRODUTO_ID }, Keys.PRODUTO_PKEY, new TableField[] { Produto.PRODUTO.ID }, true);
-    public static final ForeignKey<EnderecoRecord, UsuarioRecord> ENDERECO__FKEKDPB8K6GMP3LLLLA9D1QGMXK = Internal.createForeignKey(Endereco.ENDERECO, DSL.name("fkekdpb8k6gmp3lllla9d1qgmxk"), new TableField[] { Endereco.ENDERECO.USUARIO_ID }, Keys.USUARIO_PKEY, new TableField[] { Usuario.USUARIO.ID }, true);
-    public static final ForeignKey<EnderecoRecord, UnidadeFederativaRecord> ENDERECO__FKSBFB2MDC0HMIXWPUD2D8O8QOY = Internal.createForeignKey(Endereco.ENDERECO, DSL.name("fksbfb2mdc0hmixwpud2d8o8qoy"), new TableField[] { Endereco.ENDERECO.UNIDADE_FEDERATIVA_ID }, Keys.UNIDADE_FEDERATIVA_PKEY, new TableField[] { UnidadeFederativa.UNIDADE_FEDERATIVA.ID }, true);
-    public static final ForeignKey<Endereco2Record, CidadeRecord> ENDERECO2__ENDERECO2_CIDADE_ID_FKEY = Internal.createForeignKey(Endereco2.ENDERECO2, DSL.name("endereco2_cidade_id_fkey"), new TableField[] { Endereco2.ENDERECO2.CIDADE_ID }, Keys.CIDADE_PKEY, new TableField[] { Cidade.CIDADE.ID }, true);
-    public static final ForeignKey<Endereco2Record, UsuarioRecord> ENDERECO2__ENDERECO2_USUARIO_ID_FKEY = Internal.createForeignKey(Endereco2.ENDERECO2, DSL.name("endereco2_usuario_id_fkey"), new TableField[] { Endereco2.ENDERECO2.USUARIO_ID }, Keys.USUARIO_PKEY, new TableField[] { Usuario.USUARIO.ID }, true);
+    public static final ForeignKey<EnderecoRecord, CidadeRecord> ENDERECO__ENDERECO2_CIDADE_ID_FKEY = Internal.createForeignKey(Endereco.ENDERECO, DSL.name("endereco2_cidade_id_fkey"), new TableField[] { Endereco.ENDERECO.CIDADE_ID }, Keys.CIDADE_NOVA_PKEY, new TableField[] { Cidade.CIDADE.ID }, true);
+    public static final ForeignKey<EnderecoRecord, UsuarioRecord> ENDERECO__ENDERECO2_USUARIO_ID_FKEY = Internal.createForeignKey(Endereco.ENDERECO, DSL.name("endereco2_usuario_id_fkey"), new TableField[] { Endereco.ENDERECO.USUARIO_ID }, Keys.USUARIO_PKEY, new TableField[] { Usuario.USUARIO.ID }, true);
     public static final ForeignKey<EstadoRecord, PaisRecord> ESTADO__ESTADO_PAIS_ID_FKEY = Internal.createForeignKey(Estado.ESTADO, DSL.name("estado_pais_id_fkey"), new TableField[] { Estado.ESTADO.PAIS_ID }, Keys.PAIS_PKEY, new TableField[] { Pais.PAIS.ID }, true);
     public static final ForeignKey<EstoqueRecord, ProdutoRecord> ESTOQUE__ESTOQUE_PRODUTO_ID_FKEY = Internal.createForeignKey(Estoque.ESTOQUE, DSL.name("estoque_produto_id_fkey"), new TableField[] { Estoque.ESTOQUE.PRODUTO_ID }, Keys.PRODUTO_PKEY, new TableField[] { Produto.PRODUTO.ID }, true);
     public static final ForeignKey<HistoricoPrecoRecord, ProdutoRecord> HISTORICO_PRECO__HISTORICO_PRECO_PRODUTO_ID_FKEY = Internal.createForeignKey(HistoricoPreco.HISTORICO_PRECO, DSL.name("historico_preco_produto_id_fkey"), new TableField[] { HistoricoPreco.HISTORICO_PRECO.PRODUTO_ID }, Keys.PRODUTO_PKEY, new TableField[] { Produto.PRODUTO.ID }, true);

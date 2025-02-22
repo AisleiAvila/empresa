@@ -1,7 +1,6 @@
 package com.dasad.empresa.controller;
 
 import com.dasad.empresa.api.CidadeApi;
-import com.dasad.empresa.api.EstadoApi;
 import com.dasad.empresa.model.CidadeModel;
 import com.dasad.empresa.service.CidadeService;
 import org.springframework.beans.factory.annotation.Autowired;

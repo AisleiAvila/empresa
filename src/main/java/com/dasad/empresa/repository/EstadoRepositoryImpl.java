@@ -2,8 +2,9 @@ package com.dasad.empresa.repository;
 
 import com.dasad.empresa.jooq.tables.Estado;
 import com.dasad.empresa.model.EstadoModel;
+import com.dasad.empresa.model.PaisModel;
 import org.jooq.DSLContext;
-import org.jooq.Record2;
+import org.jooq.Record3;
 import org.jooq.SelectJoinStep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -30,6 +31,8 @@ public class EstadoRepositoryImpl implements EstadoRepository {
         Optional.ofNullable(paisId)
                 .ifPresent(id -> query.where(Estado.ESTADO.PAIS_ID.eq(id)));
 
+        query.orderBy(Estado.ESTADO.NOME.asc());
+
         return query.fetch(EstadoRepositoryImpl::getEstadoModel);
     }
 
@@ -41,15 +44,16 @@ public class EstadoRepositoryImpl implements EstadoRepository {
         );
     }
 
-    private SelectJoinStep<Record2<Integer, String>> buildBaseQuery() {
+    private SelectJoinStep<Record3<Integer, String, Integer>> buildBaseQuery() {
         return this.dsl.select(
                         Estado.ESTADO.ID,
-                        Estado.ESTADO.NOME
+                        Estado.ESTADO.NOME,
+                        Estado.ESTADO.PAIS_ID
                 )
                 .from(Estado.ESTADO);
     }
 
-    private static EstadoModel getEstadoModel(Record2<Integer, String> record) {
+    private static EstadoModel getEstadoModel(Record3<Integer, String, Integer> record) {
         if (record == null) {
             return null;
         }
@@ -57,6 +61,9 @@ public class EstadoRepositoryImpl implements EstadoRepository {
         var estado = new EstadoModel();
         estado.setId(record.get(Estado.ESTADO.ID));
         estado.setNome(record.get(Estado.ESTADO.NOME));
+        var pais = new PaisModel();
+        pais.setId(record.get(Estado.ESTADO.PAIS_ID));
+        estado.setPaisId(pais);
         return estado;
     }
 }

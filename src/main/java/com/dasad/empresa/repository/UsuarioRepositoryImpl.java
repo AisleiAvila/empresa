@@ -1,13 +1,16 @@
 package com.dasad.empresa.repository;
 
 import com.dasad.empresa.exception.EmailAlreadyExistsException;
-import com.dasad.empresa.jooq.tables.Endereco;
-import com.dasad.empresa.jooq.tables.UnidadeFederativa;
+import com.dasad.empresa.jooq.tables.Cidade;
+import com.dasad.empresa.jooq.tables.Estado;
+import com.dasad.empresa.jooq.tables.Pais;
 import com.dasad.empresa.jooq.tables.Usuario;
 import com.dasad.empresa.jooq.tables.UsuarioPerfil;
+import com.dasad.empresa.model.CidadeModel;
 import com.dasad.empresa.model.EnderecoModel;
+import com.dasad.empresa.model.EstadoModel;
+import com.dasad.empresa.model.PaisModel;
 import com.dasad.empresa.model.PerfilModel;
-import com.dasad.empresa.model.UnidadeFederativaModel;
 import com.dasad.empresa.model.UsuarioModel;
 import com.dasad.empresa.model.UsuarioRequest;
 import com.dasad.empresa.repository.query.UsuarioQueryBuilder;
@@ -24,10 +27,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static com.dasad.empresa.jooq.tables.Endereco.ENDERECO;
 import static com.dasad.empresa.jooq.tables.Perfil.PERFIL;
 import static com.dasad.empresa.jooq.tables.UsuarioPerfil.USUARIO_PERFIL;
-import static com.dasad.empresa.util.DataUtil.convertLocalDateToString;
-import static com.dasad.empresa.util.DataUtil.convertStringToLocalDate;
 
 @Repository
 //@Transactional
@@ -78,24 +80,28 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
                         Usuario.USUARIO.DATA_NASCIMENTO,
                         PERFIL.ID.as("perfil_id"),
                         PERFIL.NOME.as("perfil_nome"),
-                        Endereco.ENDERECO.ID.as("endereco_id"),
-                        Endereco.ENDERECO.LOGRADOURO,
-                        Endereco.ENDERECO.NUMERO,
-                        Endereco.ENDERECO.COMPLEMENTO,
-                        Endereco.ENDERECO.BAIRRO,
-                        Endereco.ENDERECO.CIDADE,
-                        Endereco.ENDERECO.CEP,
-                        UnidadeFederativa.UNIDADE_FEDERATIVA.ID.as("unidade_federatival_id"),
-                        UnidadeFederativa.UNIDADE_FEDERATIVA.SIGLA,
-                        UnidadeFederativa.UNIDADE_FEDERATIVA.NOME
+                        ENDERECO.ID.as("endereco_id"),
+                        ENDERECO.LOGRADOURO,
+                        ENDERECO.NUMERO,
+                        ENDERECO.COMPLEMENTO,
+                        ENDERECO.BAIRRO,
+                        ENDERECO.CIDADE_ID.as("cidade_id"),
+                        ENDERECO.CEP,
+                        Cidade.CIDADE.NOME.as("cidade_nome"),
+                        Estado.ESTADO.ID.as("estado_id"),
+                        Estado.ESTADO.NOME.as("estado_nome"),
+                        Pais.PAIS.ID.as("pais_id"),
+                        Pais.PAIS.NOME.as("pais_nome")
                 )
                 .from(Usuario.USUARIO)
                 .leftJoin(UsuarioPerfil.USUARIO_PERFIL)
                 .on(Usuario.USUARIO.ID.eq(UsuarioPerfil.USUARIO_PERFIL.USUARIO_ID))
                 .leftJoin(PERFIL)
                 .on(UsuarioPerfil.USUARIO_PERFIL.PERFIL_ID.eq(PERFIL.ID))
-                .leftJoin(Endereco.ENDERECO).on(Usuario.USUARIO.ID.eq(Endereco.ENDERECO.USUARIO_ID))
-                .leftJoin(UnidadeFederativa.UNIDADE_FEDERATIVA).on(Endereco.ENDERECO.UNIDADE_FEDERATIVA_ID.eq(UnidadeFederativa.UNIDADE_FEDERATIVA.ID))
+                .leftJoin(ENDERECO).on(Usuario.USUARIO.ID.eq(ENDERECO.USUARIO_ID))
+                .leftJoin(Cidade.CIDADE).on(ENDERECO.CIDADE_ID.eq(Cidade.CIDADE.ID))
+                .leftJoin(Estado.ESTADO).on(Cidade.CIDADE.ESTADO_ID.eq(Estado.ESTADO.ID))
+                .leftJoin(Pais.PAIS).on(Estado.ESTADO.PAIS_ID.eq(Pais.PAIS.ID))
                 .where(Usuario.USUARIO.ID.eq(id))
                 .fetchOptional()
                 .map(record -> {
@@ -103,8 +109,8 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
                     usuario.setId(record.get(Usuario.USUARIO.ID));
                     usuario.setNome(record.get(Usuario.USUARIO.NOME));
                     usuario.setEmail(record.get(Usuario.USUARIO.EMAIL));
-                    usuario.setDataNascimento(convertLocalDateToString(record.get(Usuario.USUARIO.DATA_NASCIMENTO)));
-//                    usuario.setDataNascimento(record.get(Usuario.USUARIO.DATA_NASCIMENTO));
+//                    usuario.setDataNascimento(convertLocalDateToString(record.get(Usuario.USUARIO.DATA_NASCIMENTO)));
+                    usuario.setDataNascimento(record.get(Usuario.USUARIO.DATA_NASCIMENTO));
                     if (record.get("perfil_id") != null) {
                         PerfilModel perfil = new PerfilModel();
                         perfil.setId(record.get("perfil_id", Integer.class));
@@ -116,18 +122,23 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
                     if (record.get("endereco_id") != null) {
                         EnderecoModel endereco = new EnderecoModel();
                         endereco.setId(record.get("endereco_id", Integer.class));
-                        endereco.setLogradouro(record.get(Endereco.ENDERECO.LOGRADOURO));
-                        endereco.setNumero(record.get(Endereco.ENDERECO.NUMERO));
-                        endereco.setComplemento(record.get(Endereco.ENDERECO.COMPLEMENTO));
-                        endereco.setBairro(record.get(Endereco.ENDERECO.BAIRRO));
-                        endereco.setCidade(record.get(Endereco.ENDERECO.CIDADE));
-                        endereco.setCep(record.get(Endereco.ENDERECO.CEP));
-                        if (record.get("unidade_federatival_id") != null) {
-                            UnidadeFederativaModel unidadeFederativa = new UnidadeFederativaModel();
-                            unidadeFederativa.setId(record.get("unidade_federatival_id", Integer.class));
-                            unidadeFederativa.setSigla(record.get(UnidadeFederativa.UNIDADE_FEDERATIVA.SIGLA));
-                            unidadeFederativa.setNome(record.get(UnidadeFederativa.UNIDADE_FEDERATIVA.NOME));
-                            endereco.setUf(unidadeFederativa);
+                        endereco.setLogradouro(record.get(ENDERECO.LOGRADOURO));
+                        endereco.setNumero(record.get(ENDERECO.NUMERO));
+                        endereco.setComplemento(record.get(ENDERECO.COMPLEMENTO));
+                        endereco.setBairro(record.get(ENDERECO.BAIRRO));
+                        endereco.setCep(record.get(ENDERECO.CEP));
+                        if (record.get("cidade_id") != null && record.get("estado_id") != null && record.get("pais_id") != null) {
+                            var estado = new EstadoModel();
+                            estado.setId(record.get("estado_id", Integer.class));
+                            estado.setNome(record.get("estado_nome", String.class));
+                            var pais = new PaisModel();
+                            pais.setId(record.get("pais_id", Integer.class));
+                            estado.setPaisId(pais);
+                            CidadeModel cidade = new CidadeModel();
+                            cidade.setId(record.get("cidade_id", Integer.class));
+                            cidade.setNome(record.get("cidade_nome", String.class));
+                            cidade.setEstadoId(estado);
+                            endereco.setCidadeId(cidade);
                         }
                         usuario.setEnderecos(new ArrayList<>(Collections.singleton(endereco)));
                     } else {
@@ -152,8 +163,8 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
                     usuario.setNome(record.get(Usuario.USUARIO.NOME));
                     usuario.setEmail(record.get(Usuario.USUARIO.EMAIL));
                     usuario.setSenha(record.get(Usuario.USUARIO.SENHA));
-                    usuario.setDataNascimento(convertLocalDateToString(record.get(Usuario.USUARIO.DATA_NASCIMENTO)));
-//                    usuario.setDataNascimento(record.get(Usuario.USUARIO.DATA_NASCIMENTO));
+//                    usuario.setDataNascimento(convertLocalDateToString(record.get(Usuario.USUARIO.DATA_NASCIMENTO)));
+                    usuario.setDataNascimento(record.get(Usuario.USUARIO.DATA_NASCIMENTO));
                     if (record.get(USUARIO_PERFIL.PERFIL_ID) != null) {
                         PerfilModel perfil = new PerfilModel();
                         perfil.setId(record.get(USUARIO_PERFIL.PERFIL_ID));
@@ -183,8 +194,8 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
                     .set(Usuario.USUARIO.NOME, usuario.getNome())
                     .set(Usuario.USUARIO.EMAIL, usuario.getEmail())
                     .set(Usuario.USUARIO.SENHA, usuario.getSenha())
-                    .set(Usuario.USUARIO.DATA_NASCIMENTO, convertStringToLocalDate(usuario.getDataNascimento()))
-//                    .set(Usuario.USUARIO.DATA_NASCIMENTO, usuario.getDataNascimento())
+//                    .set(Usuario.USUARIO.DATA_NASCIMENTO, convertStringToLocalDate(usuario.getDataNascimento()))
+                    .set(Usuario.USUARIO.DATA_NASCIMENTO, usuario.getDataNascimento())
                     .execute();
 
             Integer userId = ctx.select(Usuario.USUARIO.ID)
@@ -207,7 +218,7 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
             ctx.update(Usuario.USUARIO)
                     .set(Usuario.USUARIO.NOME, usuarioModel.getNome())
                     .set(Usuario.USUARIO.EMAIL, usuarioModel.getEmail())
-                    .set(Usuario.USUARIO.DATA_NASCIMENTO, convertStringToLocalDate(usuarioModel.getDataNascimento()))
+                    .set(Usuario.USUARIO.DATA_NASCIMENTO, usuarioModel.getDataNascimento())
                     .where(Usuario.USUARIO.ID.eq(usuarioModel.getId()))
                     .execute();
 
@@ -265,37 +276,37 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
 
     private boolean isEnderecoExists(UsuarioModel usuario, EnderecoModel endereco, DSLContext ctx) {
         return ctx.fetchExists(
-                ctx.selectFrom(Endereco.ENDERECO)
-                        .where(Endereco.ENDERECO.ID.eq(endereco.getId())
-                                .and(Endereco.ENDERECO.USUARIO_ID.eq(usuario.getId())))
+                ctx.selectFrom(ENDERECO)
+                        .where(ENDERECO.ID.eq(endereco.getId())
+                                .and(ENDERECO.USUARIO_ID.eq(usuario.getId())))
         );
     }
 
     private void insertEnderecoUsuario(UsuarioModel usuario, EnderecoModel endereco, DSLContext ctx) {
-        Integer ufId = endereco.getUf() != null ? endereco.getUf().getId() : null;
-        ctx.insertInto(Endereco.ENDERECO)
-                .set(Endereco.ENDERECO.BAIRRO, endereco.getBairro())
-                .set(Endereco.ENDERECO.CEP, endereco.getCep())
-                .set(Endereco.ENDERECO.CIDADE, endereco.getCidade())
-                .set(Endereco.ENDERECO.LOGRADOURO, endereco.getLogradouro())
-                .set(Endereco.ENDERECO.USUARIO_ID, usuario.getId())
-                .set(Endereco.ENDERECO.UNIDADE_FEDERATIVA_ID, ufId)
-                .set(Endereco.ENDERECO.NUMERO, endereco.getNumero())
-                .set(Endereco.ENDERECO.COMPLEMENTO, endereco.getComplemento())
+//        Integer ufId = endereco.getUf() != null ? endereco.getUf().getId() : null;
+        ctx.insertInto(ENDERECO)
+                .set(ENDERECO.BAIRRO, endereco.getBairro())
+                .set(ENDERECO.CEP, endereco.getCep())
+                .set(ENDERECO.CIDADE_ID, endereco.getCidadeId().getId())
+                .set(ENDERECO.LOGRADOURO, endereco.getLogradouro())
+                .set(ENDERECO.USUARIO_ID, usuario.getId())
+//                .set(ENDERECO.endereco.UNIDADE_FEDERATIVA_ID, ufId)
+                .set(ENDERECO.NUMERO, endereco.getNumero())
+                .set(ENDERECO.COMPLEMENTO, endereco.getComplemento())
                 .execute();
     }
 
     private void updateEnderecoUsuario(UsuarioModel usuario, EnderecoModel endereco, DSLContext ctx) {
-        ctx.update(Endereco.ENDERECO)
-                .set(Endereco.ENDERECO.BAIRRO, endereco.getBairro())
-                .set(Endereco.ENDERECO.CEP, endereco.getCep())
-                .set(Endereco.ENDERECO.CIDADE, endereco.getCidade())
-                .set(Endereco.ENDERECO.LOGRADOURO, endereco.getLogradouro())
-                .set(Endereco.ENDERECO.UNIDADE_FEDERATIVA_ID, endereco.getUf().getId())
-                .set(Endereco.ENDERECO.NUMERO, endereco.getNumero())
-                .set(Endereco.ENDERECO.COMPLEMENTO, endereco.getComplemento())
-                .where(Endereco.ENDERECO.ID.eq(endereco.getId())
-                        .and(Endereco.ENDERECO.USUARIO_ID.eq(usuario.getId())))
+        ctx.update(ENDERECO)
+                .set(ENDERECO.BAIRRO, endereco.getBairro())
+                .set(ENDERECO.CEP, endereco.getCep())
+                .set(ENDERECO.CIDADE_ID, endereco.getCidadeId().getId())
+                .set(ENDERECO.LOGRADOURO, endereco.getLogradouro())
+//                .set(ENDERECO.endereco.UNIDADE_FEDERATIVA_ID, endereco.getUf().getId())
+                .set(ENDERECO.NUMERO, endereco.getNumero())
+                .set(ENDERECO.COMPLEMENTO, endereco.getComplemento())
+                .where(ENDERECO.ID.eq(endereco.getId())
+                        .and(ENDERECO.USUARIO_ID.eq(usuario.getId())))
                 .execute();
     }
 }
