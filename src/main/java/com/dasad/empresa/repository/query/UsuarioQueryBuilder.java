@@ -1,7 +1,6 @@
 package com.dasad.empresa.repository.query;
 
 import com.dasad.empresa.jooq.tables.Cidade;
-import com.dasad.empresa.jooq.tables.Endereco;
 import com.dasad.empresa.jooq.tables.Estado;
 import com.dasad.empresa.jooq.tables.Pais;
 import com.dasad.empresa.jooq.tables.Perfil;
@@ -35,7 +34,7 @@ public class UsuarioQueryBuilder {
     public UsuarioQueryBuilder(DSLContext db) {
         this.dslContext = db;
         this.query = db.select(
-                        Usuario.USUARIO.ID,
+                        Usuario.USUARIO.ID.as("usuario_id"),
                         Usuario.USUARIO.NOME,
                         Usuario.USUARIO.EMAIL,
                         Usuario.USUARIO.SENHA,
@@ -49,12 +48,12 @@ public class UsuarioQueryBuilder {
                         ENDERECO.BAIRRO,
                         ENDERECO.CIDADE_ID,
                         ENDERECO.CEP,
-                        Cidade.CIDADE.NOME,
-                        Cidade.CIDADE.ESTADO_ID,
-                        Estado.ESTADO.NOME,
-                        Estado.ESTADO.ID,
-                        Pais.PAIS.NOME,
-                        Pais.PAIS.ID
+                        Cidade.CIDADE.NOME.as("cidade_nome"),
+                        Cidade.CIDADE.ESTADO_ID.as("cidade_estado_id"),
+                        Estado.ESTADO.NOME.as("estado_nome"),
+                        Estado.ESTADO.ID.as("estado_id"),
+                        Pais.PAIS.NOME.as("pais_nome"),
+                        Pais.PAIS.ID.as("pais_id")
                 )
                 .from(Usuario.USUARIO)
                 .leftJoin(UsuarioPerfil.USUARIO_PERFIL)
@@ -115,12 +114,12 @@ public class UsuarioQueryBuilder {
     public CompletableFuture<List<UsuarioModel>> build() {
         return CompletableFuture.supplyAsync(() -> {
             return this.query.fetch().stream().collect(Collectors.groupingBy(
-                    record -> record.get(Usuario.USUARIO.ID),
+                    record -> record.get("usuario_id", Integer.class),
                     Collectors.mapping(record -> record, Collectors.toList())
             )).values().stream().map(records -> {
-                Record20<Integer, String, String, String, LocalDate, Integer, String, Integer, String, String, String, String, Integer, String, String, Integer, String, Integer, String, Integer> record = records.getFirst();
+                Record20<Integer, String, String, String, LocalDate, Integer, String, Integer, String, String, String, String, Integer, String, String, Integer, String, Integer, String, Integer> record = records.get(0);
                 UsuarioModel usuario = new UsuarioModel();
-                usuario.setId(record.get(Usuario.USUARIO.ID));
+                usuario.setId(record.get("usuario_id", Integer.class));
                 usuario.setNome(record.get(Usuario.USUARIO.NOME));
                 usuario.setEmail(record.get(Usuario.USUARIO.EMAIL));
                 usuario.setSenha(record.get(Usuario.USUARIO.SENHA));
@@ -138,21 +137,21 @@ public class UsuarioQueryBuilder {
                         .filter(r -> r.get(ENDERECO.BAIRRO) != null)
                         .map(r -> {
                             var endereco = new EnderecoModel();
-                            endereco.setId(r.get(ENDERECO.ID));
+                            endereco.setId(r.get("endereco_id", Integer.class));
                             endereco.setLogradouro(r.get(ENDERECO.LOGRADOURO));
                             endereco.setNumero(r.get(ENDERECO.NUMERO));
                             endereco.setComplemento(r.get(ENDERECO.COMPLEMENTO));
                             endereco.setBairro(r.get(ENDERECO.BAIRRO));
                             var pais = new PaisModel();
-                            pais.setId(r.get(Pais.PAIS.ID));
-                            pais.setNome(r.get(Pais.PAIS.NOME));
+                            pais.setId(r.get("pais_id", Integer.class));
+                            pais.setNome(r.get("pais_nome", String.class));
                             var estado = new EstadoModel();
-                            estado.setId(r.get(Estado.ESTADO.ID));
-                            estado.setNome(r.get(Estado.ESTADO.NOME));
+                            estado.setId(r.get("estado_id", Integer.class));
+                            estado.setNome(r.get("estado_nome", String.class));
                             estado.setPaisId(pais);
                             var cidade = new CidadeModel();
                             cidade.setId(r.get(ENDERECO.CIDADE_ID));
-                            cidade.setNome(r.get(Cidade.CIDADE.NOME));
+                            cidade.setNome(r.get("cidade_nome", String.class));
                             cidade.setEstadoId(estado);
                             endereco.setCidadeId(cidade);
                             endereco.setCep(r.get(ENDERECO.CEP));
