@@ -1009,6 +1009,8 @@ components:
           type: string
         authorization:
           type: string
+        perfil:
+          type: string
     UsuarioResponseDTO:
       type: object
       properties:

@@ -63,6 +63,7 @@ public class AuthController implements AuthApi {
                 var loginResponseDTO  =  new LoginResponseDTO();
                 loginResponseDTO.setNome(usuario.getNome());
                 loginResponseDTO.setAuthorization(authorization);
+                loginResponseDTO.setPerfil(usuario.getPerfis().get(0).getNome());
                 return ResponseEntity.ok(loginResponseDTO);
             }
         }
@@ -94,6 +95,7 @@ public class AuthController implements AuthApi {
             var loginResponseDTO  =  new LoginResponseDTO();
             loginResponseDTO.setNome(usuario.getNome());
             loginResponseDTO.setAuthorization(authorization);
+            loginResponseDTO.setPerfil(usuario.getPerfis().get(0).getNome());
             return ResponseEntity.ok(loginResponseDTO);
         } else {
             return ResponseEntity.badRequest().build();

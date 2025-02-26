@@ -294,6 +294,12 @@
                                 usuario |
                                 usuario_perfil |
                                 usuario_recuperar_senha |
+                                categoria_equipamentos |
+                                categorias |
+                                desconto |
+                                precos_regionais |
+                                regioes |
+                                subcategorias
                             </includes>
                             <inputSchema>public</inputSchema>
                             <outputSchema>public</outputSchema>

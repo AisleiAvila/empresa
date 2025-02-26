@@ -4,6 +4,8 @@
 package com.dasad.empresa.jooq;
 
 
+import com.dasad.empresa.jooq.tables.CategoriaEquipamentos;
+import com.dasad.empresa.jooq.tables.Categorias;
 import com.dasad.empresa.jooq.tables.Cidade;
 import com.dasad.empresa.jooq.tables.Cliente;
 import com.dasad.empresa.jooq.tables.Desconto;
@@ -18,8 +20,11 @@ import com.dasad.empresa.jooq.tables.Pais;
 import com.dasad.empresa.jooq.tables.PasswordResetToken;
 import com.dasad.empresa.jooq.tables.Pedido;
 import com.dasad.empresa.jooq.tables.Perfil;
+import com.dasad.empresa.jooq.tables.PrecosRegionais;
 import com.dasad.empresa.jooq.tables.Produto;
 import com.dasad.empresa.jooq.tables.ProdutoFornecedor;
+import com.dasad.empresa.jooq.tables.Regioes;
+import com.dasad.empresa.jooq.tables.Subcategorias;
 import com.dasad.empresa.jooq.tables.UnidadeFederativa;
 import com.dasad.empresa.jooq.tables.Usuario;
 import com.dasad.empresa.jooq.tables.UsuarioPerfil;
@@ -31,6 +36,16 @@ import com.dasad.empresa.jooq.tables.UsuarioRecuperarSenha;
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes", "this-escape" })
 public class Tables {
+
+    /**
+     * Equipamentos necessários para cada categoria de serviço
+     */
+    public static final CategoriaEquipamentos CATEGORIA_EQUIPAMENTOS = CategoriaEquipamentos.CATEGORIA_EQUIPAMENTOS;
+
+    /**
+     * Tabela principal de categorias de serviços
+     */
+    public static final Categorias CATEGORIAS = Categorias.CATEGORIAS;
 
     /**
      * The table <code>public.cidade</code>.
@@ -103,6 +118,11 @@ public class Tables {
     public static final Perfil PERFIL = Perfil.PERFIL;
 
     /**
+     * Preços diferenciados por região para cada subcategoria
+     */
+    public static final PrecosRegionais PRECOS_REGIONAIS = PrecosRegionais.PRECOS_REGIONAIS;
+
+    /**
      * The table <code>public.produto</code>.
      */
     public static final Produto PRODUTO = Produto.PRODUTO;
@@ -111,6 +131,16 @@ public class Tables {
      * The table <code>public.produto_fornecedor</code>.
      */
     public static final ProdutoFornecedor PRODUTO_FORNECEDOR = ProdutoFornecedor.PRODUTO_FORNECEDOR;
+
+    /**
+     * Regiões de atuação dos prestadores de serviço
+     */
+    public static final Regioes REGIOES = Regioes.REGIOES;
+
+    /**
+     * Tabela de subcategorias de serviços vinculadas às categorias
+     */
+    public static final Subcategorias SUBCATEGORIAS = Subcategorias.SUBCATEGORIAS;
 
     /**
      * The table <code>public.unidade_federativa</code>.

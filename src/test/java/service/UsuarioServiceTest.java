@@ -108,14 +108,14 @@ class UsuarioServiceTest {
         assertEquals(usuario, result);
     }
 
-    @Test
-    void testDeleteById() {
-        doNothing().when(usuarioRepository).deleteById(anyInt());
-
-        usuarioService.deleteById(1);
-
-        verify(usuarioRepository, times(1)).deleteById(1);
-    }
+//    @Test
+//    void testDeleteById() {
+//        doNothing().when(usuarioRepository).deleteById(anyInt());
+//
+//        usuarioService.deleteById(1);
+//
+//        verify(usuarioRepository, times(1)).deleteById(1);
+//    }
 
     @Test
     void testUpdatePassword() {

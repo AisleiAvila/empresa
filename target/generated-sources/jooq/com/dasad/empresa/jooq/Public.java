@@ -4,6 +4,8 @@
 package com.dasad.empresa.jooq;
 
 
+import com.dasad.empresa.jooq.tables.CategoriaEquipamentos;
+import com.dasad.empresa.jooq.tables.Categorias;
 import com.dasad.empresa.jooq.tables.Cidade;
 import com.dasad.empresa.jooq.tables.Cliente;
 import com.dasad.empresa.jooq.tables.Desconto;
@@ -18,8 +20,11 @@ import com.dasad.empresa.jooq.tables.Pais;
 import com.dasad.empresa.jooq.tables.PasswordResetToken;
 import com.dasad.empresa.jooq.tables.Pedido;
 import com.dasad.empresa.jooq.tables.Perfil;
+import com.dasad.empresa.jooq.tables.PrecosRegionais;
 import com.dasad.empresa.jooq.tables.Produto;
 import com.dasad.empresa.jooq.tables.ProdutoFornecedor;
+import com.dasad.empresa.jooq.tables.Regioes;
+import com.dasad.empresa.jooq.tables.Subcategorias;
 import com.dasad.empresa.jooq.tables.UnidadeFederativa;
 import com.dasad.empresa.jooq.tables.Usuario;
 import com.dasad.empresa.jooq.tables.UsuarioPerfil;
@@ -45,6 +50,16 @@ public class Public extends SchemaImpl {
      * The reference instance of <code>public</code>
      */
     public static final Public PUBLIC = new Public();
+
+    /**
+     * Equipamentos necessários para cada categoria de serviço
+     */
+    public final CategoriaEquipamentos CATEGORIA_EQUIPAMENTOS = CategoriaEquipamentos.CATEGORIA_EQUIPAMENTOS;
+
+    /**
+     * Tabela principal de categorias de serviços
+     */
+    public final Categorias CATEGORIAS = Categorias.CATEGORIAS;
 
     /**
      * The table <code>public.cidade</code>.
@@ -117,6 +132,11 @@ public class Public extends SchemaImpl {
     public final Perfil PERFIL = Perfil.PERFIL;
 
     /**
+     * Preços diferenciados por região para cada subcategoria
+     */
+    public final PrecosRegionais PRECOS_REGIONAIS = PrecosRegionais.PRECOS_REGIONAIS;
+
+    /**
      * The table <code>public.produto</code>.
      */
     public final Produto PRODUTO = Produto.PRODUTO;
@@ -125,6 +145,16 @@ public class Public extends SchemaImpl {
      * The table <code>public.produto_fornecedor</code>.
      */
     public final ProdutoFornecedor PRODUTO_FORNECEDOR = ProdutoFornecedor.PRODUTO_FORNECEDOR;
+
+    /**
+     * Regiões de atuação dos prestadores de serviço
+     */
+    public final Regioes REGIOES = Regioes.REGIOES;
+
+    /**
+     * Tabela de subcategorias de serviços vinculadas às categorias
+     */
+    public final Subcategorias SUBCATEGORIAS = Subcategorias.SUBCATEGORIAS;
 
     /**
      * The table <code>public.unidade_federativa</code>.
@@ -162,6 +192,8 @@ public class Public extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
+            CategoriaEquipamentos.CATEGORIA_EQUIPAMENTOS,
+            Categorias.CATEGORIAS,
             Cidade.CIDADE,
             Cliente.CLIENTE,
             Desconto.DESCONTO,
@@ -176,8 +208,11 @@ public class Public extends SchemaImpl {
             PasswordResetToken.PASSWORD_RESET_TOKEN,
             Pedido.PEDIDO,
             Perfil.PERFIL,
+            PrecosRegionais.PRECOS_REGIONAIS,
             Produto.PRODUTO,
             ProdutoFornecedor.PRODUTO_FORNECEDOR,
+            Regioes.REGIOES,
+            Subcategorias.SUBCATEGORIAS,
             UnidadeFederativa.UNIDADE_FEDERATIVA,
             Usuario.USUARIO,
             UsuarioPerfil.USUARIO_PERFIL,
