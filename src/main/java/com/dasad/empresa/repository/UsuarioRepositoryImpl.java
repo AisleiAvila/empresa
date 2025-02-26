@@ -290,7 +290,6 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
                 .set(ENDERECO.CIDADE_ID, endereco.getCidadeId().getId())
                 .set(ENDERECO.LOGRADOURO, endereco.getLogradouro())
                 .set(ENDERECO.USUARIO_ID, usuario.getId())
-//                .set(ENDERECO.endereco.UNIDADE_FEDERATIVA_ID, ufId)
                 .set(ENDERECO.NUMERO, endereco.getNumero())
                 .set(ENDERECO.COMPLEMENTO, endereco.getComplemento())
                 .execute();
@@ -302,7 +301,6 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
                 .set(ENDERECO.CEP, endereco.getCep())
                 .set(ENDERECO.CIDADE_ID, endereco.getCidadeId().getId())
                 .set(ENDERECO.LOGRADOURO, endereco.getLogradouro())
-//                .set(ENDERECO.endereco.UNIDADE_FEDERATIVA_ID, endereco.getUf().getId())
                 .set(ENDERECO.NUMERO, endereco.getNumero())
                 .set(ENDERECO.COMPLEMENTO, endereco.getComplemento())
                 .where(ENDERECO.ID.eq(endereco.getId())

@@ -25,7 +25,6 @@ import com.dasad.empresa.jooq.tables.Produto;
 import com.dasad.empresa.jooq.tables.ProdutoFornecedor;
 import com.dasad.empresa.jooq.tables.Regioes;
 import com.dasad.empresa.jooq.tables.Subcategorias;
-import com.dasad.empresa.jooq.tables.UnidadeFederativa;
 import com.dasad.empresa.jooq.tables.Usuario;
 import com.dasad.empresa.jooq.tables.UsuarioPerfil;
 import com.dasad.empresa.jooq.tables.UsuarioRecuperarSenha;
@@ -141,11 +140,6 @@ public class Tables {
      * Tabela de subcategorias de serviços vinculadas às categorias
      */
     public static final Subcategorias SUBCATEGORIAS = Subcategorias.SUBCATEGORIAS;
-
-    /**
-     * The table <code>public.unidade_federativa</code>.
-     */
-    public static final UnidadeFederativa UNIDADE_FEDERATIVA = UnidadeFederativa.UNIDADE_FEDERATIVA;
 
     /**
      * The table <code>public.usuario</code>.

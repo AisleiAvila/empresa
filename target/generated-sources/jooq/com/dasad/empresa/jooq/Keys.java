@@ -25,7 +25,6 @@ import com.dasad.empresa.jooq.tables.Produto;
 import com.dasad.empresa.jooq.tables.ProdutoFornecedor;
 import com.dasad.empresa.jooq.tables.Regioes;
 import com.dasad.empresa.jooq.tables.Subcategorias;
-import com.dasad.empresa.jooq.tables.UnidadeFederativa;
 import com.dasad.empresa.jooq.tables.Usuario;
 import com.dasad.empresa.jooq.tables.UsuarioPerfil;
 import com.dasad.empresa.jooq.tables.UsuarioRecuperarSenha;
@@ -50,7 +49,6 @@ import com.dasad.empresa.jooq.tables.records.ProdutoFornecedorRecord;
 import com.dasad.empresa.jooq.tables.records.ProdutoRecord;
 import com.dasad.empresa.jooq.tables.records.RegioesRecord;
 import com.dasad.empresa.jooq.tables.records.SubcategoriasRecord;
-import com.dasad.empresa.jooq.tables.records.UnidadeFederativaRecord;
 import com.dasad.empresa.jooq.tables.records.UsuarioPerfilRecord;
 import com.dasad.empresa.jooq.tables.records.UsuarioRecord;
 import com.dasad.empresa.jooq.tables.records.UsuarioRecuperarSenhaRecord;
@@ -101,7 +99,6 @@ public class Keys {
     public static final UniqueKey<RegioesRecord> REGIOES_PKEY = Internal.createUniqueKey(Regioes.REGIOES, DSL.name("regioes_pkey"), new TableField[] { Regioes.REGIOES.ID }, true);
     public static final UniqueKey<SubcategoriasRecord> SUBCATEGORIAS_PKEY = Internal.createUniqueKey(Subcategorias.SUBCATEGORIAS, DSL.name("subcategorias_pkey"), new TableField[] { Subcategorias.SUBCATEGORIAS.ID }, true);
     public static final UniqueKey<SubcategoriasRecord> UK_SUBCATEGORIA_NOME_CATEGORIA = Internal.createUniqueKey(Subcategorias.SUBCATEGORIAS, DSL.name("uk_subcategoria_nome_categoria"), new TableField[] { Subcategorias.SUBCATEGORIAS.CATEGORIA_ID, Subcategorias.SUBCATEGORIAS.NOME }, true);
-    public static final UniqueKey<UnidadeFederativaRecord> UNIDADE_FEDERATIVA_PKEY = Internal.createUniqueKey(UnidadeFederativa.UNIDADE_FEDERATIVA, DSL.name("unidade_federativa_pkey"), new TableField[] { UnidadeFederativa.UNIDADE_FEDERATIVA.ID }, true);
     public static final UniqueKey<UsuarioRecord> USUARIO_PKEY = Internal.createUniqueKey(Usuario.USUARIO, DSL.name("usuario_pkey"), new TableField[] { Usuario.USUARIO.ID }, true);
     public static final UniqueKey<UsuarioPerfilRecord> USUARIOS_PERFIS_PKEY = Internal.createUniqueKey(UsuarioPerfil.USUARIO_PERFIL, DSL.name("usuarios_perfis_pkey"), new TableField[] { UsuarioPerfil.USUARIO_PERFIL.USUARIO_ID, UsuarioPerfil.USUARIO_PERFIL.PERFIL_ID }, true);
 

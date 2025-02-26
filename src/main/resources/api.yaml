@@ -23,8 +23,6 @@ tags:
     description: Operações relacionadas a produtos
   - name: Senha
     description: Operações relacionadas a senha de acesso do usuário
-  - name: Unidade Federativa
-    description: Operações relacionadas a Unidades Federativas
   - name: Usuario
     description: Operações relacionadas a usuários
 
@@ -815,26 +813,6 @@ paths:
                   error:
                     type: string
                     example: "Senha não salva."
-  /unidade-federativa/find:
-    post:
-      summary: Busca unidades federativas
-      security:
-        - bearerAuth: []
-      tags:
-        - Unidade Federativa
-      operationId: findUF
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UnidadeFederativaRequest'
-      responses:
-        '200':
-          description: Sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UnidadeFederativaResponseDTO'
 components:
   securitySchemes:
     bearerAuth:
@@ -978,19 +956,6 @@ components:
         previousPageIndex:
             type: integer
 
-    UnidadeFederativaRequest:
-      type: object
-      properties:
-        id:
-          type: integer
-        nome:
-          type: string
-        sigla:
-          type: string
-        limit:
-          type: integer
-        offset:
-          type: integer
     ChatResponseDTO:
         type: object
         properties:
@@ -1036,15 +1001,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ProdutoModel'
-        totalRecords:
-          type: integer
-    UnidadeFederativaResponseDTO:
-      type: object
-      properties:
-        ufs:
-          type: array
-          items:
-            $ref: '#/components/schemas/UnidadeFederativaModel'
         totalRecords:
           type: integer
     RegisterRequestDTO:
@@ -1167,15 +1123,6 @@ components:
           type: integer
         nome:
           type: string
-    UnidadeFederativaModel:
-      type: object
-      properties:
-        id:
-          type: integer
-        nome:
-          type: string
-        sigla:
-            type: string
     CidadeModel:
       type: object
       properties:

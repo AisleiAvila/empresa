@@ -2,7 +2,6 @@ controller\EnderecoControllerTest$GetEnderecoByIdTests.class
 controller\AuthControllerTest$RevokeTokenTests.class
 controller\UsuarioControllerTest$CreateUsuarioTests.class
 controller\EnderecoControllerTest$FindAllTests.class
-service\UnidadeFederativaServiceTest.class
 util\LocalDateDeserializerTest.class
 controller\EnderecoControllerTest.class
 controller\UsuarioControllerTest$DetailUsuarioTests.class

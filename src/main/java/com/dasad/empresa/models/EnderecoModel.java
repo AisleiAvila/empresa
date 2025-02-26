@@ -23,9 +23,7 @@ public class EnderecoModel implements Serializable {
     @JsonBackReference // Fictícia, não persistida
     private UsuarioModel usuario;
 
-    private UnidadeFederativaModel unidadeFederativa;
-
-    public EnderecoModel(Integer id, String logradouro, String bairro, String cidade, String estado, String cep, UsuarioModel usuario, UnidadeFederativaModel unidadeFederativa) {
+    public EnderecoModel(Integer id, String logradouro, String bairro, String cidade, String estado, String cep, UsuarioModel usuario) {
         this.id = id;
         this.logradouro = logradouro;
         this.bairro = bairro;
@@ -33,7 +31,6 @@ public class EnderecoModel implements Serializable {
         this.estado = estado;
         this.cep = cep;
         this.usuario = usuario;
-        this.unidadeFederativa = unidadeFederativa;
     }
 
 }
