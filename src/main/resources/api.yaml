@@ -1025,6 +1025,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PerfilModel'
+        foto_perfil:
+          type: string
+          format: byte
     OrganizacaoModel:
       type: object
       properties:
