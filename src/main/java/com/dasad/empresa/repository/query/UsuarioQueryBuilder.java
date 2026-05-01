@@ -22,7 +22,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 public class UsuarioQueryBuilder {
-    private final @NotNull SelectOnConditionStep<Record17<Integer, String, String, String, LocalDate, Integer, String, Integer, String, Integer, String, String, String, String, Integer, String, String>> query;
+    private final @NotNull SelectOnConditionStep<Record17<Integer, String, String, String, LocalDate, Integer, String, Integer, String, String, String, String, String, String, Integer, String, String>> query;
     private final static Integer DEFAULT_LIMIT = 10;
     private final DSLContext dslContext;
 
@@ -100,7 +100,7 @@ public class UsuarioQueryBuilder {
                     record -> record.get(Usuario.USUARIO.ID),
                     Collectors.mapping(record -> record, Collectors.toList())
             )).values().stream().map(records -> {
-                Record17<Integer, String, String, String, LocalDate, Integer, String, Integer, String, Integer, String, String, String, String, Integer, String, String> record = records.get(0);
+                Record17<Integer, String, String, String, LocalDate, Integer, String, Integer, String, String, String, String, String, String, Integer, String, String> record = records.get(0);
                 UsuarioModel usuario = new UsuarioModel();
                 usuario.setId(record.get(Usuario.USUARIO.ID));
                 usuario.setNome(record.get(Usuario.USUARIO.NOME));

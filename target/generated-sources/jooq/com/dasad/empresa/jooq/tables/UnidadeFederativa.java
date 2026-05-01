@@ -9,7 +9,9 @@ import com.dasad.empresa.jooq.Public;
 import com.dasad.empresa.jooq.tables.Endereco.EnderecoPath;
 import com.dasad.empresa.jooq.tables.records.UnidadeFederativaRecord;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.jooq.Condition;
 import org.jooq.Field;
@@ -61,14 +63,14 @@ public class UnidadeFederativa extends TableImpl<UnidadeFederativaRecord> {
     public final TableField<UnidadeFederativaRecord, Integer> ID = createField(DSL.name("id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>public.unidade_federativa.nome</code>.
-     */
-    public final TableField<UnidadeFederativaRecord, String> NOME = createField(DSL.name("nome"), SQLDataType.VARCHAR(100).nullable(false), this, "");
-
-    /**
      * The column <code>public.unidade_federativa.sigla</code>.
      */
     public final TableField<UnidadeFederativaRecord, String> SIGLA = createField(DSL.name("sigla"), SQLDataType.VARCHAR(2).nullable(false), this, "");
+
+    /**
+     * The column <code>public.unidade_federativa.nome</code>.
+     */
+    public final TableField<UnidadeFederativaRecord, String> NOME = createField(DSL.name("nome"), SQLDataType.VARCHAR(100).nullable(false), this, "");
 
     private UnidadeFederativa(Name alias, Table<UnidadeFederativaRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
@@ -147,6 +149,11 @@ public class UnidadeFederativa extends TableImpl<UnidadeFederativaRecord> {
         return Keys.UNIDADE_FEDERATIVA_PKEY;
     }
 
+    @Override
+    public List<UniqueKey<UnidadeFederativaRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.UNIDADE_FEDERATIVA_SIGLA_KEY);
+    }
+
     private transient EnderecoPath _endereco;
 
     /**
@@ -155,7 +162,7 @@ public class UnidadeFederativa extends TableImpl<UnidadeFederativaRecord> {
      */
     public EnderecoPath endereco() {
         if (_endereco == null)
-            _endereco = new EnderecoPath(this, null, Keys.ENDERECO__FKSBFB2MDC0HMIXWPUD2D8O8QOY.getInverseKey());
+            _endereco = new EnderecoPath(this, null, Keys.ENDERECO__ENDERECO_UNIDADE_FEDERATIVA_ID_FKEY.getInverseKey());
 
         return _endereco;
     }

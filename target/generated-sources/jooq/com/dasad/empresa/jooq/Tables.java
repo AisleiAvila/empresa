@@ -4,16 +4,13 @@
 package com.dasad.empresa.jooq;
 
 
-import com.dasad.empresa.jooq.tables.Databasechangelog;
-import com.dasad.empresa.jooq.tables.Databasechangeloglock;
 import com.dasad.empresa.jooq.tables.Endereco;
-import com.dasad.empresa.jooq.tables.ItensPedidos;
 import com.dasad.empresa.jooq.tables.PasswordResetToken;
-import com.dasad.empresa.jooq.tables.Pedidos;
-import com.dasad.empresa.jooq.tables.PerfilModel;
+import com.dasad.empresa.jooq.tables.Perfil;
 import com.dasad.empresa.jooq.tables.Perfis;
 import com.dasad.empresa.jooq.tables.UnidadeFederativa;
 import com.dasad.empresa.jooq.tables.Usuario;
+import com.dasad.empresa.jooq.tables.UsuarioPerfil;
 import com.dasad.empresa.jooq.tables.UsuariosPerfis;
 
 
@@ -24,24 +21,9 @@ import com.dasad.empresa.jooq.tables.UsuariosPerfis;
 public class Tables {
 
     /**
-     * The table <code>public.databasechangelog</code>.
-     */
-    public static final Databasechangelog DATABASECHANGELOG = Databasechangelog.DATABASECHANGELOG;
-
-    /**
-     * The table <code>public.databasechangeloglock</code>.
-     */
-    public static final Databasechangeloglock DATABASECHANGELOGLOCK = Databasechangeloglock.DATABASECHANGELOGLOCK;
-
-    /**
      * The table <code>public.endereco</code>.
      */
     public static final Endereco ENDERECO = Endereco.ENDERECO;
-
-    /**
-     * The table <code>public.itens_pedidos</code>.
-     */
-    public static final ItensPedidos ITENS_PEDIDOS = ItensPedidos.ITENS_PEDIDOS;
 
     /**
      * The table <code>public.password_reset_token</code>.
@@ -49,14 +31,9 @@ public class Tables {
     public static final PasswordResetToken PASSWORD_RESET_TOKEN = PasswordResetToken.PASSWORD_RESET_TOKEN;
 
     /**
-     * The table <code>public.pedidos</code>.
+     * The table <code>public.perfil</code>.
      */
-    public static final Pedidos PEDIDOS = Pedidos.PEDIDOS;
-
-    /**
-     * The table <code>public.perfil_model</code>.
-     */
-    public static final PerfilModel PERFIL_MODEL = PerfilModel.PERFIL_MODEL;
+    public static final Perfil PERFIL = Perfil.PERFIL;
 
     /**
      * The table <code>public.perfis</code>.
@@ -72,6 +49,11 @@ public class Tables {
      * The table <code>public.usuario</code>.
      */
     public static final Usuario USUARIO = Usuario.USUARIO;
+
+    /**
+     * The table <code>public.usuario_perfil</code>.
+     */
+    public static final UsuarioPerfil USUARIO_PERFIL = UsuarioPerfil.USUARIO_PERFIL;
 
     /**
      * The table <code>public.usuarios_perfis</code>.

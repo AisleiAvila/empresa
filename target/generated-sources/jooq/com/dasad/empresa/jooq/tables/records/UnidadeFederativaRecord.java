@@ -33,30 +33,30 @@ public class UnidadeFederativaRecord extends UpdatableRecordImpl<UnidadeFederati
     }
 
     /**
-     * Setter for <code>public.unidade_federativa.nome</code>.
-     */
-    public void setNome(String value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>public.unidade_federativa.nome</code>.
-     */
-    public String getNome() {
-        return (String) get(1);
-    }
-
-    /**
      * Setter for <code>public.unidade_federativa.sigla</code>.
      */
     public void setSigla(String value) {
-        set(2, value);
+        set(1, value);
     }
 
     /**
      * Getter for <code>public.unidade_federativa.sigla</code>.
      */
     public String getSigla() {
+        return (String) get(1);
+    }
+
+    /**
+     * Setter for <code>public.unidade_federativa.nome</code>.
+     */
+    public void setNome(String value) {
+        set(2, value);
+    }
+
+    /**
+     * Getter for <code>public.unidade_federativa.nome</code>.
+     */
+    public String getNome() {
         return (String) get(2);
     }
 
@@ -83,12 +83,12 @@ public class UnidadeFederativaRecord extends UpdatableRecordImpl<UnidadeFederati
     /**
      * Create a detached, initialised UnidadeFederativaRecord
      */
-    public UnidadeFederativaRecord(Integer id, String nome, String sigla) {
+    public UnidadeFederativaRecord(Integer id, String sigla, String nome) {
         super(UnidadeFederativa.UNIDADE_FEDERATIVA);
 
         setId(id);
-        setNome(nome);
         setSigla(sigla);
-        resetChangedOnNotNull();
+        setNome(nome);
+        resetTouchedOnNotNull();
     }
 }

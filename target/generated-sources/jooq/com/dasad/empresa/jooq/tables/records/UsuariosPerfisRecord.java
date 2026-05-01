@@ -74,6 +74,6 @@ public class UsuariosPerfisRecord extends UpdatableRecordImpl<UsuariosPerfisReco
 
         setUsuarioId(usuarioId);
         setPerfilId(perfilId);
-        resetChangedOnNotNull();
+        resetTouchedOnNotNull();
     }
 }

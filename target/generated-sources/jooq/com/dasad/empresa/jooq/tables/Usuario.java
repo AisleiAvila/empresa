@@ -13,7 +13,9 @@ import com.dasad.empresa.jooq.tables.UsuariosPerfis.UsuariosPerfisPath;
 import com.dasad.empresa.jooq.tables.records.UsuarioRecord;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.jooq.Condition;
 import org.jooq.Field;
@@ -67,22 +69,22 @@ public class Usuario extends TableImpl<UsuarioRecord> {
     /**
      * The column <code>public.usuario.nome</code>.
      */
-    public final TableField<UsuarioRecord, String> NOME = createField(DSL.name("nome"), SQLDataType.VARCHAR(100).nullable(false), this, "");
+    public final TableField<UsuarioRecord, String> NOME = createField(DSL.name("nome"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+
+    /**
+     * The column <code>public.usuario.email</code>.
+     */
+    public final TableField<UsuarioRecord, String> EMAIL = createField(DSL.name("email"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+
+    /**
+     * The column <code>public.usuario.senha</code>.
+     */
+    public final TableField<UsuarioRecord, String> SENHA = createField(DSL.name("senha"), SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
      * The column <code>public.usuario.data_nascimento</code>.
      */
     public final TableField<UsuarioRecord, LocalDate> DATA_NASCIMENTO = createField(DSL.name("data_nascimento"), SQLDataType.LOCALDATE, this, "");
-
-    /**
-     * The column <code>public.usuario.senha</code>.
-     */
-    public final TableField<UsuarioRecord, String> SENHA = createField(DSL.name("senha"), SQLDataType.VARCHAR(100).nullable(false), this, "");
-
-    /**
-     * The column <code>public.usuario.email</code>.
-     */
-    public final TableField<UsuarioRecord, String> EMAIL = createField(DSL.name("email"), SQLDataType.VARCHAR(100).nullable(false), this, "");
 
     private Usuario(Name alias, Table<UsuarioRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
@@ -161,6 +163,11 @@ public class Usuario extends TableImpl<UsuarioRecord> {
         return Keys.USUARIO_PKEY;
     }
 
+    @Override
+    public List<UniqueKey<UsuarioRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.USUARIO_EMAIL_KEY);
+    }
+
     private transient EnderecoPath _endereco;
 
     /**
@@ -169,7 +176,7 @@ public class Usuario extends TableImpl<UsuarioRecord> {
      */
     public EnderecoPath endereco() {
         if (_endereco == null)
-            _endereco = new EnderecoPath(this, null, Keys.ENDERECO__FKEKDPB8K6GMP3LLLLA9D1QGMXK.getInverseKey());
+            _endereco = new EnderecoPath(this, null, Keys.ENDERECO__ENDERECO_USUARIO_ID_FKEY.getInverseKey());
 
         return _endereco;
     }

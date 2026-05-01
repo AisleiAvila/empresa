@@ -4,24 +4,20 @@
 package com.dasad.empresa.jooq;
 
 
-import com.dasad.empresa.jooq.tables.Databasechangeloglock;
 import com.dasad.empresa.jooq.tables.Endereco;
-import com.dasad.empresa.jooq.tables.ItensPedidos;
 import com.dasad.empresa.jooq.tables.PasswordResetToken;
-import com.dasad.empresa.jooq.tables.Pedidos;
-import com.dasad.empresa.jooq.tables.PerfilModel;
+import com.dasad.empresa.jooq.tables.Perfil;
 import com.dasad.empresa.jooq.tables.Perfis;
 import com.dasad.empresa.jooq.tables.UnidadeFederativa;
 import com.dasad.empresa.jooq.tables.Usuario;
+import com.dasad.empresa.jooq.tables.UsuarioPerfil;
 import com.dasad.empresa.jooq.tables.UsuariosPerfis;
-import com.dasad.empresa.jooq.tables.records.DatabasechangeloglockRecord;
 import com.dasad.empresa.jooq.tables.records.EnderecoRecord;
-import com.dasad.empresa.jooq.tables.records.ItensPedidosRecord;
 import com.dasad.empresa.jooq.tables.records.PasswordResetTokenRecord;
-import com.dasad.empresa.jooq.tables.records.PedidosRecord;
-import com.dasad.empresa.jooq.tables.records.PerfilModelRecord;
+import com.dasad.empresa.jooq.tables.records.PerfilRecord;
 import com.dasad.empresa.jooq.tables.records.PerfisRecord;
 import com.dasad.empresa.jooq.tables.records.UnidadeFederativaRecord;
+import com.dasad.empresa.jooq.tables.records.UsuarioPerfilRecord;
 import com.dasad.empresa.jooq.tables.records.UsuarioRecord;
 import com.dasad.empresa.jooq.tables.records.UsuariosPerfisRecord;
 
@@ -30,6 +26,7 @@ import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.Internal;
+import org.jooq.impl.QOM.ForeignKeyRule;
 
 
 /**
@@ -43,25 +40,27 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<DatabasechangeloglockRecord> DATABASECHANGELOGLOCK_PKEY = Internal.createUniqueKey(Databasechangeloglock.DATABASECHANGELOGLOCK, DSL.name("databasechangeloglock_pkey"), new TableField[] { Databasechangeloglock.DATABASECHANGELOGLOCK.ID }, true);
     public static final UniqueKey<EnderecoRecord> ENDERECO_PKEY = Internal.createUniqueKey(Endereco.ENDERECO, DSL.name("endereco_pkey"), new TableField[] { Endereco.ENDERECO.ID }, true);
-    public static final UniqueKey<ItensPedidosRecord> ITENS_PEDIDOS_PKEY = Internal.createUniqueKey(ItensPedidos.ITENS_PEDIDOS, DSL.name("itens_pedidos_pkey"), new TableField[] { ItensPedidos.ITENS_PEDIDOS.ID }, true);
     public static final UniqueKey<PasswordResetTokenRecord> PASSWORD_RESET_TOKEN_PKEY = Internal.createUniqueKey(PasswordResetToken.PASSWORD_RESET_TOKEN, DSL.name("password_reset_token_pkey"), new TableField[] { PasswordResetToken.PASSWORD_RESET_TOKEN.ID }, true);
-    public static final UniqueKey<PedidosRecord> PEDIDOS_PKEY = Internal.createUniqueKey(Pedidos.PEDIDOS, DSL.name("pedidos_pkey"), new TableField[] { Pedidos.PEDIDOS.ID }, true);
-    public static final UniqueKey<PerfilModelRecord> PERFIL_MODEL_PKEY = Internal.createUniqueKey(PerfilModel.PERFIL_MODEL, DSL.name("perfil_model_pkey"), new TableField[] { PerfilModel.PERFIL_MODEL.ID }, true);
+    public static final UniqueKey<PerfilRecord> PERFIL_NOME_KEY = Internal.createUniqueKey(Perfil.PERFIL, DSL.name("perfil_nome_key"), new TableField[] { Perfil.PERFIL.NOME }, true);
+    public static final UniqueKey<PerfilRecord> PERFIL_PKEY = Internal.createUniqueKey(Perfil.PERFIL, DSL.name("perfil_pkey"), new TableField[] { Perfil.PERFIL.ID }, true);
+    public static final UniqueKey<PerfisRecord> PERFIS_NOME_KEY = Internal.createUniqueKey(Perfis.PERFIS, DSL.name("perfis_nome_key"), new TableField[] { Perfis.PERFIS.NOME }, true);
     public static final UniqueKey<PerfisRecord> PERFIS_PKEY = Internal.createUniqueKey(Perfis.PERFIS, DSL.name("perfis_pkey"), new TableField[] { Perfis.PERFIS.ID }, true);
     public static final UniqueKey<UnidadeFederativaRecord> UNIDADE_FEDERATIVA_PKEY = Internal.createUniqueKey(UnidadeFederativa.UNIDADE_FEDERATIVA, DSL.name("unidade_federativa_pkey"), new TableField[] { UnidadeFederativa.UNIDADE_FEDERATIVA.ID }, true);
+    public static final UniqueKey<UnidadeFederativaRecord> UNIDADE_FEDERATIVA_SIGLA_KEY = Internal.createUniqueKey(UnidadeFederativa.UNIDADE_FEDERATIVA, DSL.name("unidade_federativa_sigla_key"), new TableField[] { UnidadeFederativa.UNIDADE_FEDERATIVA.SIGLA }, true);
+    public static final UniqueKey<UsuarioRecord> USUARIO_EMAIL_KEY = Internal.createUniqueKey(Usuario.USUARIO, DSL.name("usuario_email_key"), new TableField[] { Usuario.USUARIO.EMAIL }, true);
     public static final UniqueKey<UsuarioRecord> USUARIO_PKEY = Internal.createUniqueKey(Usuario.USUARIO, DSL.name("usuario_pkey"), new TableField[] { Usuario.USUARIO.ID }, true);
+    public static final UniqueKey<UsuarioPerfilRecord> USUARIO_PERFIL_PKEY = Internal.createUniqueKey(UsuarioPerfil.USUARIO_PERFIL, DSL.name("usuario_perfil_pkey"), new TableField[] { UsuarioPerfil.USUARIO_PERFIL.USUARIO_ID, UsuarioPerfil.USUARIO_PERFIL.PERFIL_ID }, true);
     public static final UniqueKey<UsuariosPerfisRecord> USUARIOS_PERFIS_PKEY = Internal.createUniqueKey(UsuariosPerfis.USUARIOS_PERFIS, DSL.name("usuarios_perfis_pkey"), new TableField[] { UsuariosPerfis.USUARIOS_PERFIS.USUARIO_ID, UsuariosPerfis.USUARIOS_PERFIS.PERFIL_ID }, true);
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final ForeignKey<EnderecoRecord, UsuarioRecord> ENDERECO__FKEKDPB8K6GMP3LLLLA9D1QGMXK = Internal.createForeignKey(Endereco.ENDERECO, DSL.name("fkekdpb8k6gmp3lllla9d1qgmxk"), new TableField[] { Endereco.ENDERECO.USUARIO_ID }, Keys.USUARIO_PKEY, new TableField[] { Usuario.USUARIO.ID }, true);
-    public static final ForeignKey<EnderecoRecord, UnidadeFederativaRecord> ENDERECO__FKSBFB2MDC0HMIXWPUD2D8O8QOY = Internal.createForeignKey(Endereco.ENDERECO, DSL.name("fksbfb2mdc0hmixwpud2d8o8qoy"), new TableField[] { Endereco.ENDERECO.UNIDADE_FEDERATIVA_ID }, Keys.UNIDADE_FEDERATIVA_PKEY, new TableField[] { UnidadeFederativa.UNIDADE_FEDERATIVA.ID }, true);
-    public static final ForeignKey<ItensPedidosRecord, PedidosRecord> ITENS_PEDIDOS__FK_PEDIDO = Internal.createForeignKey(ItensPedidos.ITENS_PEDIDOS, DSL.name("fk_pedido"), new TableField[] { ItensPedidos.ITENS_PEDIDOS.ID_PEDIDO }, Keys.PEDIDOS_PKEY, new TableField[] { Pedidos.PEDIDOS.ID }, true);
-    public static final ForeignKey<PasswordResetTokenRecord, UsuarioRecord> PASSWORD_RESET_TOKEN__PASSWORD_RESET_TOKEN_USUARIO_ID_FKEY = Internal.createForeignKey(PasswordResetToken.PASSWORD_RESET_TOKEN, DSL.name("password_reset_token_usuario_id_fkey"), new TableField[] { PasswordResetToken.PASSWORD_RESET_TOKEN.USUARIO_ID }, Keys.USUARIO_PKEY, new TableField[] { Usuario.USUARIO.ID }, true);
-    public static final ForeignKey<UsuariosPerfisRecord, PerfisRecord> USUARIOS_PERFIS__USUARIOS_PERFIS_PERFIL_ID_FKEY = Internal.createForeignKey(UsuariosPerfis.USUARIOS_PERFIS, DSL.name("usuarios_perfis_perfil_id_fkey"), new TableField[] { UsuariosPerfis.USUARIOS_PERFIS.PERFIL_ID }, Keys.PERFIS_PKEY, new TableField[] { Perfis.PERFIS.ID }, true);
-    public static final ForeignKey<UsuariosPerfisRecord, UsuarioRecord> USUARIOS_PERFIS__USUARIOS_PERFIS_USUARIO_ID_FKEY = Internal.createForeignKey(UsuariosPerfis.USUARIOS_PERFIS, DSL.name("usuarios_perfis_usuario_id_fkey"), new TableField[] { UsuariosPerfis.USUARIOS_PERFIS.USUARIO_ID }, Keys.USUARIO_PKEY, new TableField[] { Usuario.USUARIO.ID }, true);
+    public static final ForeignKey<EnderecoRecord, UnidadeFederativaRecord> ENDERECO__ENDERECO_UNIDADE_FEDERATIVA_ID_FKEY = Internal.createForeignKey(Endereco.ENDERECO, DSL.name("endereco_unidade_federativa_id_fkey"), new TableField[] { Endereco.ENDERECO.UNIDADE_FEDERATIVA_ID }, Keys.UNIDADE_FEDERATIVA_PKEY, new TableField[] { UnidadeFederativa.UNIDADE_FEDERATIVA.ID }, true, ForeignKeyRule.NO_ACTION, ForeignKeyRule.NO_ACTION);
+    public static final ForeignKey<EnderecoRecord, UsuarioRecord> ENDERECO__ENDERECO_USUARIO_ID_FKEY = Internal.createForeignKey(Endereco.ENDERECO, DSL.name("endereco_usuario_id_fkey"), new TableField[] { Endereco.ENDERECO.USUARIO_ID }, Keys.USUARIO_PKEY, new TableField[] { Usuario.USUARIO.ID }, true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION);
+    public static final ForeignKey<PasswordResetTokenRecord, UsuarioRecord> PASSWORD_RESET_TOKEN__PASSWORD_RESET_TOKEN_USUARIO_ID_FKEY = Internal.createForeignKey(PasswordResetToken.PASSWORD_RESET_TOKEN, DSL.name("password_reset_token_usuario_id_fkey"), new TableField[] { PasswordResetToken.PASSWORD_RESET_TOKEN.USUARIO_ID }, Keys.USUARIO_PKEY, new TableField[] { Usuario.USUARIO.ID }, true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION);
+    public static final ForeignKey<UsuarioPerfilRecord, PerfilRecord> USUARIO_PERFIL__USUARIO_PERFIL_PERFIL_ID_FKEY = Internal.createForeignKey(UsuarioPerfil.USUARIO_PERFIL, DSL.name("usuario_perfil_perfil_id_fkey"), new TableField[] { UsuarioPerfil.USUARIO_PERFIL.PERFIL_ID }, Keys.PERFIL_PKEY, new TableField[] { Perfil.PERFIL.ID }, true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION);
+    public static final ForeignKey<UsuariosPerfisRecord, PerfisRecord> USUARIOS_PERFIS__USUARIOS_PERFIS_PERFIL_ID_FKEY = Internal.createForeignKey(UsuariosPerfis.USUARIOS_PERFIS, DSL.name("usuarios_perfis_perfil_id_fkey"), new TableField[] { UsuariosPerfis.USUARIOS_PERFIS.PERFIL_ID }, Keys.PERFIS_PKEY, new TableField[] { Perfis.PERFIS.ID }, true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION);
+    public static final ForeignKey<UsuariosPerfisRecord, UsuarioRecord> USUARIOS_PERFIS__USUARIOS_PERFIS_USUARIO_ID_FKEY = Internal.createForeignKey(UsuariosPerfis.USUARIOS_PERFIS, DSL.name("usuarios_perfis_usuario_id_fkey"), new TableField[] { UsuariosPerfis.USUARIOS_PERFIS.USUARIO_ID }, Keys.USUARIO_PKEY, new TableField[] { Usuario.USUARIO.ID }, true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION);
 }

@@ -49,17 +49,17 @@ public class UsuarioRecord extends UpdatableRecordImpl<UsuarioRecord> {
     }
 
     /**
-     * Setter for <code>public.usuario.data_nascimento</code>.
+     * Setter for <code>public.usuario.email</code>.
      */
-    public void setDataNascimento(LocalDate value) {
+    public void setEmail(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>public.usuario.data_nascimento</code>.
+     * Getter for <code>public.usuario.email</code>.
      */
-    public LocalDate getDataNascimento() {
-        return (LocalDate) get(2);
+    public String getEmail() {
+        return (String) get(2);
     }
 
     /**
@@ -77,17 +77,17 @@ public class UsuarioRecord extends UpdatableRecordImpl<UsuarioRecord> {
     }
 
     /**
-     * Setter for <code>public.usuario.email</code>.
+     * Setter for <code>public.usuario.data_nascimento</code>.
      */
-    public void setEmail(String value) {
+    public void setDataNascimento(LocalDate value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>public.usuario.email</code>.
+     * Getter for <code>public.usuario.data_nascimento</code>.
      */
-    public String getEmail() {
-        return (String) get(4);
+    public LocalDate getDataNascimento() {
+        return (LocalDate) get(4);
     }
 
     // -------------------------------------------------------------------------
@@ -113,14 +113,14 @@ public class UsuarioRecord extends UpdatableRecordImpl<UsuarioRecord> {
     /**
      * Create a detached, initialised UsuarioRecord
      */
-    public UsuarioRecord(Integer id, String nome, LocalDate dataNascimento, String senha, String email) {
+    public UsuarioRecord(Integer id, String nome, String email, String senha, LocalDate dataNascimento) {
         super(Usuario.USUARIO);
 
         setId(id);
         setNome(nome);
-        setDataNascimento(dataNascimento);
-        setSenha(senha);
         setEmail(email);
-        resetChangedOnNotNull();
+        setSenha(senha);
+        setDataNascimento(dataNascimento);
+        resetTouchedOnNotNull();
     }
 }

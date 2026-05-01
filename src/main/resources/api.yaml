@@ -240,7 +240,7 @@ components:
         logradouro:
           type: string
         numero:
-          type: integer
+          type: string
         complemento:
             type: string
         bairro:

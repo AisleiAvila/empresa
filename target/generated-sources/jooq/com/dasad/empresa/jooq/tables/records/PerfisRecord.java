@@ -74,6 +74,6 @@ public class PerfisRecord extends UpdatableRecordImpl<PerfisRecord> {
 
         setId(id);
         setNome(nome);
-        resetChangedOnNotNull();
+        resetTouchedOnNotNull();
     }
 }

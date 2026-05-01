@@ -33,115 +33,115 @@ public class EnderecoRecord extends UpdatableRecordImpl<EnderecoRecord> {
     }
 
     /**
-     * Setter for <code>public.endereco.bairro</code>.
-     */
-    public void setBairro(String value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>public.endereco.bairro</code>.
-     */
-    public String getBairro() {
-        return (String) get(1);
-    }
-
-    /**
-     * Setter for <code>public.endereco.cep</code>.
-     */
-    public void setCep(String value) {
-        set(2, value);
-    }
-
-    /**
-     * Getter for <code>public.endereco.cep</code>.
-     */
-    public String getCep() {
-        return (String) get(2);
-    }
-
-    /**
-     * Setter for <code>public.endereco.cidade</code>.
-     */
-    public void setCidade(String value) {
-        set(3, value);
-    }
-
-    /**
-     * Getter for <code>public.endereco.cidade</code>.
-     */
-    public String getCidade() {
-        return (String) get(3);
-    }
-
-    /**
      * Setter for <code>public.endereco.logradouro</code>.
      */
     public void setLogradouro(String value) {
-        set(4, value);
+        set(1, value);
     }
 
     /**
      * Getter for <code>public.endereco.logradouro</code>.
      */
     public String getLogradouro() {
-        return (String) get(4);
-    }
-
-    /**
-     * Setter for <code>public.endereco.usuario_id</code>.
-     */
-    public void setUsuarioId(Integer value) {
-        set(5, value);
-    }
-
-    /**
-     * Getter for <code>public.endereco.usuario_id</code>.
-     */
-    public Integer getUsuarioId() {
-        return (Integer) get(5);
-    }
-
-    /**
-     * Setter for <code>public.endereco.unidade_federativa_id</code>.
-     */
-    public void setUnidadeFederativaId(Integer value) {
-        set(6, value);
-    }
-
-    /**
-     * Getter for <code>public.endereco.unidade_federativa_id</code>.
-     */
-    public Integer getUnidadeFederativaId() {
-        return (Integer) get(6);
+        return (String) get(1);
     }
 
     /**
      * Setter for <code>public.endereco.numero</code>.
      */
-    public void setNumero(Integer value) {
-        set(7, value);
+    public void setNumero(String value) {
+        set(2, value);
     }
 
     /**
      * Getter for <code>public.endereco.numero</code>.
      */
-    public Integer getNumero() {
-        return (Integer) get(7);
+    public String getNumero() {
+        return (String) get(2);
     }
 
     /**
      * Setter for <code>public.endereco.complemento</code>.
      */
     public void setComplemento(String value) {
-        set(8, value);
+        set(3, value);
     }
 
     /**
      * Getter for <code>public.endereco.complemento</code>.
      */
     public String getComplemento() {
-        return (String) get(8);
+        return (String) get(3);
+    }
+
+    /**
+     * Setter for <code>public.endereco.bairro</code>.
+     */
+    public void setBairro(String value) {
+        set(4, value);
+    }
+
+    /**
+     * Getter for <code>public.endereco.bairro</code>.
+     */
+    public String getBairro() {
+        return (String) get(4);
+    }
+
+    /**
+     * Setter for <code>public.endereco.cidade</code>.
+     */
+    public void setCidade(String value) {
+        set(5, value);
+    }
+
+    /**
+     * Getter for <code>public.endereco.cidade</code>.
+     */
+    public String getCidade() {
+        return (String) get(5);
+    }
+
+    /**
+     * Setter for <code>public.endereco.cep</code>.
+     */
+    public void setCep(String value) {
+        set(6, value);
+    }
+
+    /**
+     * Getter for <code>public.endereco.cep</code>.
+     */
+    public String getCep() {
+        return (String) get(6);
+    }
+
+    /**
+     * Setter for <code>public.endereco.usuario_id</code>.
+     */
+    public void setUsuarioId(Integer value) {
+        set(7, value);
+    }
+
+    /**
+     * Getter for <code>public.endereco.usuario_id</code>.
+     */
+    public Integer getUsuarioId() {
+        return (Integer) get(7);
+    }
+
+    /**
+     * Setter for <code>public.endereco.unidade_federativa_id</code>.
+     */
+    public void setUnidadeFederativaId(Integer value) {
+        set(8, value);
+    }
+
+    /**
+     * Getter for <code>public.endereco.unidade_federativa_id</code>.
+     */
+    public Integer getUnidadeFederativaId() {
+        return (Integer) get(8);
     }
 
     // -------------------------------------------------------------------------
@@ -167,18 +167,18 @@ public class EnderecoRecord extends UpdatableRecordImpl<EnderecoRecord> {
     /**
      * Create a detached, initialised EnderecoRecord
      */
-    public EnderecoRecord(Integer id, String bairro, String cep, String cidade, String logradouro, Integer usuarioId, Integer unidadeFederativaId, Integer numero, String complemento) {
+    public EnderecoRecord(Integer id, String logradouro, String numero, String complemento, String bairro, String cidade, String cep, Integer usuarioId, Integer unidadeFederativaId) {
         super(Endereco.ENDERECO);
 
         setId(id);
-        setBairro(bairro);
-        setCep(cep);
-        setCidade(cidade);
         setLogradouro(logradouro);
-        setUsuarioId(usuarioId);
-        setUnidadeFederativaId(unidadeFederativaId);
         setNumero(numero);
         setComplemento(complemento);
-        resetChangedOnNotNull();
+        setBairro(bairro);
+        setCidade(cidade);
+        setCep(cep);
+        setUsuarioId(usuarioId);
+        setUnidadeFederativaId(unidadeFederativaId);
+        resetTouchedOnNotNull();
     }
 }

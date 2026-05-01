@@ -64,14 +64,24 @@ public class Endereco extends TableImpl<EnderecoRecord> {
     public final TableField<EnderecoRecord, Integer> ID = createField(DSL.name("id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
+     * The column <code>public.endereco.logradouro</code>.
+     */
+    public final TableField<EnderecoRecord, String> LOGRADOURO = createField(DSL.name("logradouro"), SQLDataType.VARCHAR(255), this, "");
+
+    /**
+     * The column <code>public.endereco.numero</code>.
+     */
+    public final TableField<EnderecoRecord, String> NUMERO = createField(DSL.name("numero"), SQLDataType.VARCHAR(20), this, "");
+
+    /**
+     * The column <code>public.endereco.complemento</code>.
+     */
+    public final TableField<EnderecoRecord, String> COMPLEMENTO = createField(DSL.name("complemento"), SQLDataType.VARCHAR(100), this, "");
+
+    /**
      * The column <code>public.endereco.bairro</code>.
      */
     public final TableField<EnderecoRecord, String> BAIRRO = createField(DSL.name("bairro"), SQLDataType.VARCHAR(100), this, "");
-
-    /**
-     * The column <code>public.endereco.cep</code>.
-     */
-    public final TableField<EnderecoRecord, String> CEP = createField(DSL.name("cep"), SQLDataType.VARCHAR(100), this, "");
 
     /**
      * The column <code>public.endereco.cidade</code>.
@@ -79,29 +89,19 @@ public class Endereco extends TableImpl<EnderecoRecord> {
     public final TableField<EnderecoRecord, String> CIDADE = createField(DSL.name("cidade"), SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>public.endereco.logradouro</code>.
+     * The column <code>public.endereco.cep</code>.
      */
-    public final TableField<EnderecoRecord, String> LOGRADOURO = createField(DSL.name("logradouro"), SQLDataType.VARCHAR(100).nullable(false), this, "");
+    public final TableField<EnderecoRecord, String> CEP = createField(DSL.name("cep"), SQLDataType.VARCHAR(20), this, "");
 
     /**
      * The column <code>public.endereco.usuario_id</code>.
      */
-    public final TableField<EnderecoRecord, Integer> USUARIO_ID = createField(DSL.name("usuario_id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+    public final TableField<EnderecoRecord, Integer> USUARIO_ID = createField(DSL.name("usuario_id"), SQLDataType.INTEGER, this, "");
 
     /**
      * The column <code>public.endereco.unidade_federativa_id</code>.
      */
-    public final TableField<EnderecoRecord, Integer> UNIDADE_FEDERATIVA_ID = createField(DSL.name("unidade_federativa_id"), SQLDataType.INTEGER.identity(true), this, "");
-
-    /**
-     * The column <code>public.endereco.numero</code>.
-     */
-    public final TableField<EnderecoRecord, Integer> NUMERO = createField(DSL.name("numero"), SQLDataType.INTEGER, this, "");
-
-    /**
-     * The column <code>public.endereco.complemento</code>.
-     */
-    public final TableField<EnderecoRecord, String> COMPLEMENTO = createField(DSL.name("complemento"), SQLDataType.VARCHAR(100), this, "");
+    public final TableField<EnderecoRecord, Integer> UNIDADE_FEDERATIVA_ID = createField(DSL.name("unidade_federativa_id"), SQLDataType.INTEGER, this, "");
 
     private Endereco(Name alias, Table<EnderecoRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
@@ -182,19 +182,7 @@ public class Endereco extends TableImpl<EnderecoRecord> {
 
     @Override
     public List<ForeignKey<EnderecoRecord, ?>> getReferences() {
-        return Arrays.asList(Keys.ENDERECO__FKEKDPB8K6GMP3LLLLA9D1QGMXK, Keys.ENDERECO__FKSBFB2MDC0HMIXWPUD2D8O8QOY);
-    }
-
-    private transient UsuarioPath _usuario;
-
-    /**
-     * Get the implicit join path to the <code>public.usuario</code> table.
-     */
-    public UsuarioPath usuario() {
-        if (_usuario == null)
-            _usuario = new UsuarioPath(this, Keys.ENDERECO__FKEKDPB8K6GMP3LLLLA9D1QGMXK, null);
-
-        return _usuario;
+        return Arrays.asList(Keys.ENDERECO__ENDERECO_UNIDADE_FEDERATIVA_ID_FKEY, Keys.ENDERECO__ENDERECO_USUARIO_ID_FKEY);
     }
 
     private transient UnidadeFederativaPath _unidadeFederativa;
@@ -205,9 +193,21 @@ public class Endereco extends TableImpl<EnderecoRecord> {
      */
     public UnidadeFederativaPath unidadeFederativa() {
         if (_unidadeFederativa == null)
-            _unidadeFederativa = new UnidadeFederativaPath(this, Keys.ENDERECO__FKSBFB2MDC0HMIXWPUD2D8O8QOY, null);
+            _unidadeFederativa = new UnidadeFederativaPath(this, Keys.ENDERECO__ENDERECO_UNIDADE_FEDERATIVA_ID_FKEY, null);
 
         return _unidadeFederativa;
+    }
+
+    private transient UsuarioPath _usuario;
+
+    /**
+     * Get the implicit join path to the <code>public.usuario</code> table.
+     */
+    public UsuarioPath usuario() {
+        if (_usuario == null)
+            _usuario = new UsuarioPath(this, Keys.ENDERECO__ENDERECO_USUARIO_ID_FKEY, null);
+
+        return _usuario;
     }
 
     @Override

@@ -10,7 +10,9 @@ import com.dasad.empresa.jooq.tables.Usuario.UsuarioPath;
 import com.dasad.empresa.jooq.tables.UsuariosPerfis.UsuariosPerfisPath;
 import com.dasad.empresa.jooq.tables.records.PerfisRecord;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.jooq.Condition;
 import org.jooq.Field;
@@ -64,7 +66,7 @@ public class Perfis extends TableImpl<PerfisRecord> {
     /**
      * The column <code>public.perfis.nome</code>.
      */
-    public final TableField<PerfisRecord, String> NOME = createField(DSL.name("nome"), SQLDataType.VARCHAR(50).nullable(false), this, "");
+    public final TableField<PerfisRecord, String> NOME = createField(DSL.name("nome"), SQLDataType.VARCHAR(100).nullable(false), this, "");
 
     private Perfis(Name alias, Table<PerfisRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
@@ -141,6 +143,11 @@ public class Perfis extends TableImpl<PerfisRecord> {
     @Override
     public UniqueKey<PerfisRecord> getPrimaryKey() {
         return Keys.PERFIS_PKEY;
+    }
+
+    @Override
+    public List<UniqueKey<PerfisRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.PERFIS_NOME_KEY);
     }
 
     private transient UsuariosPerfisPath _usuariosPerfis;

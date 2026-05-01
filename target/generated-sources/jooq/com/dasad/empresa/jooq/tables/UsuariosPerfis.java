@@ -141,19 +141,7 @@ public class UsuariosPerfis extends TableImpl<UsuariosPerfisRecord> {
 
     @Override
     public List<ForeignKey<UsuariosPerfisRecord, ?>> getReferences() {
-        return Arrays.asList(Keys.USUARIOS_PERFIS__USUARIOS_PERFIS_USUARIO_ID_FKEY, Keys.USUARIOS_PERFIS__USUARIOS_PERFIS_PERFIL_ID_FKEY);
-    }
-
-    private transient UsuarioPath _usuario;
-
-    /**
-     * Get the implicit join path to the <code>public.usuario</code> table.
-     */
-    public UsuarioPath usuario() {
-        if (_usuario == null)
-            _usuario = new UsuarioPath(this, Keys.USUARIOS_PERFIS__USUARIOS_PERFIS_USUARIO_ID_FKEY, null);
-
-        return _usuario;
+        return Arrays.asList(Keys.USUARIOS_PERFIS__USUARIOS_PERFIS_PERFIL_ID_FKEY, Keys.USUARIOS_PERFIS__USUARIOS_PERFIS_USUARIO_ID_FKEY);
     }
 
     private transient PerfisPath _perfis;
@@ -166,6 +154,18 @@ public class UsuariosPerfis extends TableImpl<UsuariosPerfisRecord> {
             _perfis = new PerfisPath(this, Keys.USUARIOS_PERFIS__USUARIOS_PERFIS_PERFIL_ID_FKEY, null);
 
         return _perfis;
+    }
+
+    private transient UsuarioPath _usuario;
+
+    /**
+     * Get the implicit join path to the <code>public.usuario</code> table.
+     */
+    public UsuarioPath usuario() {
+        if (_usuario == null)
+            _usuario = new UsuarioPath(this, Keys.USUARIOS_PERFIS__USUARIOS_PERFIS_USUARIO_ID_FKEY, null);
+
+        return _usuario;
     }
 
     @Override
