@@ -115,7 +115,7 @@ public class UsuarioQueryBuilder {
                             perfil.setNome(r.get("perfil_nome", String.class));
                             return perfil;
                         })
-                        .collect(Collectors.toList()));
+                        .toList());
                 usuario.setEnderecos(records.stream()
                         .filter(r -> r.get(Endereco.ENDERECO.BAIRRO) != null)
                         .map(r -> {
@@ -137,9 +137,9 @@ public class UsuarioQueryBuilder {
 
                             return endereco;
                         })
-                        .collect(Collectors.toList()));
+                        .toList());
                 return usuario;
-            }).collect(Collectors.toList());
+            }).toList();
         });
     }
 
